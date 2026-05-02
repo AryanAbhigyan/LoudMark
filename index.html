@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loudmark — Marking Your Presence. Loudly.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --dark: #0A1628;
+    --dark2: #0F1F38;
+    --orange: #FF6B35;
+    --orange-dim: rgba(255,107,53,0.12);
+    --white: #FFFFFF;
+    --grey: #94A3B8;
+    --light: #F1F5F9;
+    --card: #0D1E35;
+    --border: rgba(255,107,53,0.2);
+  }
+
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--dark); color: var(--white); overflow-x: hidden; }
+
+  /* NOISE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.4;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1.4rem 4rem;
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(10, 22, 40, 0.9);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255,107,53,0.08);
+    transition: border-color 0.3s;
+  }
+  .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; letter-spacing: 3px; color: var(--white); text-decoration: none; }
+  .nav-logo span { color: var(--orange); }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a { color: var(--grey); text-decoration: none; font-size: 0.88rem; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--orange); }
+  .nav-cta { background: var(--orange) !important; color: var(--white) !important; padding: 0.55rem 1.4rem !important; border-radius: 4px; font-weight: 600 !important; transition: opacity 0.2s !important; }
+  .nav-cta:hover { opacity: 0.85 !important; }
+
+  /* HERO */
+  #hero { min-height: 100vh; display: flex; align-items: center; padding: 8rem 4rem 4rem; position: relative; overflow: hidden; }
+  .hero-bg-circle { position: absolute; border-radius: 50%; filter: blur(80px); pointer-events: none; }
+  .hbc1 { width: 600px; height: 600px; background: rgba(255,107,53,0.08); top: -100px; right: -100px; }
+  .hbc2 { width: 400px; height: 400px; background: rgba(30,58,95,0.5); bottom: -50px; left: -50px; }
+  .hero-content { position: relative; z-index: 2; max-width: 800px; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: var(--orange-dim); border: 1px solid var(--border);
+    color: var(--orange); font-size: 0.78rem; font-weight: 600;
+    letter-spacing: 2px; text-transform: uppercase;
+    padding: 0.4rem 1rem; border-radius: 100px; margin-bottom: 2rem;
+    animation: fadeUp 0.6s ease both;
+  }
+  .hero-badge::before { content: ''; width: 6px; height: 6px; background: var(--orange); border-radius: 50%; animation: pulse 1.5s ease infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.3)} }
+  .hero-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(5rem,10vw,9rem); line-height: 0.9; letter-spacing: 2px; animation: fadeUp 0.7s ease 0.1s both; }
+  .hero-title .orange { color: var(--orange); }
+  .hero-title .outline { -webkit-text-stroke: 2px var(--white); color: transparent; }
+  .hero-sub { font-size: 1.15rem; color: var(--grey); line-height: 1.7; max-width: 520px; margin: 1.8rem 0 2.5rem; animation: fadeUp 0.7s ease 0.2s both; }
+  .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; animation: fadeUp 0.7s ease 0.3s both; }
+  .btn-primary { background: var(--orange); color: var(--white); padding: 0.85rem 2rem; border-radius: 6px; font-size: 0.95rem; font-weight: 600; text-decoration: none; transition: transform 0.2s, box-shadow 0.2s; display: inline-flex; align-items: center; gap: 0.5rem; }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(255,107,53,0.35); }
+  .btn-outline { border: 1.5px solid rgba(255,255,255,0.2); color: var(--white); padding: 0.85rem 2rem; border-radius: 6px; font-size: 0.95rem; font-weight: 500; text-decoration: none; transition: border-color 0.2s, background 0.2s; }
+  .btn-outline:hover { border-color: var(--orange); background: var(--orange-dim); }
+  .hero-stats { display: flex; gap: 3rem; margin-top: 4rem; animation: fadeUp 0.7s ease 0.4s both; }
+  .stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 2.8rem; color: var(--orange); letter-spacing: 1px; line-height: 1; }
+  .stat-label { font-size: 0.78rem; color: var(--grey); text-transform: uppercase; letter-spacing: 1.5px; margin-top: 0.3rem; }
+  .hero-right { position: absolute; right: 4rem; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 1rem; animation: fadeIn 1s ease 0.5s both; z-index: 2; }
+  .floating-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1.2rem 1.5rem; min-width: 220px; position: relative; animation: float 4s ease-in-out infinite; }
+  .floating-card:nth-child(2) { animation-delay: -2s; margin-left: 2rem; }
+  .floating-card:nth-child(3) { animation-delay: -1s; }
+  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+  .fc-label { font-size: 0.72rem; color: var(--grey); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 0.4rem; }
+  .fc-value { font-weight: 600; font-size: 1rem; color: var(--white); }
+  .fc-dot { position: absolute; top: 1rem; right: 1rem; width: 8px; height: 8px; background: #22C55E; border-radius: 50%; box-shadow: 0 0 8px #22C55E; }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+
+  /* ─── MARQUEE (FIXED) ─── */
+  .marquee-wrap {
+    overflow: hidden;
+    background: var(--orange);
+    padding: 0.85rem 0;
+    position: relative;
+    z-index: 10;
+  }
+  .marquee-inner {
+    display: flex;
+    width: max-content;
+    animation: marqueeScroll 30s linear infinite;
+    will-change: transform;
+  }
+  .marquee-group {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    padding-right: 0;
+  }
+  .marquee-group span {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 1.5rem;
+    letter-spacing: 4px;
+    color: #0A1628;
+    padding: 0 1.5rem;
+    white-space: nowrap;
+    display: inline-block;
+  }
+  .marquee-group .sep {
+    color: rgba(10,22,40,0.35);
+    font-size: 1.5rem;
+    font-family: 'Bebas Neue', cursive;
+    padding: 0;
+    letter-spacing: 0;
+  }
+  @keyframes marqueeScroll {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* SECTION COMMON */
+  section { padding: 7rem 4rem; }
+  .section-tag { font-size: 0.75rem; color: var(--orange); text-transform: uppercase; letter-spacing: 3px; font-weight: 600; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.8rem; }
+  .section-tag::before { content: ''; width: 30px; height: 1.5px; background: var(--orange); flex-shrink: 0; }
+  .section-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.8rem,5vw,4.5rem); line-height: 1; letter-spacing: 1px; }
+  .section-title .orange { color: var(--orange); }
+
+  /* SERVICES */
+  #services { background: var(--dark2); }
+  .services-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 4rem; flex-wrap: wrap; gap: 2rem; }
+  .services-desc { max-width: 340px; color: var(--grey); font-size: 1rem; line-height: 1.7; }
+  .services-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5px; background: var(--border); border: 1.5px solid var(--border); border-radius: 16px; overflow: hidden; }
+  .service-card { background: var(--card); padding: 2.5rem 2rem; transition: background 0.3s; cursor: pointer; position: relative; overflow: hidden; }
+  .service-card::before { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: var(--orange); transform: scaleX(0); transition: transform 0.3s; transform-origin: left; }
+  .service-card:hover { background: rgba(255,107,53,0.06); }
+  .service-card:hover::before { transform: scaleX(1); }
+  .service-icon { font-size: 2rem; margin-bottom: 1.5rem; display: block; }
+  .service-num { font-family: 'Bebas Neue', sans-serif; font-size: 3.5rem; color: rgba(255,107,53,0.1); position: absolute; top: 1rem; right: 1.5rem; letter-spacing: 2px; line-height: 1; }
+  .service-title { font-family: 'Playfair Display', serif; font-size: 1.35rem; font-weight: 700; margin-bottom: 1rem; color: var(--white); }
+  .service-desc { color: var(--grey); font-size: 0.92rem; line-height: 1.7; margin-bottom: 1.5rem; }
+  .service-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .service-tag-pill { background: var(--orange-dim); color: var(--orange); font-size: 0.72rem; padding: 0.25rem 0.7rem; border-radius: 100px; font-weight: 600; letter-spacing: 0.5px; }
+
+  /* WORK */
+  #work { background: var(--dark); }
+  .work-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3rem; flex-wrap: wrap; gap: 1.5rem; }
+  .work-grid { display: grid; grid-template-columns: 1.4fr 1fr; grid-template-rows: 280px 280px; gap: 1.5rem; }
+  .work-card { border-radius: 16px; overflow: hidden; position: relative; background: var(--card); border: 1px solid var(--border); cursor: pointer; }
+  .work-card:first-child { grid-row: 1 / 3; }
+  .work-card-bg { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 5rem; transition: transform 0.4s; }
+  .work-card:hover .work-card-bg { transform: scale(1.05); }
+  .wc1 { background: linear-gradient(135deg,#1a1a3e,#2d1b69); }
+  .wc2 { background: linear-gradient(135deg,#1a2e1a,#0d3320); }
+  .wc3 { background: linear-gradient(135deg,#2e1a1a,#4a1520); }
+  .work-card-overlay { position: absolute; bottom: 0; left: 0; right: 0; padding: 1.5rem; background: linear-gradient(transparent,rgba(10,22,40,0.95)); transform: translateY(20px); transition: transform 0.3s, opacity 0.3s; opacity: 0; }
+  .work-card:hover .work-card-overlay { transform: translateY(0); opacity: 1; }
+  .wco-tag { font-size: 0.7rem; color: var(--orange); text-transform: uppercase; letter-spacing: 2px; font-weight: 600; margin-bottom: 0.3rem; }
+  .wco-title { font-size: 1.1rem; font-weight: 600; color: var(--white); }
+  .work-placeholder { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; color: rgba(255,255,255,0.15); padding: 2rem; text-align: center; }
+  .work-placeholder .wp-icon { font-size: 3rem; }
+  .work-placeholder .wp-text { font-size: 0.85rem; letter-spacing: 1px; text-transform: uppercase; line-height: 1.6; }
+
+  /* PRICING */
+  #pricing { background: var(--dark2); }
+  .pricing-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; margin-top: 3.5rem; }
+  .pricing-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 2.5rem 2rem; position: relative; transition: transform 0.3s, box-shadow 0.3s; overflow: hidden; }
+  .pricing-card:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
+  .pricing-card.featured { border-color: var(--orange); background: linear-gradient(145deg,rgba(255,107,53,0.08),var(--card)); }
+  .pricing-card-shine { position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle at 50% 0%,rgba(255,107,53,0.06),transparent 60%); pointer-events: none; }
+  .pricing-badge { display: inline-block; background: var(--orange); color: var(--dark); font-size: 0.7rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 0.3rem 0.8rem; border-radius: 100px; margin-bottom: 1.5rem; }
+  .pricing-name { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; }
+  .pricing-best { color: var(--grey); font-size: 0.85rem; line-height: 1.5; margin-bottom: 1.8rem; font-style: italic; }
+  .pricing-price { font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; color: var(--orange); letter-spacing: 1px; line-height: 1; margin-bottom: 0.3rem; }
+  .pricing-period { color: var(--grey); font-size: 0.8rem; margin-bottom: 2rem; }
+  .pricing-divider { height: 1px; background: var(--border); margin-bottom: 1.8rem; }
+  .pricing-features { list-style: none; display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 2rem; }
+  .pricing-features li { display: flex; align-items: flex-start; gap: 0.7rem; font-size: 0.9rem; color: #CBD5E1; line-height: 1.5; }
+  .pricing-features li::before { content: '→'; color: var(--orange); font-size: 0.8rem; flex-shrink: 0; margin-top: 0.1rem; }
+  .pricing-btn { width: 100%; padding: 0.9rem; border-radius: 8px; font-size: 0.9rem; font-weight: 600; text-align: center; text-decoration: none; transition: all 0.2s; display: block; cursor: pointer; border: none; font-family: 'DM Sans', sans-serif; }
+  .pricing-btn.primary { background: var(--orange); color: var(--white); }
+  .pricing-btn.primary:hover { box-shadow: 0 8px 25px rgba(255,107,53,0.4); transform: translateY(-1px); }
+  .pricing-btn.outline { background: transparent; color: var(--white); border: 1.5px solid rgba(255,255,255,0.15); }
+  .pricing-btn.outline:hover { border-color: var(--orange); background: var(--orange-dim); }
+
+  /* PROCESS */
+  #process { background: var(--dark); }
+  .process-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 0; margin-top: 4rem; position: relative; }
+  .process-grid::before { content: ''; position: absolute; top: 3rem; left: 12%; right: 12%; height: 1px; background: var(--border); }
+  .process-step { text-align: center; padding: 0 1.5rem; position: relative; }
+  .process-num-wrap { display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; }
+  .process-num { width: 60px; height: 60px; background: var(--orange); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; letter-spacing: 1px; position: relative; z-index: 2; transition: transform 0.2s, box-shadow 0.2s; }
+  .process-step:hover .process-num { transform: scale(1.1); box-shadow: 0 0 25px rgba(255,107,53,0.5); }
+  .process-title { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700; margin-bottom: 0.8rem; }
+  .process-desc { color: var(--grey); font-size: 0.88rem; line-height: 1.65; }
+
+  /* RETAINER */
+  #retainer { background: var(--dark2); }
+  .retainer-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 1.2rem; margin-top: 3rem; }
+  .retainer-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem 2rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; transition: border-color 0.2s, transform 0.2s; }
+  .retainer-card:hover { border-color: var(--orange); transform: translateX(4px); }
+  .rc-left { display: flex; align-items: center; gap: 1rem; }
+  .rc-icon { width: 44px; height: 44px; background: var(--orange-dim); border: 1px solid var(--border); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
+  .rc-name { font-weight: 600; font-size: 1rem; margin-bottom: 0.2rem; }
+  .rc-desc { font-size: 0.8rem; color: var(--grey); }
+  .rc-price { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: var(--orange); letter-spacing: 1px; white-space: nowrap; text-align: right; flex-shrink: 0; }
+  .rc-price span { display: block; font-family: 'DM Sans', sans-serif; font-size: 0.72rem; color: var(--grey); font-weight: 400; letter-spacing: 0.5px; text-transform: uppercase; }
+
+  /* CTA */
+  #contact { background: var(--dark); text-align: center; padding: 8rem 4rem; position: relative; overflow: hidden; }
+  .cta-glow { position: absolute; width: 500px; height: 500px; background: radial-gradient(circle,rgba(255,107,53,0.12),transparent 70%); top: 50%; left: 50%; transform: translate(-50%,-50%); pointer-events: none; }
+  .cta-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem,7vw,6rem); line-height: 0.95; letter-spacing: 2px; position: relative; z-index: 2; margin-bottom: 1.5rem; }
+  .cta-sub { color: var(--grey); font-size: 1.1rem; max-width: 500px; margin: 0 auto 2.5rem; line-height: 1.7; position: relative; z-index: 2; }
+  .cta-actions { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; position: relative; z-index: 2; }
+  .cta-contact-row { display: flex; justify-content: center; align-items: center; gap: 3rem; margin-top: 4rem; position: relative; z-index: 2; flex-wrap: wrap; }
+  .cta-contact-item { display: flex; align-items: center; gap: 0.6rem; color: var(--grey); font-size: 0.9rem; text-decoration: none; transition: color 0.2s; }
+  .cta-contact-item:hover { color: var(--orange); }
+  .cta-contact-item .icon { color: var(--orange); }
+
+  /* FOOTER */
+  footer { background: #060E1A; padding: 2rem 4rem; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid rgba(255,107,53,0.1); flex-wrap: wrap; gap: 1rem; }
+  .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 3px; color: var(--white); }
+  .footer-logo span { color: var(--orange); }
+  .footer-copy { color: var(--grey); font-size: 0.8rem; }
+  .footer-links { display: flex; gap: 1.5rem; }
+  .footer-links a { color: var(--grey); font-size: 0.8rem; text-decoration: none; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--orange); }
+
+  /* SCROLL REVEAL */
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 1024px) {
+    nav { padding: 1.2rem 2rem; }
+    .nav-links { display: none; }
+    section { padding: 5rem 2rem; }
+    #hero { padding: 7rem 2rem 4rem; }
+    .hero-right { display: none; }
+    .services-grid { grid-template-columns: 1fr; }
+    .work-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
+    .work-card:first-child { grid-row: auto; }
+    .pricing-grid { grid-template-columns: 1fr; }
+    .process-grid { grid-template-columns: repeat(2,1fr); gap: 3rem; }
+    .process-grid::before { display: none; }
+    .retainer-grid { grid-template-columns: 1fr; }
+    footer { padding: 2rem; flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a class="nav-logo" href="index.html"><span>LOUD</span>MARK</a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="loudmark-contact.html" class="nav-cta">Get in Touch</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg-circle hbc1"></div>
+  <div class="hero-bg-circle hbc2"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Now Accepting New Clients</div>
+    <h1 class="hero-title">
+      MARKING<br>YOUR <span class="orange">PRESENCE</span><br><span class="outline">LOUDLY.</span>
+    </h1>
+    <p class="hero-sub">We build websites, marketing creatives, and SEO strategies that make your brand impossible to ignore — for startups, D2C brands & local businesses.</p>
+    <div class="hero-actions">
+      <a href="loudmark-contact.html" class="btn-primary">Get a Free Audit →</a>
+      <a href="#work" class="btn-outline">See Our Work</a>
+    </div>
+    <div class="hero-stats">
+      <div><div class="stat-num">7–14</div><div class="stat-label">Day Turnaround</div></div>
+      <div><div class="stat-num">3-in-1</div><div class="stat-label">Services Bundled</div></div>
+      <div><div class="stat-num">₹8K</div><div class="stat-label">Starting Price</div></div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="floating-card"><div class="fc-label">Latest Project</div><div class="fc-value">D2C Brand Launch ✦</div><div class="fc-dot"></div></div>
+    <div class="floating-card"><div class="fc-label">Services</div><div class="fc-value">Website + SEO + Ads</div></div>
+    <div class="floating-card"><div class="fc-label">Response Time</div><div class="fc-value">Within 24 Hours</div><div class="fc-dot"></div></div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-inner">
+    <!-- Group 1 -->
+    <div class="marquee-group">
+      <span>WEB DESIGN</span><span class="sep">◆</span>
+      <span>SEO MANAGEMENT</span><span class="sep">◆</span>
+      <span>MARKETING CREATIVES</span><span class="sep">◆</span>
+      <span>D2C BRANDS</span><span class="sep">◆</span>
+      <span>BRAND IDENTITY</span><span class="sep">◆</span>
+      <span>INSTAGRAM ADS</span><span class="sep">◆</span>
+      <span>GOOGLE ADS</span><span class="sep">◆</span>
+      <span>SHOPIFY STORES</span><span class="sep">◆</span>
+    </div>
+    <!-- Group 2 (exact duplicate for seamless loop) -->
+    <div class="marquee-group">
+      <span>WEB DESIGN</span><span class="sep">◆</span>
+      <span>SEO MANAGEMENT</span><span class="sep">◆</span>
+      <span>MARKETING CREATIVES</span><span class="sep">◆</span>
+      <span>D2C BRANDS</span><span class="sep">◆</span>
+      <span>BRAND IDENTITY</span><span class="sep">◆</span>
+      <span>INSTAGRAM ADS</span><span class="sep">◆</span>
+      <span>GOOGLE ADS</span><span class="sep">◆</span>
+      <span>SHOPIFY STORES</span><span class="sep">◆</span>
+    </div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="services-header reveal">
+    <div>
+      <div class="section-tag">What We Do</div>
+      <h2 class="section-title">THREE SERVICES.<br><span class="orange">ONE PARTNER.</span></h2>
+    </div>
+    <p class="services-desc">Stop juggling three different vendors. We handle your entire digital presence under one roof, built to work together.</p>
+  </div>
+  <div class="services-grid reveal">
+    <div class="service-card">
+      <span class="service-icon">🌐</span>
+      <span class="service-num">01</span>
+      <h3 class="service-title">Website Design & Development</h3>
+      <p class="service-desc">Custom-designed, mobile-first websites built to convert visitors into customers. From landing pages to full e-commerce stores.</p>
+      <div class="service-tags">
+        <span class="service-tag-pill">Webflow</span><span class="service-tag-pill">Framer</span><span class="service-tag-pill">Shopify</span><span class="service-tag-pill">Custom Code</span>
+      </div>
+    </div>
+    <div class="service-card">
+      <span class="service-icon">📣</span>
+      <span class="service-num">02</span>
+      <h3 class="service-title">Marketing Creatives & Ads</h3>
+      <p class="service-desc">Scroll-stopping visuals for Instagram, Meta, and Google. Posts, reels covers, stories, and full campaign-ready ad sets.</p>
+      <div class="service-tags">
+        <span class="service-tag-pill">Instagram</span><span class="service-tag-pill">Meta Ads</span><span class="service-tag-pill">Google Ads</span><span class="service-tag-pill">Reels</span>
+      </div>
+    </div>
+    <div class="service-card">
+      <span class="service-icon">🔍</span>
+      <span class="service-num">03</span>
+      <h3 class="service-title">SEO & Online Visibility</h3>
+      <p class="service-desc">Get found on Google. On-page SEO, keyword strategy, Google Business setup, and local SEO for Tier 1 & Tier 2 cities.</p>
+      <div class="service-tags">
+        <span class="service-tag-pill">On-Page SEO</span><span class="service-tag-pill">Local SEO</span><span class="service-tag-pill">Google Business</span><span class="service-tag-pill">Keywords</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WORK -->
+<section id="work">
+  <div class="work-header reveal">
+    <div>
+      <div class="section-tag">Portfolio</div>
+      <h2 class="section-title">OUR <span class="orange">WORK</span></h2>
+    </div>
+    <a href="loudmark-contact.html" class="btn-outline">Start a Project →</a>
+  </div>
+  <div class="work-grid reveal">
+    <div class="work-card">
+      <div class="work-card-bg wc1">
+        <div class="work-placeholder"><div class="wp-icon">🚀</div><div class="wp-text">D2C Brand Launch<br>Website + Campaign</div></div>
+      </div>
+      <div class="work-card-overlay"><div class="wco-tag">Website + Creatives</div><div class="wco-title">D2C Clothing Brand Launch</div></div>
+    </div>
+    <div class="work-card">
+      <div class="work-card-bg wc2">
+        <div class="work-placeholder"><div class="wp-icon">☕</div><div class="wp-text">Cafe Brand<br>Instagram Presence</div></div>
+      </div>
+      <div class="work-card-overlay"><div class="wco-tag">SEO + Social</div><div class="wco-title">Local Cafe Digital Presence</div></div>
+    </div>
+    <div class="work-card">
+      <div class="work-card-bg wc3">
+        <div class="work-placeholder"><div class="wp-icon">🏥</div><div class="wp-text">Clinic Website<br>+ Google SEO</div></div>
+      </div>
+      <div class="work-card-overlay"><div class="wco-tag">Website + SEO</div><div class="wco-title">Healthcare Clinic Visibility</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="reveal">
+    <div class="section-tag">Transparent Pricing</div>
+    <h2 class="section-title">PICK YOUR <span class="orange">PACK</span></h2>
+  </div>
+  <div class="pricing-grid reveal">
+    <div class="pricing-card">
+      <div class="pricing-badge">Starter</div>
+      <h3 class="pricing-name">Starter Pack</h3>
+      <p class="pricing-best">Best for local businesses & solo entrepreneurs</p>
+      <div class="pricing-price">₹8K–12K</div>
+      <div class="pricing-period">One-time project</div>
+      <div class="pricing-divider"></div>
+      <ul class="pricing-features">
+        <li>3–5 page custom website</li>
+        <li>3 marketing creatives</li>
+        <li>Basic on-page SEO setup</li>
+        <li>Mobile optimised</li>
+        <li>1 round of revisions</li>
+      </ul>
+      <a href="loudmark-contact.html?plan=starter" class="pricing-btn outline">Get Started</a>
+    </div>
+    <div class="pricing-card featured">
+      <div class="pricing-card-shine"></div>
+      <div class="pricing-badge">Most Popular</div>
+      <h3 class="pricing-name">Growth Pack</h3>
+      <p class="pricing-best">Best for D2C brands & Instagram businesses</p>
+      <div class="pricing-price">₹20K–35K</div>
+      <div class="pricing-period">One-time project</div>
+      <div class="pricing-divider"></div>
+      <ul class="pricing-features">
+        <li>8-page website (mobile-first)</li>
+        <li>8 creatives — static + reels</li>
+        <li>On-page + Local SEO</li>
+        <li>Google Business setup</li>
+        <li>1 month ad copy</li>
+        <li>2 rounds of revisions</li>
+      </ul>
+      <a href="loudmark-contact.html?plan=growth" class="pricing-btn primary">Get Started</a>
+    </div>
+    <div class="pricing-card">
+      <div class="pricing-badge">Premium</div>
+      <h3 class="pricing-name">Brand Launch</h3>
+      <p class="pricing-best">Best for funded startups & serious D2C launches</p>
+      <div class="pricing-price">₹50K–80K</div>
+      <div class="pricing-period">One-time project</div>
+      <div class="pricing-divider"></div>
+      <ul class="pricing-features">
+        <li>Full custom website</li>
+        <li>Brand identity guidelines</li>
+        <li>15 launch-ready creatives</li>
+        <li>SEO strategy + keyword research</li>
+        <li>Meta & Google ad setup</li>
+        <li>Monthly retainer option</li>
+      </ul>
+      <a href="loudmark-contact.html?plan=brand" class="pricing-btn outline">Get Started</a>
+    </div>
+  </div>
+</section>
+
+<!-- RETAINER -->
+<section id="retainer" style="padding-top:0;">
+  <div class="reveal">
+    <div class="section-tag">Ongoing Partnership</div>
+    <h2 class="section-title">MONTHLY <span class="orange">RETAINERS</span></h2>
+  </div>
+  <div class="retainer-grid reveal">
+    <div class="retainer-card"><div class="rc-left"><div class="rc-icon">🔍</div><div><div class="rc-name">SEO Management</div><div class="rc-desc">Monthly reporting + optimisation</div></div></div><div class="rc-price">₹5–10K<span>per month</span></div></div>
+    <div class="retainer-card"><div class="rc-left"><div class="rc-icon">📣</div><div><div class="rc-name">Social Media Creatives</div><div class="rc-desc">8–12 posts per month</div></div></div><div class="rc-price">₹6–12K<span>per month</span></div></div>
+    <div class="retainer-card"><div class="rc-left"><div class="rc-icon">🌐</div><div><div class="rc-name">Website Maintenance</div><div class="rc-desc">Updates, speed & security</div></div></div><div class="rc-price">₹2–4K<span>per month</span></div></div>
+    <div class="retainer-card"><div class="rc-left"><div class="rc-icon">⭐</div><div><div class="rc-name">Full Marketing Retainer</div><div class="rc-desc">SEO + Creatives + Ads management</div></div></div><div class="rc-price">₹15–25K<span>per month</span></div></div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+  <div class="reveal" style="text-align:center; margin-bottom:1rem;">
+    <div class="section-tag" style="justify-content:center;">How It Works</div>
+    <h2 class="section-title">FROM HELLO TO <span class="orange">LAUNCH</span></h2>
+  </div>
+  <div class="process-grid reveal">
+    <div class="process-step"><div class="process-num-wrap"><div class="process-num">01</div></div><h3 class="process-title">Discovery Call</h3><p class="process-desc">30 minutes. We understand your brand, goals, target audience, and timeline.</p></div>
+    <div class="process-step"><div class="process-num-wrap"><div class="process-num">02</div></div><h3 class="process-title">Proposal & Quote</h3><p class="process-desc">Clear, itemised proposal within 24 hours. No vague estimates, no surprises.</p></div>
+    <div class="process-step"><div class="process-num-wrap"><div class="process-num">03</div></div><h3 class="process-title">Build & Create</h3><p class="process-desc">We design, develop, and deliver. You get milestone updates throughout.</p></div>
+    <div class="process-step"><div class="process-num-wrap"><div class="process-num">04</div></div><h3 class="process-title">Launch & Support</h3><p class="process-desc">We go live together. Revisions included. Ongoing retainer available.</p></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="contact">
+  <div class="cta-glow"></div>
+  <h2 class="cta-title">READY TO GET<br><span style="color:var(--orange)">LOUD?</span></h2>
+  <p class="cta-sub">Drop us a message and get a free audit of your current digital presence within 24 hours.</p>
+  <div class="cta-actions">
+    <a href="loudmark-contact.html" class="btn-primary">Get a Free Audit →</a>
+    <a href="loudmark-contact.html" class="btn-outline">Book a Call</a>
+  </div>
+  <div class="cta-contact-row">
+    <a href="mailto:your@email.com" class="cta-contact-item"><span class="icon">✉</span> your@email.com</a>
+    <a href="tel:+919999999999" class="cta-contact-item"><span class="icon">📞</span> +91 XXXXX XXXXX</a>
+    <a href="https://instagram.com/loudmark" target="_blank" class="cta-contact-item"><span class="icon">📸</span> @loudmark</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo"><span>LOUD</span>MARK</div>
+  <div class="footer-copy">© 2025 Loudmark. Marking Your Presence. Loudly.</div>
+  <div class="footer-links">
+    <a href="#services">Services</a>
+    <a href="#pricing">Pricing</a>
+    <a href="loudmark-contact.html">Contact</a>
+  </div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Nav scroll effect
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').style.borderBottomColor =
+      window.scrollY > 50 ? 'rgba(255,107,53,0.2)' : 'rgba(255,107,53,0.08)';
+  });
+</script>
+</body>
+</html>
