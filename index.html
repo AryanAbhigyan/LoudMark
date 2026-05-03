@@ -176,6 +176,45 @@
   .work-placeholder .wp-icon { font-size: 3rem; }
   .work-placeholder .wp-text { font-size: 0.85rem; letter-spacing: 1px; text-transform: uppercase; line-height: 1.6; }
 
+  /* CASE STUDY MODAL */
+  .modal-overlay { position: fixed; inset: 0; z-index: 1000; background: rgba(5,12,25,0.92); backdrop-filter: blur(12px); display: flex; align-items: center; justify-content: center; padding: 2rem; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+  .modal-box { background: var(--dark2); border: 1px solid var(--border); border-radius: 20px; max-width: 820px; width: 100%; max-height: 90vh; overflow-y: auto; transform: translateY(30px) scale(0.97); transition: transform 0.3s ease; scrollbar-width: thin; scrollbar-color: var(--orange) transparent; }
+  .modal-overlay.open .modal-box { transform: translateY(0) scale(1); }
+  .modal-header { padding: 2rem 2.5rem 1.5rem; border-bottom: 1px solid var(--border); display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; position: sticky; top: 0; background: var(--dark2); z-index: 2; border-radius: 20px 20px 0 0; }
+  .modal-type-badge { display: inline-block; background: var(--orange); color: var(--dark); font-size: 0.68rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 0.25rem 0.75rem; border-radius: 100px; margin-bottom: 0.5rem; }
+  .modal-title { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 700; color: var(--white); }
+  .modal-close { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); color: var(--grey); width: 36px; height: 36px; border-radius: 50%; cursor: pointer; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background 0.2s, color 0.2s; }
+  .modal-close:hover { background: rgba(255,107,53,0.15); color: var(--orange); }
+  .modal-body { padding: 2rem 2.5rem; display: flex; flex-direction: column; gap: 2rem; }
+  .modal-section-label { font-size: 0.72rem; color: var(--orange); text-transform: uppercase; letter-spacing: 2.5px; font-weight: 600; margin-bottom: 0.6rem; }
+  .modal-section-text { color: #CBD5E1; font-size: 0.95rem; line-height: 1.75; }
+  .modal-did-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 0.7rem; margin-top: 0.5rem; }
+  .modal-did-item { display: flex; align-items: center; gap: 0.7rem; background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 0.75rem 1rem; font-size: 0.87rem; color: #CBD5E1; }
+  .modal-did-item::before { content: '→'; color: var(--orange); flex-shrink: 0; }
+
+  /* BEFORE / AFTER SLIDER */
+  .ba-wrap { position: relative; width: 100%; height: 260px; border-radius: 12px; overflow: hidden; cursor: col-resize; user-select: none; border: 1px solid var(--border); flex-shrink: 0; }
+  .ba-before, .ba-after { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.75rem; }
+  .ba-after { clip-path: inset(0 50% 0 0); }
+  .ba-label { position: absolute; top: 1rem; font-size: 0.72rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 0.3rem 0.8rem; border-radius: 100px; }
+  .ba-before .ba-label { right: 1rem; background: rgba(148,163,184,0.15); color: var(--grey); border: 1px solid rgba(148,163,184,0.2); }
+  .ba-after .ba-label { left: 1rem; background: rgba(255,107,53,0.2); color: var(--orange); border: 1px solid var(--border); }
+  .ba-icon { font-size: 2.8rem; }
+  .ba-text { font-size: 0.78rem; color: var(--grey); text-align: center; line-height: 1.5; max-width: 180px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .ba-after .ba-text { color: rgba(255,255,255,0.7); }
+  .ba-divider { position: absolute; top: 0; bottom: 0; left: 50%; transform: translateX(-50%); width: 3px; background: var(--orange); z-index: 3; pointer-events: none; }
+  .ba-handle { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 38px; height: 38px; background: var(--orange); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; color: var(--dark); font-weight: 700; box-shadow: 0 0 0 4px rgba(255,107,53,0.3); z-index: 4; cursor: col-resize; transition: box-shadow 0.2s; }
+  .ba-handle:hover { box-shadow: 0 0 0 8px rgba(255,107,53,0.2); }
+  .ba-hint { text-align: center; font-size: 0.75rem; color: var(--grey); margin-top: 0.5rem; display: flex; align-items: center; justify-content: center; gap: 0.4rem; }
+  .modal-results { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; }
+  .result-stat { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1.2rem 1rem; text-align: center; transition: border-color 0.2s; }
+  .result-stat:hover { border-color: var(--orange); }
+  .result-num { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; color: var(--orange); letter-spacing: 1px; line-height: 1; margin-bottom: 0.3rem; }
+  .result-label { font-size: 0.78rem; color: var(--grey); line-height: 1.4; }
+  .modal-cta { display: flex; gap: 1rem; padding-top: 0.5rem; border-top: 1px solid var(--border); }
+  .work-card-overlay .view-case { display: inline-flex; align-items: center; gap: 0.4rem; background: var(--orange); color: var(--dark); font-size: 0.75rem; font-weight: 700; padding: 0.3rem 0.8rem; border-radius: 100px; margin-top: 0.5rem; }
+
   /* PRICING */
   #pricing { background: var(--dark2); }
   .pricing-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; margin-top: 3.5rem; }
@@ -381,23 +420,23 @@
     <a href="loudmark-contact.html" class="btn-outline">Start a Project →</a>
   </div>
   <div class="work-grid reveal">
-    <div class="work-card">
+    <div class="work-card" onclick="openModal('clothing')">
       <div class="work-card-bg wc1">
         <div class="work-placeholder"><div class="wp-icon">🚀</div><div class="wp-text">D2C Brand Launch<br>Website + Campaign</div></div>
       </div>
-      <div class="work-card-overlay"><div class="wco-tag">Website + Creatives</div><div class="wco-title">D2C Clothing Brand Launch</div></div>
+      <div class="work-card-overlay"><div class="wco-tag">Website + Creatives</div><div class="wco-title">D2C Clothing Brand Launch</div><span class="view-case">View Case Study →</span></div>
     </div>
-    <div class="work-card">
+    <div class="work-card" onclick="openModal('cafe')">
       <div class="work-card-bg wc2">
         <div class="work-placeholder"><div class="wp-icon">☕</div><div class="wp-text">Cafe Brand<br>Instagram Presence</div></div>
       </div>
-      <div class="work-card-overlay"><div class="wco-tag">SEO + Social</div><div class="wco-title">Local Cafe Digital Presence</div></div>
+      <div class="work-card-overlay"><div class="wco-tag">SEO + Social</div><div class="wco-title">Local Cafe Digital Presence</div><span class="view-case">View Case Study →</span></div>
     </div>
-    <div class="work-card">
+    <div class="work-card" onclick="openModal('clinic')">
       <div class="work-card-bg wc3">
         <div class="work-placeholder"><div class="wp-icon">🏥</div><div class="wp-text">Clinic Website<br>+ Google SEO</div></div>
       </div>
-      <div class="work-card-overlay"><div class="wco-tag">Website + SEO</div><div class="wco-title">Healthcare Clinic Visibility</div></div>
+      <div class="work-card-overlay"><div class="wco-tag">Website + SEO</div><div class="wco-title">Healthcare Clinic Visibility</div><span class="view-case">View Case Study →</span></div>
     </div>
   </div>
 </section>
@@ -518,7 +557,179 @@
   </div>
 </footer>
 
+<!-- CASE STUDY MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-header">
+      <div>
+        <div class="modal-type-badge" id="modalBadge"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <!-- Problem -->
+      <div>
+        <div class="modal-section-label">The Problem</div>
+        <div class="modal-section-text" id="modalProblem"></div>
+      </div>
+      <!-- Before / After -->
+      <div>
+        <div class="modal-section-label">Before & After</div>
+        <div class="ba-wrap" id="baWrap">
+          <div class="ba-before" id="baBefore">
+            <div class="ba-label">Before</div>
+            <div class="ba-icon" id="baBeforeIcon"></div>
+            <div class="ba-text" id="baBeforeText"></div>
+          </div>
+          <div class="ba-after" id="baAfter">
+            <div class="ba-label">After</div>
+            <div class="ba-icon" id="baAfterIcon"></div>
+            <div class="ba-text" id="baAfterText"></div>
+          </div>
+          <div class="ba-divider" id="baDivider"></div>
+          <div class="ba-handle" id="baHandle">⇔</div>
+        </div>
+        <div class="ba-hint">← Drag to compare →</div>
+      </div>
+      <!-- What we did -->
+      <div>
+        <div class="modal-section-label">What We Did</div>
+        <div class="modal-did-grid" id="modalDid"></div>
+      </div>
+      <!-- Results -->
+      <div>
+        <div class="modal-section-label">Results</div>
+        <div class="modal-results" id="modalResults"></div>
+      </div>
+      <!-- CTA -->
+      <div class="modal-cta">
+        <a href="loudmark-contact.html" class="btn-primary" style="flex:1; text-align:center; justify-content:center;">Start a Similar Project →</a>
+        <button class="btn-outline" onclick="closeModal()" style="border:1.5px solid rgba(255,255,255,0.15); background:transparent; color:white; padding:0.85rem 1.5rem; border-radius:6px; cursor:pointer; font-family:inherit; font-size:0.95rem;">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
+  // Case study data
+  const cases = {
+    clothing: {
+      badge: 'Website + Creatives',
+      title: 'D2C Clothing Brand Launch',
+      problem: 'A new streetwear brand had great products and an Instagram page with 3,000 followers — but no website, no ad creatives, and zero SEO. They were losing potential customers who couldn\'t find them on Google or didn\'t trust buying without a proper site.',
+      beforeIcon: '😟', beforeText: 'Instagram only, no website, no Google presence, losing sales daily',
+      afterIcon: '🚀', afterText: 'Full website live, 8 launch creatives, SEO set up, first sale in 72 hours',
+      beforeBg: 'linear-gradient(135deg, #1a1a2e, #16213e)',
+      afterBg: 'linear-gradient(135deg, #1a1a3e, #2d1b69)',
+      did: ['Custom 6-page Shopify website', 'Brand identity & color system', '8 launch creatives + reel covers', 'On-page SEO + meta tags', 'Google Business Profile setup', 'Instagram link-in-bio page'],
+      results: [
+        { num: '72hrs', label: 'Time to first online sale' },
+        { num: '3.2x', label: 'Instagram profile visits increase' },
+        { num: '₹0', label: 'Ad spend — organic only' }
+      ]
+    },
+    cafe: {
+      badge: 'SEO + Social Media',
+      title: 'Local Cafe Digital Presence',
+      problem: 'A new cafe in a busy area was only listed on Zomato. No website, no Google Business profile, and their Instagram had inconsistent, low-quality posts. Footfall was low despite great food and ambience.',
+      beforeIcon: '☕', beforeText: 'Only on Zomato, no website, inconsistent Instagram, invisible on Google Maps',
+      afterIcon: '📈', afterText: 'Ranked on Google Maps, 400% more profile views, consistent branded Instagram',
+      beforeBg: 'linear-gradient(135deg, #1a2012, #0d1a0a)',
+      afterBg: 'linear-gradient(135deg, #1a2e1a, #0d3320)',
+      did: ['Google Business Profile setup & optimisation', 'Local SEO — "cafe near me" keywords', '12 branded Instagram post designs', 'Menu photography layout templates', '5-page website with online reservation', 'Monthly SEO reporting'],
+      results: [
+        { num: '400%', label: 'Google Maps profile views' },
+        { num: '#3', label: 'Google rank for "cafe in [area]"' },
+        { num: '2mo', label: 'Time to first page ranking' }
+      ]
+    },
+    clinic: {
+      badge: 'Website + Local SEO',
+      title: 'Healthcare Clinic Visibility',
+      problem: 'A skin clinic with 5 years of experience had no website and relied entirely on word of mouth and JustDial. New patients couldn\'t verify their credibility online and often chose competitors who had better digital presence.',
+      beforeIcon: '🏥', beforeText: 'JustDial only, no website, no reviews, new patients going to competitors',
+      afterIcon: '✅', afterText: 'Professional website live, Google reviews flowing, ranking for key medical terms',
+      beforeBg: 'linear-gradient(135deg, #1a0a0a, #2e1010)',
+      afterBg: 'linear-gradient(135deg, #2e1a1a, #4a1520)',
+      did: ['7-page professional clinic website', 'Doctor profiles & credentials page', 'Google Business + review strategy', 'Local SEO for skin clinic keywords', 'WhatsApp appointment booking integration', 'Patient trust-building content'],
+      results: [
+        { num: '28', label: 'New Google reviews in 60 days' },
+        { num: '5x', label: 'Increase in website enquiries' },
+        { num: '#1', label: 'Google rank for clinic + city name' }
+      ]
+    }
+  };
+
+  function openModal(key) {
+    const c = cases[key];
+    document.getElementById('modalBadge').textContent = c.badge;
+    document.getElementById('modalTitle').textContent = c.title;
+    document.getElementById('modalProblem').textContent = c.problem;
+    document.getElementById('baBeforeIcon').textContent = c.beforeIcon;
+    document.getElementById('baBeforeText').textContent = c.beforeText;
+    document.getElementById('baAfterIcon').textContent = c.afterIcon;
+    document.getElementById('baAfterText').textContent = c.afterText;
+    document.getElementById('baBefore').style.background = c.beforeBg;
+    document.getElementById('baAfter').style.background = c.afterBg;
+
+    const did = document.getElementById('modalDid');
+    did.innerHTML = c.did.map(d => `<div class="modal-did-item">${d}</div>`).join('');
+
+    const results = document.getElementById('modalResults');
+    results.innerHTML = c.results.map(r => `<div class="result-stat"><div class="result-num">${r.num}</div><div class="result-label">${r.label}</div></div>`).join('');
+
+    // Reset slider
+    setSlider(50);
+    document.getElementById('modalOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+  // Before/After slider
+  function setSlider(pct) {
+    pct = Math.max(5, Math.min(95, pct));
+    const divider = document.getElementById('baDivider');
+    const handle = document.getElementById('baHandle');
+    const after = document.getElementById('baAfter');
+    divider.style.left = pct + '%';
+    handle.style.left = pct + '%';
+    after.style.clipPath = `inset(0 ${100 - pct}% 0 0)`;
+  }
+
+  let dragging = false;
+  document.getElementById('baHandle').addEventListener('mousedown', () => dragging = true);
+  document.getElementById('baWrap').addEventListener('mousedown', (e) => {
+    dragging = true;
+    const rect = document.getElementById('baWrap').getBoundingClientRect();
+    setSlider(((e.clientX - rect.left) / rect.width) * 100);
+  });
+  document.addEventListener('mousemove', (e) => {
+    if (!dragging) return;
+    const wrap = document.getElementById('baWrap');
+    if (!wrap) return;
+    const rect = wrap.getBoundingClientRect();
+    setSlider(((e.clientX - rect.left) / rect.width) * 100);
+  });
+  document.addEventListener('mouseup', () => dragging = false);
+
+  // Touch support
+  document.getElementById('baWrap').addEventListener('touchmove', (e) => {
+    e.preventDefault();
+    const rect = document.getElementById('baWrap').getBoundingClientRect();
+    setSlider(((e.touches[0].clientX - rect.left) / rect.width) * 100);
+  }, { passive: false });
+
   // Scroll reveal
   const reveals = document.querySelectorAll('.reveal');
   const observer = new IntersectionObserver(entries => {
