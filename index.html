@@ -195,18 +195,129 @@
 
   /* BEFORE / AFTER SLIDER */
   .ba-wrap { position: relative; width: 100%; height: 260px; border-radius: 12px; overflow: hidden; cursor: col-resize; user-select: none; border: 1px solid var(--border); flex-shrink: 0; }
-  .ba-before, .ba-after { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.75rem; }
-  .ba-after { clip-path: inset(0 50% 0 0); }
-  .ba-label { position: absolute; top: 1rem; font-size: 0.72rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 0.3rem 0.8rem; border-radius: 100px; }
-  .ba-before .ba-label { right: 1rem; background: rgba(148,163,184,0.15); color: var(--grey); border: 1px solid rgba(148,163,184,0.2); }
-  .ba-after .ba-label { left: 1rem; background: rgba(255,107,53,0.2); color: var(--orange); border: 1px solid var(--border); }
-  .ba-icon { font-size: 2.8rem; }
-  .ba-text { font-size: 0.78rem; color: var(--grey); text-align: center; line-height: 1.5; max-width: 180px; text-transform: uppercase; letter-spacing: 0.5px; }
-  .ba-after .ba-text { color: rgba(255,255,255,0.7); }
+  .ba-before, .ba-after { position: absolute; inset: 0; overflow: hidden; }
+  .ba-after { clip-path: inset(0 0 0 50%); }
+  .ba-label { position: absolute; top: 0.8rem; font-size: 0.68rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 0.25rem 0.75rem; border-radius: 100px; z-index: 5; }
+  .ba-before .ba-label { left: 0.8rem; background: rgba(30,30,30,0.75); color: #fff; border: 1px solid rgba(255,255,255,0.15); }
+  .ba-after .ba-label { right: 0.8rem; background: rgba(255,107,53,0.85); color: var(--dark); border: 1px solid var(--orange); }
   .ba-divider { position: absolute; top: 0; bottom: 0; left: 50%; transform: translateX(-50%); width: 3px; background: var(--orange); z-index: 3; pointer-events: none; }
   .ba-handle { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 38px; height: 38px; background: var(--orange); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; color: var(--dark); font-weight: 700; box-shadow: 0 0 0 4px rgba(255,107,53,0.3); z-index: 4; cursor: col-resize; transition: box-shadow 0.2s; }
   .ba-handle:hover { box-shadow: 0 0 0 8px rgba(255,107,53,0.2); }
   .ba-hint { text-align: center; font-size: 0.75rem; color: var(--grey); margin-top: 0.5rem; display: flex; align-items: center; justify-content: center; gap: 0.4rem; }
+
+  /* MINI WEBSITE MOCKUPS */
+  .ms-wrap { width: 100%; height: 100%; overflow: hidden; }
+
+  /* BAD site styles */
+  .ms-bad { background: #f5f5f5; font-family: 'Times New Roman', serif; display: flex; flex-direction: column; height: 100%; }
+  .ms-bad-header { background: #003399; padding: 6px 10px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+  .ms-bad-logo { color: #ffff00; font-size: 11px; font-weight: bold; font-family: Impact, sans-serif; letter-spacing: 1px; }
+  .ms-bad-nav { display: flex; gap: 6px; }
+  .ms-bad-nav a { color: #ff4444; font-size: 8px; text-decoration: underline; font-family: Arial, sans-serif; }
+  .ms-bad-hero { background: linear-gradient(#ffffff, #eeeeee); padding: 8px 10px; border-bottom: 2px solid #ff0000; flex-shrink: 0; }
+  .ms-bad-sale { background: #ffff00; color: #ff0000; font-size: 9px; font-weight: bold; text-align: center; padding: 3px; border: 2px dashed #ff0000; margin-bottom: 4px; font-family: Arial, sans-serif; animation: blink 1s step-end infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+  .ms-bad-hero-text { font-size: 10px; color: #333; font-family: 'Times New Roman', serif; margin-bottom: 3px; }
+  .ms-bad-body { padding: 8px 10px; flex: 1; overflow: hidden; }
+  .ms-bad-title { font-size: 10px; color: #003399; font-weight: bold; border-bottom: 1px solid #999; margin-bottom: 5px; font-family: Arial, sans-serif; }
+  .ms-bad-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 4px; }
+  .ms-bad-product { background: #fff; border: 1px solid #ccc; padding: 4px; text-align: center; }
+  .ms-bad-product-img { width: 100%; height: 40px; background: #ddd; display: flex; align-items: center; justify-content: center; font-size: 16px; margin-bottom: 2px; }
+  .ms-bad-product-name { font-size: 7px; color: #333; }
+  .ms-bad-product-price { font-size: 8px; color: #ff0000; font-weight: bold; }
+  .ms-bad-product-btn { background: #003399; color: #fff; border: none; font-size: 6px; padding: 2px 4px; margin-top: 2px; cursor: pointer; font-family: Arial; }
+  .ms-bad-footer { background: #333; color: #aaa; font-size: 6px; padding: 4px 10px; text-align: center; flex-shrink: 0; }
+  .ms-bad-marquee { background: #003399; color: #fff; font-size: 7px; padding: 2px; overflow: hidden; white-space: nowrap; flex-shrink: 0; }
+
+  /* GOOD site styles */
+  .ms-good { background: #0A1628; font-family: 'DM Sans', sans-serif; display: flex; flex-direction: column; height: 100%; }
+  .ms-good-header { background: rgba(10,22,40,0.95); border-bottom: 1px solid rgba(255,107,53,0.2); padding: 6px 12px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+  .ms-good-logo { color: #fff; font-size: 10px; font-weight: 700; letter-spacing: 3px; }
+  .ms-good-logo span { color: #FF6B35; }
+  .ms-good-nav { display: flex; gap: 8px; }
+  .ms-good-nav a { color: #94A3B8; font-size: 7px; letter-spacing: 1px; text-transform: uppercase; text-decoration: none; }
+  .ms-good-hero { background: linear-gradient(135deg, #0A1628 0%, #1a2a45 100%); padding: 16px 12px 12px; flex-shrink: 0; position: relative; overflow: hidden; }
+  .ms-good-hero::before { content: ''; position: absolute; top: -20px; right: -20px; width: 100px; height: 100px; border-radius: 50%; background: radial-gradient(circle, rgba(255,107,53,0.15), transparent 70%); }
+  .ms-good-eyebrow { font-size: 6px; color: #FF6B35; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 4px; }
+  .ms-good-title { font-size: 18px; font-weight: 900; color: #fff; line-height: 1; letter-spacing: 1px; margin-bottom: 6px; }
+  .ms-good-title span { color: #FF6B35; }
+  .ms-good-sub { font-size: 7px; color: #94A3B8; line-height: 1.5; margin-bottom: 8px; }
+  .ms-good-btn { display: inline-block; background: #FF6B35; color: #0A1628; padding: 4px 10px; border-radius: 2px; font-size: 7px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+  .ms-good-body { padding: 10px 12px; flex: 1; overflow: hidden; }
+  .ms-good-section-title { font-size: 8px; color: #FF6B35; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 6px; }
+  .ms-good-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 5px; }
+  .ms-good-product { background: #0D1E35; border: 1px solid rgba(255,107,53,0.15); border-radius: 3px; overflow: hidden; }
+  .ms-good-product-img { height: 38px; display: flex; align-items: center; justify-content: center; font-size: 16px; background: linear-gradient(135deg, #1a1a2e, #2d1b69); }
+  .ms-good-product-info { padding: 4px; }
+  .ms-good-product-name { font-size: 6px; color: #fff; font-weight: 600; margin-bottom: 2px; }
+  .ms-good-product-price { font-size: 8px; color: #FF6B35; font-weight: 700; }
+  .ms-good-footer { background: #060E1A; border-top: 1px solid rgba(255,107,53,0.1); padding: 5px 12px; text-align: center; font-size: 6px; color: #64748B; flex-shrink: 0; }
+
+  /* Cafe mockups */
+  .ms-bad-cafe { background: #f0f0f0; font-family: Arial, sans-serif; display: flex; flex-direction: column; height: 100%; }
+  .ms-bad-cafe-header { background: #8B0000; color: #fff; padding: 6px 10px; font-size: 10px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+  .ms-bad-cafe-nav { font-size: 7px; color: #ffcccc; }
+  .ms-bad-cafe-body { padding: 8px; flex: 1; overflow: hidden; }
+  .ms-bad-cafe-box { background: #fff; border: 2px solid #8B0000; padding: 6px; margin-bottom: 5px; }
+  .ms-bad-cafe-name { font-size: 11px; color: #8B0000; font-weight: bold; font-family: 'Times New Roman'; }
+  .ms-bad-cafe-info { font-size: 7px; color: #555; line-height: 1.5; }
+  .ms-bad-cafe-rating { color: #ff9900; font-size: 9px; }
+  .ms-bad-cafe-listing { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
+  .ms-bad-cafe-item { background: #fffbe6; border: 1px solid #ddd; padding: 4px; font-size: 7px; color: #333; }
+  .ms-bad-cafe-footer { background: #666; color: #fff; font-size: 6px; padding: 3px; text-align: center; flex-shrink: 0; }
+
+  .ms-good-cafe { background: #1a1008; display: flex; flex-direction: column; height: 100%; }
+  .ms-good-cafe-header { background: rgba(26,16,8,0.95); border-bottom: 1px solid rgba(200,169,110,0.3); padding: 6px 12px; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+  .ms-good-cafe-logo { color: #C8A96E; font-size: 10px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; }
+  .ms-good-cafe-nav { display: flex; gap: 8px; }
+  .ms-good-cafe-nav a { color: rgba(200,169,110,0.6); font-size: 6px; letter-spacing: 1px; text-transform: uppercase; }
+  .ms-good-cafe-hero { background: linear-gradient(135deg, #1a1008, #2a1a08); padding: 14px 12px 10px; flex-shrink: 0; }
+  .ms-good-cafe-tag { font-size: 6px; color: #C8A96E; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 4px; }
+  .ms-good-cafe-title { font-size: 15px; font-weight: 900; color: #F2EDE6; line-height: 1; margin-bottom: 5px; letter-spacing: 1px; }
+  .ms-good-cafe-sub { font-size: 7px; color: #9A9087; margin-bottom: 7px; }
+  .ms-good-cafe-btn { display: inline-block; background: #C8A96E; color: #1a1008; padding: 3px 9px; font-size: 7px; font-weight: 700; letter-spacing: 1px; }
+  .ms-good-cafe-body { padding: 8px 12px; flex: 1; overflow: hidden; }
+  .ms-good-cafe-label { font-size: 7px; color: #C8A96E; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 5px; }
+  .ms-good-cafe-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 4px; }
+  .ms-good-cafe-item { background: rgba(200,169,110,0.08); border: 1px solid rgba(200,169,110,0.15); padding: 5px; border-radius: 2px; }
+  .ms-good-cafe-item-icon { font-size: 14px; text-align: center; margin-bottom: 2px; }
+  .ms-good-cafe-item-name { font-size: 6px; color: #F2EDE6; text-align: center; }
+  .ms-good-cafe-item-price { font-size: 7px; color: #C8A96E; text-align: center; font-weight: 700; }
+  .ms-good-cafe-footer { background: #0d0804; border-top: 1px solid rgba(200,169,110,0.1); padding: 4px 12px; font-size: 6px; color: #5a4a3a; text-align: center; flex-shrink: 0; }
+
+  /* Clinic mockups */
+  .ms-bad-clinic { background: #fff; font-family: Arial, sans-serif; display: flex; flex-direction: column; height: 100%; }
+  .ms-bad-clinic-header { background: linear-gradient(#0066cc, #004499); color: #fff; padding: 6px 10px; display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+  .ms-bad-clinic-cross { background: #ff0000; color: #fff; width: 14px; height: 14px; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: bold; flex-shrink: 0; }
+  .ms-bad-clinic-name { font-size: 9px; font-weight: bold; font-family: 'Times New Roman'; }
+  .ms-bad-clinic-ticker { background: #ffff00; color: #0000ff; font-size: 7px; padding: 2px 6px; text-align: center; flex-shrink: 0; overflow: hidden; white-space: nowrap; }
+  .ms-bad-clinic-body { padding: 8px; flex: 1; overflow: hidden; }
+  .ms-bad-clinic-welcome { font-size: 11px; color: #0066cc; font-family: 'Times New Roman'; font-weight: bold; text-align: center; margin-bottom: 5px; text-decoration: underline; }
+  .ms-bad-clinic-table { width: 100%; border-collapse: collapse; font-size: 7px; }
+  .ms-bad-clinic-table td { border: 1px solid #ccc; padding: 3px 4px; vertical-align: top; }
+  .ms-bad-clinic-table td:first-child { background: #e8f4ff; width: 35%; color: #0066cc; font-weight: bold; }
+  .ms-bad-clinic-footer { background: #0066cc; color: #fff; font-size: 6px; padding: 3px; text-align: center; flex-shrink: 0; }
+
+  .ms-good-clinic { background: #F8FAFC; display: flex; flex-direction: column; height: 100%; }
+  .ms-good-clinic-header { background: #fff; border-bottom: 1px solid #E2E8F0; padding: 6px 12px; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+  .ms-good-clinic-logo { font-size: 9px; font-weight: 700; color: #0F1F38; letter-spacing: 1px; }
+  .ms-good-clinic-logo span { color: #059669; }
+  .ms-good-clinic-nav { display: flex; gap: 7px; }
+  .ms-good-clinic-nav a { color: #64748B; font-size: 6px; text-decoration: none; letter-spacing: 0.5px; }
+  .ms-good-clinic-btn-nav { background: #059669; color: #fff; padding: 2px 6px; border-radius: 2px; font-size: 6px; font-weight: 700; }
+  .ms-good-clinic-hero { background: linear-gradient(135deg, #0F1F38, #1E3A5F); padding: 12px; flex-shrink: 0; }
+  .ms-good-clinic-tag { font-size: 6px; color: #34D399; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 3px; }
+  .ms-good-clinic-title { font-size: 13px; font-weight: 700; color: #fff; line-height: 1.1; margin-bottom: 5px; }
+  .ms-good-clinic-title span { color: #34D399; }
+  .ms-good-clinic-sub { font-size: 6px; color: #94A3B8; margin-bottom: 7px; }
+  .ms-good-clinic-btn { display: inline-block; background: #059669; color: #fff; padding: 3px 8px; border-radius: 2px; font-size: 6px; font-weight: 700; }
+  .ms-good-clinic-body { padding: 8px 12px; flex: 1; overflow: hidden; }
+  .ms-good-clinic-label { font-size: 7px; color: #059669; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 5px; }
+  .ms-good-clinic-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 4px; }
+  .ms-good-clinic-card { background: #fff; border: 1px solid #E2E8F0; border-radius: 3px; padding: 5px; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .ms-good-clinic-card-icon { font-size: 13px; margin-bottom: 2px; }
+  .ms-good-clinic-card-name { font-size: 6px; color: #334155; font-weight: 600; }
+  .ms-good-clinic-footer { background: #0F1F38; padding: 4px 12px; font-size: 6px; color: #64748B; text-align: center; flex-shrink: 0; }
   .modal-results { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; }
   .result-stat { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1.2rem 1rem; text-align: center; transition: border-color 0.2s; }
   .result-stat:hover { border-color: var(--orange); }
@@ -462,7 +573,7 @@
         <li>Mobile optimised</li>
         <li>1 round of revisions</li>
       </ul>
-      <a href="loudmark-contact.html?plan=starter" class="pricing-btn outline">Get Started</a>
+      <a href="loudmark-payment.html?plan=starter" class="pricing-btn outline">Get Started</a>
     </div>
     <div class="pricing-card featured">
       <div class="pricing-card-shine"></div>
@@ -480,7 +591,7 @@
         <li>1 month ad copy</li>
         <li>2 rounds of revisions</li>
       </ul>
-      <a href="loudmark-contact.html?plan=growth" class="pricing-btn primary">Get Started</a>
+      <a href="loudmark-payment.html?plan=growth" class="pricing-btn primary">Get Started</a>
     </div>
     <div class="pricing-card">
       <div class="pricing-badge">Premium</div>
@@ -497,7 +608,7 @@
         <li>Meta & Google ad setup</li>
         <li>Monthly retainer option</li>
       </ul>
-      <a href="loudmark-contact.html?plan=brand" class="pricing-btn outline">Get Started</a>
+      <a href="loudmark-payment.html?plan=brand" class="pricing-btn outline">Get Started</a>
     </div>
   </div>
 </section>
@@ -540,16 +651,15 @@
     <a href="loudmark-contact.html" class="btn-outline">Book a Call</a>
   </div>
   <div class="cta-contact-row">
-    <a href="mailto:your@email.com" class="cta-contact-item"><span class="icon">✉</span> your@email.com</a>
-    <a href="tel:+919999999999" class="cta-contact-item"><span class="icon">📞</span> +91 XXXXX XXXXX</a>
-    <a href="https://instagram.com/loudmark" target="_blank" class="cta-contact-item"><span class="icon">📸</span> @loudmark</a>
+    <a href="mailto:loudmark.studio@gmail.com" class="cta-contact-item"><span class="icon">✉</span> loudmark.studio@gmail.com</a>
+    <a href="https://www.instagram.com/loudmark.studio?igsh=MWNvaTJjc2ZlZnZiNQ==" target="_blank" class="cta-contact-item"><span class="icon">📸</span> @loudmark.studio</a>
   </div>
 </section>
 
 <!-- FOOTER -->
 <footer>
   <div class="footer-logo"><span>LOUD</span>MARK</div>
-  <div class="footer-copy">© 2025 Loudmark. Marking Your Presence. Loudly.</div>
+  <div class="footer-copy">© 2026 Loudmark. Marking Your Presence. Loudly.</div>
   <div class="footer-links">
     <a href="#services">Services</a>
     <a href="#pricing">Pricing</a>
@@ -579,13 +689,11 @@
         <div class="ba-wrap" id="baWrap">
           <div class="ba-before" id="baBefore">
             <div class="ba-label">Before</div>
-            <div class="ba-icon" id="baBeforeIcon"></div>
-            <div class="ba-text" id="baBeforeText"></div>
+            <div class="ms-wrap" id="baBeforeContent"></div>
           </div>
           <div class="ba-after" id="baAfter">
             <div class="ba-label">After</div>
-            <div class="ba-icon" id="baAfterIcon"></div>
-            <div class="ba-text" id="baAfterText"></div>
+            <div class="ms-wrap" id="baAfterContent"></div>
           </div>
           <div class="ba-divider" id="baDivider"></div>
           <div class="ba-handle" id="baHandle">⇔</div>
@@ -612,16 +720,122 @@
 </div>
 
 <script>
+  // Mini website mockup HTML
+  const beforeMockups = {
+    clothing: `<div class="ms-bad">
+      <div class="ms-bad-header"><span class="ms-bad-logo">JK FASHIONS</span><div class="ms-bad-nav"><a>HOME</a><a>ABOUT</a><a>SHOP</a><a>CONTACT</a></div></div>
+      <div class="ms-bad-marquee">★ BEST PRICES ★ FREE DELIVERY ON ALL ORDERS ★ CALL 98765-XXXXX ★</div>
+      <div class="ms-bad-hero">
+        <div class="ms-bad-sale">★★ SALE SALE SALE!! UP TO 50% OFF ★★</div>
+        <div class="ms-bad-hero-text">Welcome to JK Fashions - Your One Stop Clothing Shop!! We have best quality clothes at lowest prices guaranteed!!</div>
+      </div>
+      <div class="ms-bad-body">
+        <div class="ms-bad-title">OUR PRODUCTS</div>
+        <div class="ms-bad-grid">
+          <div class="ms-bad-product"><div class="ms-bad-product-img">👕</div><div class="ms-bad-product-name">T-shirt Red</div><div class="ms-bad-product-price">Rs.299/-</div><button class="ms-bad-product-btn">BUY NOW</button></div>
+          <div class="ms-bad-product"><div class="ms-bad-product-img">👖</div><div class="ms-bad-product-name">Jeans Blue</div><div class="ms-bad-product-price">Rs.599/-</div><button class="ms-bad-product-btn">BUY NOW</button></div>
+          <div class="ms-bad-product"><div class="ms-bad-product-img">🧥</div><div class="ms-bad-product-name">Jacket Blk</div><div class="ms-bad-product-price">Rs.999/-</div><button class="ms-bad-product-btn">BUY NOW</button></div>
+        </div>
+      </div>
+      <div class="ms-bad-footer">Copyright 2019 JK Fashions | Designed by WebSolutionz India | All rights reserved</div>
+    </div>`,
+    cafe: `<div class="ms-bad-cafe">
+      <div class="ms-bad-cafe-header"><span>THE CORNER CAFE</span><span class="ms-bad-cafe-nav">HOME | MENU | GALLERY | CONTACT</span></div>
+      <div class="ms-bad-cafe-body">
+        <div class="ms-bad-cafe-box">
+          <div class="ms-bad-cafe-name">The Corner Cafe - Bhubaneswar</div>
+          <div class="ms-bad-cafe-rating">★★★☆☆ (12 reviews)</div>
+          <div class="ms-bad-cafe-info">📍 Unit 4, Bhubaneswar | ☎ 0674-XXXXXX<br>⏰ Open: 9AM - 9PM | Cuisines: Indian, Chinese<br>Average cost for two: ₹400</div>
+        </div>
+        <div class="ms-bad-cafe-listing">
+          <div class="ms-bad-cafe-item">☕ Cappuccino - ₹80</div>
+          <div class="ms-bad-cafe-item">🍕 Pizza - ₹180</div>
+          <div class="ms-bad-cafe-item">🍔 Burger - ₹120</div>
+          <div class="ms-bad-cafe-item">🍰 Cake - ₹90</div>
+        </div>
+      </div>
+      <div class="ms-bad-cafe-footer">Listed on JustDial | No Website Found | Last Updated: 2021</div>
+    </div>`,
+    clinic: `<div class="ms-bad-clinic">
+      <div class="ms-bad-clinic-header"><div class="ms-bad-clinic-cross">✚</div><div class="ms-bad-clinic-name">DR. SHARMA'S SKIN CLINIC</div></div>
+      <div class="ms-bad-clinic-ticker">★ Welcome to Dr. Sharma's Skin Clinic ★ Established 2018 ★ Call for Appointment ★</div>
+      <div class="ms-bad-clinic-body">
+        <div class="ms-bad-clinic-welcome">WELCOME TO OUR CLINIC WEBSITE</div>
+        <table class="ms-bad-clinic-table">
+          <tr><td>Doctor</td><td>Dr. Ramesh Sharma MBBS, MD</td></tr>
+          <tr><td>Timing</td><td>Mon-Sat 10AM to 6PM</td></tr>
+          <tr><td>Address</td><td>Shop No 14, Main Road, BBSR</td></tr>
+          <tr><td>Phone</td><td>98XXXXXXXX (Call Only)</td></tr>
+          <tr><td>Services</td><td>Acne, Pigmentation, Hair Fall</td></tr>
+        </table>
+      </div>
+      <div class="ms-bad-clinic-footer">© Dr. Sharma's Skin Clinic 2018 | Website made by cousin | No mobile version</div>
+    </div>`
+  };
+
+  const afterMockups = {
+    clothing: `<div class="ms-good">
+      <div class="ms-good-header"><div class="ms-good-logo"><span>KNOT</span> SOBR</div><div class="ms-good-nav"><a>Shop</a><a>Collections</a><a>About</a></div></div>
+      <div class="ms-good-hero">
+        <div class="ms-good-eyebrow">Season 01 — Now Live</div>
+        <div class="ms-good-title">MARK <span>LOUD.</span></div>
+        <div class="ms-good-sub">Premium Indian streetwear · 240 GSM · Made in Tirupur</div>
+        <div class="ms-good-btn">Shop the Drop →</div>
+      </div>
+      <div class="ms-good-body">
+        <div class="ms-good-section-title">Featured Drops</div>
+        <div class="ms-good-grid">
+          <div class="ms-good-product"><div class="ms-good-product-img">👕</div><div class="ms-good-product-info"><div class="ms-good-product-name">Void Oversized Tee</div><div class="ms-good-product-price">₹1,299</div></div></div>
+          <div class="ms-good-product"><div class="ms-good-product-img">🧥</div><div class="ms-good-product-info"><div class="ms-good-product-name">Raw Edge Hoodie</div><div class="ms-good-product-price">₹2,499</div></div></div>
+          <div class="ms-good-product"><div class="ms-good-product-img">👕</div><div class="ms-good-product-info"><div class="ms-good-product-name">Midnight Drop Tee</div><div class="ms-good-product-price">₹1,299</div></div></div>
+        </div>
+      </div>
+      <div class="ms-good-footer">© 2026 Knot Sobr · Made in India · Free shipping above ₹999</div>
+    </div>`,
+    cafe: `<div class="ms-good-cafe">
+      <div class="ms-good-cafe-header"><div class="ms-good-cafe-logo">CORNER CAFE</div><div class="ms-good-cafe-nav"><a>Menu</a><a>Reserve</a><a>Gallery</a><a>Find Us</a></div></div>
+      <div class="ms-good-cafe-hero">
+        <div class="ms-good-cafe-tag">Bhubaneswar's Favourite</div>
+        <div class="ms-good-cafe-title">GOOD COFFEE,<br>GOOD VIBES.</div>
+        <div class="ms-good-cafe-sub">Fresh brews · Artisan bakes · Chill ambience · Unit 4, BBSR</div>
+        <div class="ms-good-cafe-btn">Reserve a Table →</div>
+      </div>
+      <div class="ms-good-cafe-body">
+        <div class="ms-good-cafe-label">Our Menu Highlights</div>
+        <div class="ms-good-cafe-grid">
+          <div class="ms-good-cafe-item"><div class="ms-good-cafe-item-icon">☕</div><div class="ms-good-cafe-item-name">Specialty Coffee</div><div class="ms-good-cafe-item-price">From ₹120</div></div>
+          <div class="ms-good-cafe-item"><div class="ms-good-cafe-item-icon">🥐</div><div class="ms-good-cafe-item-name">Fresh Bakes</div><div class="ms-good-cafe-item-price">From ₹80</div></div>
+          <div class="ms-good-cafe-item"><div class="ms-good-cafe-item-icon">🥗</div><div class="ms-good-cafe-item-name">All Day Brunch</div><div class="ms-good-cafe-item-price">From ₹180</div></div>
+        </div>
+      </div>
+      <div class="ms-good-cafe-footer">© 2026 Corner Cafe · Open 9AM–9PM · Google Maps ★ 4.7</div>
+    </div>`,
+    clinic: `<div class="ms-good-clinic">
+      <div class="ms-good-clinic-header"><div class="ms-good-clinic-logo">DR. <span>SHARMA'S</span> CLINIC</div><div class="ms-good-clinic-nav"><a>Services</a><a>Doctors</a><a>Blog</a><div class="ms-good-clinic-btn-nav">Book Now</div></div></div>
+      <div class="ms-good-clinic-hero">
+        <div class="ms-good-clinic-tag">Trusted Since 2018</div>
+        <div class="ms-good-clinic-title">Expert <span>Skin Care</span><br>You Can Trust.</div>
+        <div class="ms-good-clinic-sub">MBBS, MD Dermatologist · Mon–Sat 10AM–6PM · Bhubaneswar</div>
+        <div class="ms-good-clinic-btn">Book Appointment →</div>
+      </div>
+      <div class="ms-good-clinic-body">
+        <div class="ms-good-clinic-label">Our Specialities</div>
+        <div class="ms-good-clinic-cards">
+          <div class="ms-good-clinic-card"><div class="ms-good-clinic-card-icon">✨</div><div class="ms-good-clinic-card-name">Acne Treatment</div></div>
+          <div class="ms-good-clinic-card"><div class="ms-good-clinic-card-icon">🌟</div><div class="ms-good-clinic-card-name">Pigmentation</div></div>
+          <div class="ms-good-clinic-card"><div class="ms-good-clinic-card-icon">💆</div><div class="ms-good-clinic-card-name">Hair Therapy</div></div>
+        </div>
+      </div>
+      <div class="ms-good-clinic-footer">© 2026 Dr. Sharma's Skin Clinic · ★ 4.9 Google · WhatsApp Booking Available</div>
+    </div>`
+  };
+
   // Case study data
   const cases = {
     clothing: {
       badge: 'Website + Creatives',
       title: 'D2C Clothing Brand Launch',
       problem: 'A new streetwear brand had great products and an Instagram page with 3,000 followers — but no website, no ad creatives, and zero SEO. They were losing potential customers who couldn\'t find them on Google or didn\'t trust buying without a proper site.',
-      beforeIcon: '😟', beforeText: 'Instagram only, no website, no Google presence, losing sales daily',
-      afterIcon: '🚀', afterText: 'Full website live, 8 launch creatives, SEO set up, first sale in 72 hours',
-      beforeBg: 'linear-gradient(135deg, #1a1a2e, #16213e)',
-      afterBg: 'linear-gradient(135deg, #1a1a3e, #2d1b69)',
       did: ['Custom 6-page Shopify website', 'Brand identity & color system', '8 launch creatives + reel covers', 'On-page SEO + meta tags', 'Google Business Profile setup', 'Instagram link-in-bio page'],
       results: [
         { num: '72hrs', label: 'Time to first online sale' },
@@ -633,10 +847,6 @@
       badge: 'SEO + Social Media',
       title: 'Local Cafe Digital Presence',
       problem: 'A new cafe in a busy area was only listed on Zomato. No website, no Google Business profile, and their Instagram had inconsistent, low-quality posts. Footfall was low despite great food and ambience.',
-      beforeIcon: '☕', beforeText: 'Only on Zomato, no website, inconsistent Instagram, invisible on Google Maps',
-      afterIcon: '📈', afterText: 'Ranked on Google Maps, 400% more profile views, consistent branded Instagram',
-      beforeBg: 'linear-gradient(135deg, #1a2012, #0d1a0a)',
-      afterBg: 'linear-gradient(135deg, #1a2e1a, #0d3320)',
       did: ['Google Business Profile setup & optimisation', 'Local SEO — "cafe near me" keywords', '12 branded Instagram post designs', 'Menu photography layout templates', '5-page website with online reservation', 'Monthly SEO reporting'],
       results: [
         { num: '400%', label: 'Google Maps profile views' },
@@ -648,10 +858,6 @@
       badge: 'Website + Local SEO',
       title: 'Healthcare Clinic Visibility',
       problem: 'A skin clinic with 5 years of experience had no website and relied entirely on word of mouth and JustDial. New patients couldn\'t verify their credibility online and often chose competitors who had better digital presence.',
-      beforeIcon: '🏥', beforeText: 'JustDial only, no website, no reviews, new patients going to competitors',
-      afterIcon: '✅', afterText: 'Professional website live, Google reviews flowing, ranking for key medical terms',
-      beforeBg: 'linear-gradient(135deg, #1a0a0a, #2e1010)',
-      afterBg: 'linear-gradient(135deg, #2e1a1a, #4a1520)',
       did: ['7-page professional clinic website', 'Doctor profiles & credentials page', 'Google Business + review strategy', 'Local SEO for skin clinic keywords', 'WhatsApp appointment booking integration', 'Patient trust-building content'],
       results: [
         { num: '28', label: 'New Google reviews in 60 days' },
@@ -666,12 +872,8 @@
     document.getElementById('modalBadge').textContent = c.badge;
     document.getElementById('modalTitle').textContent = c.title;
     document.getElementById('modalProblem').textContent = c.problem;
-    document.getElementById('baBeforeIcon').textContent = c.beforeIcon;
-    document.getElementById('baBeforeText').textContent = c.beforeText;
-    document.getElementById('baAfterIcon').textContent = c.afterIcon;
-    document.getElementById('baAfterText').textContent = c.afterText;
-    document.getElementById('baBefore').style.background = c.beforeBg;
-    document.getElementById('baAfter').style.background = c.afterBg;
+    document.getElementById('baBeforeContent').innerHTML = beforeMockups[key];
+    document.getElementById('baAfterContent').innerHTML = afterMockups[key];
 
     const did = document.getElementById('modalDid');
     did.innerHTML = c.did.map(d => `<div class="modal-did-item">${d}</div>`).join('');
@@ -679,7 +881,6 @@
     const results = document.getElementById('modalResults');
     results.innerHTML = c.results.map(r => `<div class="result-stat"><div class="result-num">${r.num}</div><div class="result-label">${r.label}</div></div>`).join('');
 
-    // Reset slider
     setSlider(50);
     document.getElementById('modalOverlay').classList.add('open');
     document.body.style.overflow = 'hidden';
@@ -696,15 +897,12 @@
 
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
-  // Before/After slider
+  // Before/After slider — BEFORE on left, AFTER on right
   function setSlider(pct) {
     pct = Math.max(5, Math.min(95, pct));
-    const divider = document.getElementById('baDivider');
-    const handle = document.getElementById('baHandle');
-    const after = document.getElementById('baAfter');
-    divider.style.left = pct + '%';
-    handle.style.left = pct + '%';
-    after.style.clipPath = `inset(0 ${100 - pct}% 0 0)`;
+    document.getElementById('baDivider').style.left = pct + '%';
+    document.getElementById('baHandle').style.left = pct + '%';
+    document.getElementById('baAfter').style.clipPath = `inset(0 0 0 ${pct}%)`;
   }
 
   let dragging = false;
@@ -723,7 +921,6 @@
   });
   document.addEventListener('mouseup', () => dragging = false);
 
-  // Touch support
   document.getElementById('baWrap').addEventListener('touchmove', (e) => {
     e.preventDefault();
     const rect = document.getElementById('baWrap').getBoundingClientRect();
