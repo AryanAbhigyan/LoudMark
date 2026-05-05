@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout — Loudmark</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--dark:#0A1628;--dark2:#0F1F38;--orange:#FF6B35;--orange-dim:rgba(255,107,53,0.12);--white:#FFFFFF;--grey:#94A3B8;--card:#0D1E35;--border:rgba(255,107,53,0.2);--success:#22C55E;--error:#ef4444}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--white);min-height:100vh}
+nav{padding:1.4rem 4rem;display:flex;align-items:center;justify-content:space-between;background:rgba(10,22,40,0.95);border-bottom:1px solid rgba(255,107,53,0.1)}
+.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:3px;color:var(--white);text-decoration:none}
+.nav-logo span{color:var(--orange)}
+.nav-back{color:var(--grey);text-decoration:none;font-size:0.88rem;font-weight:500;letter-spacing:1px;text-transform:uppercase;transition:color 0.2s;display:flex;align-items:center;gap:0.5rem}
+.nav-back:hover{color:var(--orange)}
+.secure-badge{display:flex;align-items:center;gap:0.4rem;font-size:0.72rem;color:var(--grey);letter-spacing:1px}
+.secure-badge::before{content:'🔒'}
+
+.page-wrap{display:grid;grid-template-columns:1.1fr 0.9fr;min-height:calc(100vh - 72px);gap:0}
+
+/* LEFT — Order Summary */
+.order-panel{background:var(--dark2);padding:4rem;border-right:1px solid var(--border);display:flex;flex-direction:column;gap:2rem}
+.order-tag{font-size:0.72rem;color:var(--orange);text-transform:uppercase;letter-spacing:3px;font-weight:600;display:flex;align-items:center;gap:0.8rem}
+.order-tag::before{content:'';width:25px;height:1.5px;background:var(--orange)}
+.order-title{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:2px}
+
+.plan-card{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden}
+.plan-card-top{background:var(--orange);padding:1.2rem 1.5rem;display:flex;align-items:center;justify-content:space-between}
+.plan-name{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:2px;color:var(--dark)}
+.plan-badge{background:rgba(10,22,40,0.2);color:var(--dark);font-size:0.65rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:0.25rem 0.7rem;border-radius:100px}
+.plan-body{padding:1.5rem}
+.plan-price{font-family:'Bebas Neue',sans-serif;font-size:2.8rem;letter-spacing:2px;color:var(--white);line-height:1;margin-bottom:0.3rem}
+.plan-price-note{font-size:0.8rem;color:var(--grey);margin-bottom:1.5rem}
+.plan-features{list-style:none;display:flex;flex-direction:column;gap:0.6rem}
+.plan-features li{display:flex;align-items:center;gap:0.7rem;font-size:0.88rem;color:#CBD5E1}
+.plan-features li::before{content:'→';color:var(--orange);font-size:0.8rem;flex-shrink:0}
+
+.order-breakdown{display:flex;flex-direction:column;gap:0.6rem}
+.breakdown-row{display:flex;justify-content:space-between;align-items:center;font-size:0.88rem;color:var(--grey);padding:0.5rem 0;border-bottom:1px solid var(--border-light)}
+.breakdown-row:last-child{border-bottom:none;color:var(--white);font-weight:600;font-size:1rem;padding-top:0.8rem}
+.breakdown-row:last-child .b-amount{color:var(--orange);font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:1px}
+
+.trust-row{display:flex;gap:1rem;flex-wrap:wrap}
+.trust-item{display:flex;align-items:center;gap:0.5rem;font-size:0.75rem;color:var(--grey)}
+.trust-item::before{font-size:1rem}
+.ti-secure::before{content:'🔒'}
+.ti-fast::before{content:'⚡'}
+.ti-support::before{content:'💬'}
+
+/* RIGHT — Payment form */
+.payment-panel{padding:4rem;display:flex;flex-direction:column;justify-content:center;overflow-y:auto}
+.pay-title{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;margin-bottom:0.5rem}
+.pay-subtitle{color:var(--grey);font-size:0.9rem;margin-bottom:2rem;line-height:1.6}
+
+/* Payment method tabs */
+.pay-methods{display:flex;gap:0;margin-bottom:2rem;border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.pay-method-btn{flex:1;padding:0.8rem 1rem;background:transparent;border:none;color:var(--grey);font-family:'DM Sans',sans-serif;font-size:0.8rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:0.5rem}
+.pay-method-btn.active{background:var(--orange-dim);color:var(--orange);border-bottom:2px solid var(--orange)}
+.pay-method-btn:hover:not(.active){background:rgba(255,255,255,0.03)}
+
+/* Payment sections */
+.pay-section{display:none}
+.pay-section.active{display:block}
+
+/* UPI */
+.upi-wrap{display:flex;flex-direction:column;gap:1rem}
+.upi-id-input{display:flex;gap:0}
+.upi-id-input input{flex:1;border-radius:8px 0 0 8px}
+.upi-verify-btn{background:var(--orange);color:var(--dark);border:none;padding:0 1.2rem;font-family:'DM Sans',sans-serif;font-size:0.8rem;font-weight:700;border-radius:0 8px 8px 0;cursor:pointer;letter-spacing:1px;text-transform:uppercase;transition:background 0.2s}
+.upi-verify-btn:hover{background:#e5602e}
+.upi-apps{display:grid;grid-template-columns:repeat(4,1fr);gap:0.6rem;margin-top:0.5rem}
+.upi-app{background:var(--card);border:1.5px solid rgba(255,255,255,0.08);border-radius:10px;padding:0.8rem 0.5rem;display:flex;flex-direction:column;align-items:center;gap:0.4rem;cursor:pointer;transition:all 0.2s;font-size:0.7rem;color:var(--grey);text-align:center}
+.upi-app:hover,.upi-app.selected{border-color:var(--orange);background:var(--orange-dim);color:var(--white)}
+.upi-app-icon{font-size:1.5rem}
+
+/* Card */
+.card-form{display:flex;flex-direction:column;gap:1rem}
+.form-group{position:relative}
+label{display:block;font-size:0.75rem;font-weight:600;color:var(--grey);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:0.5rem}
+input,select{width:100%;background:var(--card);border:1.5px solid rgba(255,255,255,0.08);border-radius:8px;padding:0.85rem 1rem;color:var(--white);font-family:'DM Sans',sans-serif;font-size:0.92rem;transition:border-color 0.2s,box-shadow 0.2s;outline:none;-webkit-appearance:none}
+input::placeholder{color:rgba(148,163,184,0.45)}
+input:focus,select:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(255,107,53,0.1)}
+select option{background:#0D1E35;color:var(--white)}
+.card-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.card-type-badge{position:absolute;right:1rem;top:50%;transform:translateY(-50%);font-size:1.2rem;pointer-events:none}
+
+/* Net banking */
+.netbanking-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:0.6rem;margin-bottom:1rem}
+.bank-option{background:var(--card);border:1.5px solid rgba(255,255,255,0.08);border-radius:8px;padding:0.7rem 1rem;display:flex;align-items:center;gap:0.7rem;cursor:pointer;transition:all 0.2s;font-size:0.83rem;color:var(--grey)}
+.bank-option:hover,.bank-option.selected{border-color:var(--orange);background:var(--orange-dim);color:var(--white)}
+.bank-icon{font-size:1.2rem;flex-shrink:0}
+.other-bank{margin-top:0.5rem}
+
+/* Pay button */
+.pay-btn{width:100%;padding:1.1rem;background:var(--orange);color:var(--dark);border:none;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;margin-top:1.5rem;letter-spacing:0.5px;display:flex;align-items:center;justify-content:center;gap:0.6rem}
+.pay-btn:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(255,107,53,0.4)}
+.pay-btn:disabled{opacity:0.6;cursor:not-allowed;transform:none}
+.pay-secure-note{text-align:center;color:var(--grey);font-size:0.73rem;margin-top:0.8rem;line-height:1.6;display:flex;align-items:center;justify-content:center;gap:0.4rem}
+
+/* Logos row */
+.payment-logos{display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--border)}
+.pay-logo{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);padding:0.3rem 0.7rem;border-radius:4px;font-size:0.65rem;color:var(--grey);letter-spacing:1px;font-weight:600}
+.logos-label{font-size:0.68rem;color:var(--grey);text-transform:uppercase;letter-spacing:1.5px;margin-right:0.3rem}
+
+/* Success screen */
+.success-screen{display:none;text-align:center;padding:3rem 2rem;animation:fadeUp 0.5s ease both}
+.success-circle{width:100px;height:100px;background:rgba(34,197,94,0.12);border:2px solid var(--success);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2.5rem;margin:0 auto 1.5rem}
+.success-title{font-family:'Bebas Neue',sans-serif;font-size:2.5rem;letter-spacing:2px;color:var(--success);margin-bottom:1rem}
+.success-id{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.8rem 1.5rem;display:inline-block;font-family:monospace;font-size:0.9rem;color:var(--orange);margin-bottom:1.5rem;letter-spacing:1px}
+.success-msg{color:var(--grey);font-size:0.95rem;line-height:1.7;max-width:380px;margin:0 auto 2rem}
+.back-btn{display:inline-flex;align-items:center;gap:0.5rem;color:var(--orange);text-decoration:none;font-weight:600;font-size:0.95rem;border:1.5px solid var(--border);padding:0.75rem 1.5rem;border-radius:8px;transition:background 0.2s}
+.back-btn:hover{background:var(--orange-dim)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+footer{background:#060E1A;padding:1.5rem 4rem;display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(255,107,53,0.1);flex-wrap:wrap;gap:1rem}
+.footer-logo{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:3px;color:var(--white)}
+.footer-logo span{color:var(--orange)}
+.footer-copy{color:var(--grey);font-size:0.78rem}
+@media(max-width:900px){nav{padding:1.2rem 1.5rem}.page-wrap{grid-template-columns:1fr}.order-panel,.payment-panel{padding:2.5rem 1.5rem}.upi-apps{grid-template-columns:repeat(2,1fr)}.card-row{grid-template-columns:1fr}footer{padding:1.5rem;flex-direction:column;text-align:center}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html"><span>LOUD</span>MARK</a>
+  <div class="secure-badge">Secured by Razorpay</div>
+  <a class="nav-back" href="index.html">← Back</a>
+</nav>
+
+<div class="page-wrap">
+
+  <!-- LEFT — Order Summary -->
+  <div class="order-panel">
+    <div>
+      <div class="order-tag">Order Summary</div>
+      <div class="order-title">YOUR SELECTED PLAN</div>
+    </div>
+
+    <div class="plan-card">
+      <div class="plan-card-top">
+        <div class="plan-name" id="planName">Growth Pack</div>
+        <div class="plan-badge" id="planBadge">Most Popular</div>
+      </div>
+      <div class="plan-body">
+        <div class="plan-price" id="planPrice">₹20,000</div>
+        <div class="plan-price-note" id="planNote">One-time project fee · Delivery in 7–14 days</div>
+        <ul class="plan-features" id="planFeatures">
+          <li>Loading features...</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="order-breakdown">
+      <div class="breakdown-row"><span>Subtotal</span><span class="b-amount" id="subtotal">₹20,000</span></div>
+      <div class="breakdown-row"><span>GST (18%)</span><span class="b-amount" id="gstAmount">₹3,600</span></div>
+      <div class="breakdown-row"><span>Processing Fee</span><span class="b-amount">₹0</span></div>
+      <div class="breakdown-row"><span style="font-weight:700">Total Payable</span><span class="b-amount" id="totalAmount">₹23,600</span></div>
+    </div>
+
+    <div class="trust-row">
+      <div class="trust-item ti-secure">SSL Encrypted</div>
+      <div class="trust-item ti-fast">Instant Confirmation</div>
+      <div class="trust-item ti-support">24hr Support</div>
+    </div>
+  </div>
+
+  <!-- RIGHT — Payment -->
+  <div class="payment-panel">
+    <div id="payWrap">
+      <h2 class="pay-title">Complete Payment</h2>
+      <p class="pay-subtitle">Choose your preferred payment method. All transactions are secured.</p>
+
+      <!-- Method tabs -->
+      <div class="pay-methods">
+        <button class="pay-method-btn active" onclick="switchMethod('upi',this)">📱 UPI</button>
+        <button class="pay-method-btn" onclick="switchMethod('card',this)">💳 Card</button>
+        <button class="pay-method-btn" onclick="switchMethod('netbanking',this)">🏦 Net Banking</button>
+      </div>
+
+      <!-- UPI -->
+      <div class="pay-section active" id="sec-upi">
+        <div class="upi-wrap">
+          <div>
+            <label>Enter UPI ID</label>
+            <div class="upi-id-input">
+              <input type="text" id="upiId" placeholder="yourname@upi" autocomplete="off">
+              <button class="upi-verify-btn" onclick="verifyUPI()">Verify</button>
+            </div>
+          </div>
+          <div>
+            <label>Or Pay with App</label>
+            <div class="upi-apps">
+              <div class="upi-app" onclick="selectUPIApp(this,'GPay')"><div class="upi-app-icon">🟢</div>Google Pay</div>
+              <div class="upi-app" onclick="selectUPIApp(this,'PhonePe')"><div class="upi-app-icon">🟣</div>PhonePe</div>
+              <div class="upi-app" onclick="selectUPIApp(this,'Paytm')"><div class="upi-app-icon">🔵</div>Paytm</div>
+              <div class="upi-app" onclick="selectUPIApp(this,'BHIM')"><div class="upi-app-icon">🟠</div>BHIM</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card -->
+      <div class="pay-section" id="sec-card">
+        <div class="card-form">
+          <div class="form-group">
+            <label>Card Number</label>
+            <input type="text" id="cardNum" placeholder="1234 5678 9012 3456" maxlength="19" oninput="formatCard(this)">
+            <span class="card-type-badge" id="cardTypeBadge">💳</span>
+          </div>
+          <div class="form-group">
+            <label>Name on Card</label>
+            <input type="text" id="cardName" placeholder="ARYAN SHARMA" style="text-transform:uppercase">
+          </div>
+          <div class="card-row">
+            <div class="form-group">
+              <label>Expiry Date</label>
+              <input type="text" id="cardExpiry" placeholder="MM / YY" maxlength="7" oninput="formatExpiry(this)">
+            </div>
+            <div class="form-group">
+              <label>CVV</label>
+              <input type="password" id="cardCvv" placeholder="•••" maxlength="4">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Net Banking -->
+      <div class="pay-section" id="sec-netbanking">
+        <label>Select Your Bank</label>
+        <div class="netbanking-grid">
+          <div class="bank-option" onclick="selectBank(this)"><div class="bank-icon">🏦</div>SBI</div>
+          <div class="bank-option" onclick="selectBank(this)"><div class="bank-icon">🏦</div>HDFC Bank</div>
+          <div class="bank-option" onclick="selectBank(this)"><div class="bank-icon">🏦</div>ICICI Bank</div>
+          <div class="bank-option" onclick="selectBank(this)"><div class="bank-icon">🏦</div>Axis Bank</div>
+          <div class="bank-option" onclick="selectBank(this)"><div class="bank-icon">🏦</div>Kotak Bank</div>
+          <div class="bank-option" onclick="selectBank(this)"><div class="bank-icon">🏦</div>Punjab National</div>
+        </div>
+        <div class="other-bank">
+          <label>Other Banks</label>
+          <select id="otherBank">
+            <option value="">Select bank...</option>
+            <option>Bank of Baroda</option>
+            <option>Canara Bank</option>
+            <option>Union Bank</option>
+            <option>Indian Bank</option>
+            <option>Yes Bank</option>
+            <option>IndusInd Bank</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Pay button -->
+      <button class="pay-btn" id="payBtn" onclick="processPayment()">
+        <span>🔒</span> <span id="payBtnText">Pay ₹23,600</span>
+      </button>
+      <div class="pay-secure-note">🔒 256-bit SSL encryption · Powered by Razorpay · PCI DSS Compliant</div>
+
+      <div class="payment-logos">
+        <span class="logos-label">Accepted:</span>
+        <span class="pay-logo">UPI</span>
+        <span class="pay-logo">Visa</span>
+        <span class="pay-logo">Mastercard</span>
+        <span class="pay-logo">RuPay</span>
+        <span class="pay-logo">Net Banking</span>
+        <span class="pay-logo">EMI</span>
+      </div>
+    </div>
+
+    <!-- Success -->
+    <div class="success-screen" id="successScreen">
+      <div class="success-circle">✓</div>
+      <div class="success-title">Payment Successful!</div>
+      <div class="success-id" id="txnId">TXN-LOADING</div>
+      <p class="success-msg">Your payment has been received. We'll reach out within <strong>2 business hours</strong> to kick off your project. Check your email for the confirmation and next steps.</p>
+      <a href="index.html" class="back-btn">← Back to Home</a>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-logo"><span>LOUD</span>MARK</div>
+  <div class="footer-copy">© 2026 Loudmark. Marking Your Presence. Loudly.</div>
+</footer>
+
+<script>
+// ── Plan data ──
+const plans = {
+  starter: {
+    name: 'Starter Pack', badge: 'One-Time',
+    price: 8000, displayPrice: '₹8,000',
+    note: 'One-time project fee · Delivery in 7–14 days',
+    features: ['3–5 page custom website','3 marketing creatives','Basic on-page SEO setup','Mobile optimised','1 round of revisions']
+  },
+  growth: {
+    name: 'Growth Pack', badge: 'Most Popular',
+    price: 20000, displayPrice: '₹20,000',
+    note: 'One-time project fee · Delivery in 7–14 days',
+    features: ['8-page website (mobile-first)','8 creatives — static + reels','On-page + Local SEO','Google Business setup','1 month ad copy','2 rounds of revisions']
+  },
+  brand: {
+    name: 'Brand Launch', badge: 'Premium',
+    price: 50000, displayPrice: '₹50,000',
+    note: 'One-time project fee · Delivery in 10–14 days',
+    features: ['Full custom website','Brand identity guidelines','15 launch-ready creatives','SEO strategy + keyword research','Meta & Google ad setup','Monthly retainer option']
+  }
+};
+
+// ── Init plan from URL ──
+const params = new URLSearchParams(location.search);
+const planKey = params.get('plan') || 'growth';
+const plan = plans[planKey] || plans.growth;
+
+document.getElementById('planName').textContent = plan.name;
+document.getElementById('planBadge').textContent = plan.badge;
+document.getElementById('planPrice').textContent = plan.displayPrice;
+document.getElementById('planNote').textContent = plan.note;
+document.getElementById('planFeatures').innerHTML = plan.features.map(f=>`<li>${f}</li>`).join('');
+
+const gst = Math.round(plan.price * 0.18);
+const total = plan.price + gst;
+const fmtINR = n => '₹' + n.toLocaleString('en-IN');
+document.getElementById('subtotal').textContent = fmtINR(plan.price);
+document.getElementById('gstAmount').textContent = fmtINR(gst);
+document.getElementById('totalAmount').textContent = fmtINR(total);
+document.getElementById('payBtnText').textContent = `Pay ${fmtINR(total)}`;
+
+// ── Method switching ──
+let activeMethod = 'upi';
+function switchMethod(method, btn) {
+  activeMethod = method;
+  document.querySelectorAll('.pay-method-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.pay-section').forEach(s => s.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('sec-' + method).classList.add('active');
+}
+
+// ── UPI ──
+let selectedUPIApp = '';
+function selectUPIApp(el, app) {
+  document.querySelectorAll('.upi-app').forEach(a => a.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedUPIApp = app;
+  document.getElementById('upiId').value = '';
+}
+
+function verifyUPI() {
+  const val = document.getElementById('upiId').value.trim();
+  if (!val || !val.includes('@')) { alert('Please enter a valid UPI ID (e.g. name@upi)'); return; }
+  const btn = document.querySelector('.upi-verify-btn');
+  btn.textContent = 'Verifying...';
+  setTimeout(() => { btn.textContent = '✓ Verified'; btn.style.background = '#22C55E'; }, 1200);
+}
+
+// ── Card formatting ──
+function formatCard(input) {
+  let val = input.value.replace(/\D/g,'').substring(0,16);
+  input.value = val.replace(/(.{4})/g,'$1 ').trim();
+  const badge = document.getElementById('cardTypeBadge');
+  if (val.startsWith('4')) badge.textContent = '🔵';
+  else if (val.startsWith('5')) badge.textContent = '🔴';
+  else if (val.startsWith('6')) badge.textContent = '🟠';
+  else badge.textContent = '💳';
+}
+function formatExpiry(input) {
+  let val = input.value.replace(/\D/g,'').substring(0,4);
+  if (val.length >= 3) val = val.substring(0,2) + ' / ' + val.substring(2);
+  input.value = val;
+}
+
+// ── Net Banking ──
+function selectBank(el) {
+  document.querySelectorAll('.bank-option').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+// ── Process Payment ──
+// RAZORPAY_KEY_ID: Replace with your actual Razorpay Key ID
+const RAZORPAY_KEY = 'YOUR_RAZORPAY_KEY_ID';
+
+function processPayment() {
+  const btn = document.getElementById('payBtn');
+  btn.disabled = true;
+  document.getElementById('payBtnText').textContent = 'Processing...';
+
+  // If you have a real Razorpay key, use this:
+  if (RAZORPAY_KEY !== 'YOUR_RAZORPAY_KEY_ID') {
+    const options = {
+      key: RAZORPAY_KEY,
+      amount: total * 100, // in paise
+      currency: 'INR',
+      name: 'Loudmark Studio',
+      description: plan.name,
+      image: '',
+      prefill: { email: 'loudmark.studio@gmail.com' },
+      theme: { color: '#FF6B35' },
+      handler: function(response) {
+        showSuccess('RZP-' + response.razorpay_payment_id);
+      },
+      modal: {
+        ondismiss: function() {
+          btn.disabled = false;
+          document.getElementById('payBtnText').textContent = `Pay ${fmtINR(total)}`;
+        }
+      }
+    };
+    new Razorpay(options).open();
+    return;
+  }
+
+  // Demo flow (until Razorpay key is added)
+  setTimeout(() => {
+    showSuccess('LM-TXN-' + Date.now().toString().slice(-8));
+  }, 1800);
+}
+
+function showSuccess(txnId) {
+  document.getElementById('txnId').textContent = txnId;
+  document.getElementById('payWrap').style.display = 'none';
+  document.getElementById('successScreen').style.display = 'block';
+
+  // Save to localStorage
+  const payments = JSON.parse(localStorage.getItem('loudmark_payments') || '[]');
+  payments.unshift({
+    txnId, plan: plan.name, amount: fmtINR(total),
+    date: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })
+  });
+  localStorage.setItem('loudmark_payments', JSON.stringify(payments));
+}
+</script>
+</body>
+</html>

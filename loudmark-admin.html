@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loudmark Admin Panel</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--dark:#0A1628;--dark2:#0F1F38;--orange:#FF6B35;--orange-dim:rgba(255,107,53,0.12);--white:#FFFFFF;--grey:#94A3B8;--card:#0D1E35;--border:rgba(255,107,53,0.2);--success:#22C55E;--error:#ef4444;--warning:#f59e0b}
+body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--white);min-height:100vh}
+
+/* HEADER */
+.admin-header{background:var(--dark2);border-bottom:1px solid var(--border);padding:1.2rem 2.5rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.header-left{display:flex;align-items:center;gap:1.5rem}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:3px;color:var(--white)}
+.logo span{color:var(--orange)}
+.admin-badge{background:var(--orange-dim);border:1px solid var(--border);color:var(--orange);font-size:0.65rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:0.25rem 0.7rem;border-radius:100px}
+.header-right{display:flex;align-items:center;gap:1rem}
+.header-btn{background:transparent;border:1px solid var(--border);color:var(--grey);padding:0.5rem 1rem;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:0.78rem;font-weight:600;cursor:pointer;transition:all 0.2s;text-transform:uppercase;letter-spacing:1px}
+.header-btn:hover{border-color:var(--orange);color:var(--orange)}
+.header-btn.danger:hover{border-color:var(--error);color:var(--error)}
+.site-link{color:var(--orange);text-decoration:none;font-size:0.78rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;border-bottom:1px solid var(--border);padding-bottom:1px;transition:border-color 0.2s}
+.site-link:hover{border-color:var(--orange)}
+
+/* STATS BAR */
+.stats-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border-bottom:1px solid var(--border)}
+.stat-box{background:var(--dark2);padding:1.2rem 2rem;display:flex;flex-direction:column;gap:0.3rem}
+.stat-box-num{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:1px;line-height:1}
+.stat-box-label{font-size:0.68rem;color:var(--grey);text-transform:uppercase;letter-spacing:2px;font-weight:600}
+.stat-new{color:var(--orange)}
+.stat-paid{color:var(--success)}
+.stat-total{color:var(--white)}
+.stat-rev{color:var(--warning)}
+
+/* TABS */
+.tabs{display:flex;padding:0 2.5rem;background:var(--dark2);border-bottom:1px solid var(--border)}
+.tab{padding:0.9rem 1.5rem;font-size:0.78rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;cursor:pointer;color:var(--grey);border-bottom:2px solid transparent;transition:all 0.2s}
+.tab.active{color:var(--orange);border-bottom-color:var(--orange)}
+.tab:hover:not(.active){color:var(--white)}
+
+/* MAIN */
+.main{padding:2rem 2.5rem}
+
+/* TOOLBAR */
+.toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem}
+.toolbar-left{display:flex;align-items:center;gap:0.8rem}
+.search-box{background:var(--card);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:0.6rem 1rem;color:var(--white);font-family:'DM Sans',sans-serif;font-size:0.85rem;outline:none;width:250px;transition:border-color 0.2s}
+.search-box::placeholder{color:rgba(148,163,184,0.5)}
+.search-box:focus{border-color:var(--orange)}
+.filter-select{background:var(--card);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:0.6rem 1rem;color:var(--white);font-family:'DM Sans',sans-serif;font-size:0.82rem;outline:none;cursor:pointer;-webkit-appearance:none}
+.filter-select option{background:#0D1E35}
+.toolbar-right{display:flex;align-items:center;gap:0.8rem}
+.count-badge{font-size:0.78rem;color:var(--grey)}
+.export-btn{background:var(--orange-dim);border:1px solid var(--border);color:var(--orange);padding:0.6rem 1.2rem;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.78rem;font-weight:600;cursor:pointer;transition:all 0.2s;letter-spacing:0.5px}
+.export-btn:hover{background:rgba(255,107,53,0.2)}
+
+/* TABLE */
+.table-wrap{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+table{width:100%;border-collapse:collapse}
+thead{background:var(--dark2)}
+th{padding:0.9rem 1rem;text-align:left;font-size:0.68rem;color:var(--grey);text-transform:uppercase;letter-spacing:2px;font-weight:600;border-bottom:1px solid var(--border);white-space:nowrap}
+td{padding:0.9rem 1rem;font-size:0.85rem;border-bottom:1px solid rgba(255,107,53,0.06);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(255,107,53,0.03)}
+
+.td-id{font-family:monospace;font-size:0.72rem;color:var(--grey);letter-spacing:0.5px}
+.td-name{font-weight:600;color:var(--white)}
+.td-business{color:var(--orange);font-weight:500}
+.td-contact{font-size:0.78rem;color:var(--grey);line-height:1.6}
+.td-contact a{color:var(--grey);text-decoration:none;transition:color 0.2s}
+.td-contact a:hover{color:var(--orange)}
+.td-services{display:flex;flex-wrap:wrap;gap:0.3rem}
+.svc-pill{background:var(--orange-dim);border:1px solid var(--border);color:var(--orange);font-size:0.62rem;font-weight:600;padding:0.15rem 0.5rem;border-radius:100px;letter-spacing:0.5px;white-space:nowrap}
+.td-time{font-size:0.72rem;color:var(--grey);line-height:1.5}
+
+/* Status badges */
+.status-badge{display:inline-flex;align-items:center;gap:0.3rem;font-size:0.65rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:0.25rem 0.6rem;border-radius:100px}
+.status-new{background:rgba(255,107,53,0.15);color:var(--orange);border:1px solid rgba(255,107,53,0.3)}
+.status-contacted{background:rgba(245,158,11,0.15);color:var(--warning);border:1px solid rgba(245,158,11,0.3)}
+.status-closed{background:rgba(34,197,94,0.15);color:var(--success);border:1px solid rgba(34,197,94,0.3)}
+.status-dot{width:6px;height:6px;border-radius:50%;background:currentColor}
+
+/* Row actions */
+.row-actions{display:flex;gap:0.4rem;opacity:0;transition:opacity 0.2s}
+tr:hover .row-actions{opacity:1}
+.action-btn{background:transparent;border:1px solid rgba(255,255,255,0.1);color:var(--grey);padding:0.3rem 0.6rem;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:0.68rem;cursor:pointer;transition:all 0.2s}
+.action-btn:hover{border-color:var(--orange);color:var(--orange)}
+.action-btn.delete:hover{border-color:var(--error);color:var(--error)}
+
+/* Empty state */
+.empty-state{padding:5rem 2rem;text-align:center}
+.empty-icon{font-size:3.5rem;margin-bottom:1rem;opacity:0.4}
+.empty-title{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:2px;color:var(--grey);margin-bottom:0.5rem}
+.empty-sub{color:var(--grey);font-size:0.85rem;line-height:1.6}
+
+/* Detail modal */
+.modal-overlay{position:fixed;inset:0;z-index:1000;background:rgba(5,12,25,0.9);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:2rem;opacity:0;pointer-events:none;transition:opacity 0.2s}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal-box{background:var(--dark2);border:1px solid var(--border);border-radius:16px;max-width:640px;width:100%;max-height:85vh;overflow-y:auto}
+.modal-header{padding:1.5rem 2rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--dark2);z-index:2;border-radius:16px 16px 0 0}
+.modal-title{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:2px}
+.modal-close{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:var(--grey);width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all 0.2s}
+.modal-close:hover{background:rgba(255,107,53,0.15);color:var(--orange)}
+.modal-body{padding:1.5rem 2rem;display:flex;flex-direction:column;gap:1.2rem}
+.detail-row{display:grid;grid-template-columns:140px 1fr;gap:0.5rem;align-items:flex-start;padding:0.7rem 0;border-bottom:1px solid rgba(255,107,53,0.06)}
+.detail-row:last-child{border-bottom:none}
+.detail-label{font-size:0.68rem;color:var(--grey);text-transform:uppercase;letter-spacing:1.5px;font-weight:600;padding-top:0.1rem}
+.detail-value{font-size:0.9rem;color:var(--white);line-height:1.5}
+.detail-value a{color:var(--orange);text-decoration:none}
+.status-select{background:var(--card);border:1px solid rgba(255,255,255,0.08);border-radius:6px;padding:0.4rem 0.8rem;color:var(--white);font-family:'DM Sans',sans-serif;font-size:0.82rem;outline:none;cursor:pointer}
+.modal-footer{padding:1rem 2rem;border-top:1px solid var(--border);display:flex;gap:0.8rem;justify-content:flex-end}
+.modal-save-btn{background:var(--orange);color:var(--dark);border:none;padding:0.6rem 1.5rem;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:0.82rem;font-weight:700;cursor:pointer;transition:all 0.2s}
+.modal-save-btn:hover{opacity:0.85}
+
+/* Payments tab */
+.payment-row td{font-size:0.85rem}
+.pay-status-success{color:var(--success);font-weight:600}
+
+/* Note about EmailJS */
+.setup-notice{background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.25);border-radius:10px;padding:1rem 1.5rem;margin-bottom:1.5rem;display:flex;align-items:flex-start;gap:1rem}
+.setup-notice-icon{font-size:1.2rem;flex-shrink:0;margin-top:0.1rem}
+.setup-notice-title{font-weight:600;font-size:0.88rem;color:var(--warning);margin-bottom:0.3rem}
+.setup-notice-body{font-size:0.8rem;color:var(--grey);line-height:1.6}
+.setup-notice-body code{background:rgba(255,255,255,0.08);padding:0.1rem 0.4rem;border-radius:3px;font-family:monospace;font-size:0.75rem;color:var(--warning)}
+
+@media(max-width:900px){.admin-header{padding:1rem 1.5rem}.stats-bar{grid-template-columns:repeat(2,1fr)}.main{padding:1.5rem}.search-box{width:180px}}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="admin-header">
+  <div class="header-left">
+    <div class="logo"><span>LOUD</span>MARK</div>
+    <div class="admin-badge">Admin Panel</div>
+  </div>
+  <div class="header-right">
+    <a href="index.html" class="site-link" target="_blank">View Live Site ↗</a>
+    <button class="header-btn" onclick="loadDemoData()">Load Demo Data</button>
+    <button class="header-btn danger" onclick="clearAllData()">Clear All Data</button>
+  </div>
+</div>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stat-box">
+    <div class="stat-box-num stat-total" id="statTotal">0</div>
+    <div class="stat-box-label">Total Submissions</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-box-num stat-new" id="statNew">0</div>
+    <div class="stat-box-label">New Leads</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-box-num stat-paid" id="statPaid">0</div>
+    <div class="stat-box-label">Payments Received</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-box-num stat-rev" id="statRevenue">₹0</div>
+    <div class="stat-box-label">Total Revenue</div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('leads',this)">📋 Audit Leads</div>
+  <div class="tab" onclick="switchTab('payments',this)">💰 Payments</div>
+</div>
+
+<!-- LEADS TAB -->
+<div class="main" id="tab-leads">
+  <div class="setup-notice">
+    <div class="setup-notice-icon">⚙️</div>
+    <div>
+      <div class="setup-notice-title">EmailJS Setup Required</div>
+      <div class="setup-notice-body">
+        To receive email notifications when someone fills the form:
+        1. Sign up at <strong>emailjs.com</strong> (free — 200 emails/month)
+        2. Create a service → connect your Gmail (<code>loudmark.studio@gmail.com</code>)
+        3. Create an email template using the variables listed below
+        4. Replace <code>YOUR_EMAILJS_PUBLIC_KEY</code>, <code>YOUR_SERVICE_ID</code>, <code>YOUR_TEMPLATE_ID</code> in <code>loudmark-contact.html</code>
+        <br><br>
+        <strong>Template variables to use:</strong> <code>{{client_name}}</code> <code>{{client_business}}</code> <code>{{client_email}}</code> <code>{{client_phone}}</code> <code>{{client_category}}</code> <code>{{client_services}}</code> <code>{{client_message}}</code> <code>{{submitted_at}}</code>
+        <br><br>
+        All submissions are already saved here in your admin panel even without EmailJS.
+      </div>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <div class="toolbar-left">
+      <input class="search-box" type="text" placeholder="Search by name, business, email..." oninput="filterLeads(this.value)" id="searchBox">
+      <select class="filter-select" onchange="filterByStatus(this.value)" id="statusFilter">
+        <option value="all">All Status</option>
+        <option value="New">New</option>
+        <option value="Contacted">Contacted</option>
+        <option value="Closed">Closed</option>
+      </select>
+    </div>
+    <div class="toolbar-right">
+      <span class="count-badge" id="countBadge">0 leads</span>
+      <button class="export-btn" onclick="exportCSV()">Export CSV ↓</button>
+    </div>
+  </div>
+
+  <div class="table-wrap">
+    <table id="leadsTable">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name / Business</th>
+          <th>Contact</th>
+          <th>Category</th>
+          <th>Services</th>
+          <th>Status</th>
+          <th>Submitted</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="leadsBody"></tbody>
+    </table>
+    <div class="empty-state" id="leadsEmpty" style="display:none">
+      <div class="empty-icon">📭</div>
+      <div class="empty-title">No Submissions Yet</div>
+      <div class="empty-sub">When someone fills the audit form on your website,<br>their details will appear here automatically.</div>
+    </div>
+  </div>
+</div>
+
+<!-- PAYMENTS TAB -->
+<div class="main" id="tab-payments" style="display:none">
+  <div class="toolbar">
+    <div class="toolbar-left">
+      <span style="font-size:0.85rem;color:var(--grey);">All payment transactions</span>
+    </div>
+    <div class="toolbar-right">
+      <span class="count-badge" id="payCountBadge">0 payments</span>
+      <button class="export-btn" onclick="exportPaymentsCSV()">Export CSV ↓</button>
+    </div>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Transaction ID</th>
+          <th>Plan</th>
+          <th>Amount</th>
+          <th>Date</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody id="paymentsBody"></tbody>
+    </table>
+    <div class="empty-state" id="paymentsEmpty" style="display:none">
+      <div class="empty-icon">💳</div>
+      <div class="empty-title">No Payments Yet</div>
+      <div class="empty-sub">Completed payments from your pricing page will appear here.</div>
+    </div>
+  </div>
+</div>
+
+<!-- DETAIL MODAL -->
+<div class="modal-overlay" id="detailModal" onclick="handleModalClick(event)">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title" id="modalHeadTitle">Lead Details</div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+    <div class="modal-footer">
+      <button class="action-btn" onclick="closeModal()">Close</button>
+      <button class="modal-save-btn" onclick="saveStatus()">Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let allLeads = [];
+let filteredLeads = [];
+let currentModalId = null;
+
+// ── Load data from localStorage ──
+function loadData() {
+  allLeads = JSON.parse(localStorage.getItem('loudmark_leads') || '[]');
+  filteredLeads = [...allLeads];
+  renderLeads(filteredLeads);
+  renderStats();
+  renderPayments();
+}
+
+// ── Stats ──
+function renderStats() {
+  const payments = JSON.parse(localStorage.getItem('loudmark_payments') || '[]');
+  document.getElementById('statTotal').textContent = allLeads.length;
+  document.getElementById('statNew').textContent = allLeads.filter(l => l.status === 'New').length;
+  document.getElementById('statPaid').textContent = payments.length;
+  const rev = payments.reduce((s, p) => {
+    const n = parseInt((p.amount || '0').replace(/[^0-9]/g,''));
+    return s + (isNaN(n) ? 0 : n);
+  }, 0);
+  document.getElementById('statRevenue').textContent = rev > 0 ? '₹' + rev.toLocaleString('en-IN') : '₹0';
+}
+
+// ── Render leads table ──
+function renderLeads(leads) {
+  const tbody = document.getElementById('leadsBody');
+  const empty = document.getElementById('leadsEmpty');
+  document.getElementById('countBadge').textContent = leads.length + ' lead' + (leads.length !== 1 ? 's' : '');
+
+  if (leads.length === 0) {
+    tbody.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+
+  tbody.innerHTML = leads.map(lead => {
+    const statusClass = {New:'status-new',Contacted:'status-contacted',Closed:'status-closed'}[lead.status] || 'status-new';
+    const services = (lead.services || '').split(',').map(s => s.trim()).filter(Boolean);
+    const svcPills = services.map(s => `<span class="svc-pill">${s}</span>`).join('');
+    const website = lead.website && lead.website !== '—'
+      ? `<a href="${lead.website.startsWith('http') ? lead.website : 'https://instagram.com/'+lead.website.replace('@','')}" target="_blank">${lead.website}</a>`
+      : '—';
+
+    return `
+      <tr>
+        <td><div class="td-id">${lead.id || '—'}</div></td>
+        <td>
+          <div class="td-name">${lead.name || '—'}</div>
+          <div class="td-business">${lead.business || '—'}</div>
+        </td>
+        <td>
+          <div class="td-contact">
+            <a href="mailto:${lead.email}">${lead.email || '—'}</a><br>
+            <a href="tel:${lead.phone}">${lead.phone || '—'}</a>
+          </div>
+        </td>
+        <td style="font-size:0.82rem;color:#CBD5E1">${lead.category || '—'}</td>
+        <td><div class="td-services">${svcPills || '—'}</div></td>
+        <td><span class="status-badge ${statusClass}"><span class="status-dot"></span>${lead.status || 'New'}</span></td>
+        <td><div class="td-time">${(lead.timestamp || '—').replace(', ',' <br>')}</div></td>
+        <td>
+          <div class="row-actions">
+            <button class="action-btn" onclick="openDetail('${lead.id}')">View</button>
+            <button class="action-btn delete" onclick="deleteLead('${lead.id}')">✕</button>
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+// ── Render payments ──
+function renderPayments() {
+  const payments = JSON.parse(localStorage.getItem('loudmark_payments') || '[]');
+  const tbody = document.getElementById('paymentsBody');
+  const empty = document.getElementById('paymentsEmpty');
+  document.getElementById('payCountBadge').textContent = payments.length + ' payment' + (payments.length !== 1 ? 's' : '');
+
+  if (payments.length === 0) { tbody.innerHTML = ''; empty.style.display = 'block'; return; }
+  empty.style.display = 'none';
+
+  tbody.innerHTML = payments.map(p => `
+    <tr class="payment-row">
+      <td style="font-family:monospace;font-size:0.78rem;color:var(--grey)">${p.txnId || '—'}</td>
+      <td style="font-weight:600">${p.plan || '—'}</td>
+      <td style="color:var(--success);font-weight:700;font-family:'Bebas Neue';font-size:1.1rem;letter-spacing:1px">${p.amount || '—'}</td>
+      <td style="font-size:0.78rem;color:var(--grey)">${p.date || '—'}</td>
+      <td><span class="status-badge status-closed"><span class="status-dot"></span>Success</span></td>
+    </tr>
+  `).join('');
+}
+
+// ── Filter ──
+function filterLeads(query) {
+  const status = document.getElementById('statusFilter').value;
+  filteredLeads = allLeads.filter(l => {
+    const matchQuery = !query || [l.name, l.business, l.email, l.phone, l.category].some(
+      f => f && f.toLowerCase().includes(query.toLowerCase())
+    );
+    const matchStatus = status === 'all' || l.status === status;
+    return matchQuery && matchStatus;
+  });
+  renderLeads(filteredLeads);
+}
+
+function filterByStatus(status) {
+  const query = document.getElementById('searchBox').value;
+  filterLeads(query);
+}
+
+// ── Detail modal ──
+function openDetail(id) {
+  const lead = allLeads.find(l => l.id === id);
+  if (!lead) return;
+  currentModalId = id;
+
+  document.getElementById('modalHeadTitle').textContent = lead.name + ' — ' + lead.business;
+  const website = lead.website && lead.website !== '—'
+    ? `<a href="${lead.website.startsWith('http') ? lead.website : '#'}" target="_blank">${lead.website}</a>`
+    : '—';
+
+  document.getElementById('modalBody').innerHTML = `
+    <div class="detail-row"><div class="detail-label">Submission ID</div><div class="detail-value" style="font-family:monospace;font-size:0.78rem;color:var(--grey)">${lead.id}</div></div>
+    <div class="detail-row"><div class="detail-label">Full Name</div><div class="detail-value">${lead.name}</div></div>
+    <div class="detail-row"><div class="detail-label">Business</div><div class="detail-value" style="color:var(--orange);font-weight:600">${lead.business}</div></div>
+    <div class="detail-row"><div class="detail-label">Email</div><div class="detail-value"><a href="mailto:${lead.email}">${lead.email}</a></div></div>
+    <div class="detail-row"><div class="detail-label">Phone</div><div class="detail-value"><a href="tel:${lead.phone}">${lead.phone}</a></div></div>
+    <div class="detail-row"><div class="detail-label">Website / IG</div><div class="detail-value">${website}</div></div>
+    <div class="detail-row"><div class="detail-label">Category</div><div class="detail-value">${lead.category}</div></div>
+    <div class="detail-row"><div class="detail-label">Services</div><div class="detail-value">${lead.services || '—'}</div></div>
+    <div class="detail-row"><div class="detail-label">Message</div><div class="detail-value" style="color:var(--grey);font-style:italic">${lead.message || '—'}</div></div>
+    <div class="detail-row"><div class="detail-label">Submitted</div><div class="detail-value" style="color:var(--grey)">${lead.timestamp}</div></div>
+    <div class="detail-row">
+      <div class="detail-label">Status</div>
+      <div class="detail-value">
+        <select class="status-select" id="statusSelect">
+          <option ${lead.status==='New'?'selected':''}>New</option>
+          <option ${lead.status==='Contacted'?'selected':''}>Contacted</option>
+          <option ${lead.status==='Closed'?'selected':''}>Closed</option>
+        </select>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('detailModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function saveStatus() {
+  if (!currentModalId) return;
+  const newStatus = document.getElementById('statusSelect').value;
+  allLeads = allLeads.map(l => l.id === currentModalId ? {...l, status: newStatus} : l);
+  localStorage.setItem('loudmark_leads', JSON.stringify(allLeads));
+  filteredLeads = filteredLeads.map(l => l.id === currentModalId ? {...l, status: newStatus} : l);
+  renderLeads(filteredLeads);
+  renderStats();
+  closeModal();
+}
+
+function closeModal() {
+  document.getElementById('detailModal').classList.remove('open');
+  document.body.style.overflow = '';
+  currentModalId = null;
+}
+function handleModalClick(e) { if (e.target === document.getElementById('detailModal')) closeModal(); }
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+// ── Delete ──
+function deleteLead(id) {
+  if (!confirm('Delete this lead? This cannot be undone.')) return;
+  allLeads = allLeads.filter(l => l.id !== id);
+  filteredLeads = filteredLeads.filter(l => l.id !== id);
+  localStorage.setItem('loudmark_leads', JSON.stringify(allLeads));
+  renderLeads(filteredLeads);
+  renderStats();
+}
+
+// ── Clear all ──
+function clearAllData() {
+  if (!confirm('Clear ALL data? This will delete all leads and payments permanently.')) return;
+  localStorage.removeItem('loudmark_leads');
+  localStorage.removeItem('loudmark_payments');
+  loadData();
+}
+
+// ── Export CSV ──
+function exportCSV() {
+  if (allLeads.length === 0) { alert('No data to export.'); return; }
+  const headers = ['ID','Name','Business','Email','Phone','Website','Category','Services','Message','Status','Submitted'];
+  const rows = allLeads.map(l => [l.id,l.name,l.business,l.email,l.phone,l.website,l.category,l.services,l.message,l.status,l.timestamp].map(v => `"${(v||'').replace(/"/g,'""')}"`));
+  const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+  const a = document.createElement('a');
+  a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+  a.download = 'loudmark_leads_' + new Date().toISOString().slice(0,10) + '.csv';
+  a.click();
+}
+
+function exportPaymentsCSV() {
+  const payments = JSON.parse(localStorage.getItem('loudmark_payments') || '[]');
+  if (payments.length === 0) { alert('No payment data to export.'); return; }
+  const headers = ['Transaction ID','Plan','Amount','Date'];
+  const rows = payments.map(p => [p.txnId,p.plan,p.amount,p.date].map(v => `"${(v||'').replace(/"/g,'""')}"`));
+  const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+  const a = document.createElement('a');
+  a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+  a.download = 'loudmark_payments_' + new Date().toISOString().slice(0,10) + '.csv';
+  a.click();
+}
+
+// ── Tab switching ──
+function switchTab(tab, el) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('tab-leads').style.display = tab === 'leads' ? 'block' : 'none';
+  document.getElementById('tab-payments').style.display = tab === 'payments' ? 'block' : 'none';
+}
+
+// ── Load demo data (for testing) ──
+function loadDemoData() {
+  const demo = [
+    {id:'LM-1001',timestamp:'03/05/2026, 10:22:14 am',name:'Priya Menon',business:'Aura Skincare',email:'priya@auraskin.com',phone:'+91 98765 43210',website:'@auraskincare',category:'D2C / Clothing Brand',services:'Website Design, SEO Management',message:'We need a Shopify store and help ranking on Google.',status:'New'},
+    {id:'LM-1002',timestamp:'03/05/2026, 2:45:00 pm',name:'Rahul Sharma',business:'FitZone Gym',email:'rahul@fitzone.in',phone:'+91 87654 32109',website:'https://fitzone.in',category:'Fitness & Wellness',services:'Website Design, Marketing Creatives',message:'Our current website is very outdated. Need a redesign urgently.',status:'Contacted'},
+    {id:'LM-1003',timestamp:'04/05/2026, 9:10:30 am',name:'Anjali Singh',business:'Spice Route Cafe',email:'anjali@spiceroute.com',phone:'+91 76543 21098',website:'@spiceroutecafe',category:'Food & Beverage',services:'SEO Management, Marketing Creatives, Monthly Retainer',message:'New cafe, need everything from scratch.',status:'New'},
+    {id:'LM-1004',timestamp:'04/05/2026, 11:55:00 am',name:'Dr. Vikram Nair',business:'Nair Skin Clinic',email:'dr.vikram@nairclinic.com',phone:'+91 65432 10987',website:'—',category:'Healthcare / Clinic',services:'Website Design, SEO Management',message:'Patients often can\'t find us online. Need help with local SEO.',status:'Closed'},
+  ];
+  localStorage.setItem('loudmark_leads', JSON.stringify(demo));
+
+  const demoPay = [
+    {txnId:'RZP-pay_demo001',plan:'Growth Pack',amount:'₹23,600',date:'03/05/2026, 3:00 pm'},
+    {txnId:'RZP-pay_demo002',plan:'Starter Pack',amount:'₹9,440',date:'04/05/2026, 10:30 am'},
+  ];
+  localStorage.setItem('loudmark_payments', JSON.stringify(demoPay));
+  loadData();
+}
+
+// Init
+loadData();
+</script>
+</body>
+</html>
