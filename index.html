@@ -364,6 +364,9 @@
   .retainer-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 1.2rem; margin-top: 3rem; }
   .retainer-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem 2rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; transition: border-color 0.2s, transform 0.2s; }
   .retainer-card:hover { border-color: var(--orange); transform: translateX(4px); }
+  a.retainer-card { text-decoration: none; color: inherit; }
+  .rc-arrow { font-size: 1.2rem; color: var(--orange); opacity: 0; transition: opacity 0.2s, transform 0.2s; }
+  .retainer-card:hover .rc-arrow { opacity: 1; transform: translateX(4px); }
   .rc-left { display: flex; align-items: center; gap: 1rem; }
   .rc-icon { width: 44px; height: 44px; background: var(--orange-dim); border: 1px solid var(--border); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
   .rc-name { font-weight: 600; font-size: 1rem; margin-bottom: 0.2rem; }
@@ -620,10 +623,10 @@
     <h2 class="section-title">MONTHLY <span class="orange">RETAINERS</span></h2>
   </div>
   <div class="retainer-grid reveal">
-    <div class="retainer-card"><div class="rc-left"><div class="rc-icon">🔍</div><div><div class="rc-name">SEO Management</div><div class="rc-desc">Monthly reporting + optimisation</div></div></div><div class="rc-price">₹5–10K<span>per month</span></div></div>
-    <div class="retainer-card"><div class="rc-left"><div class="rc-icon">📣</div><div><div class="rc-name">Social Media Creatives</div><div class="rc-desc">8–12 posts per month</div></div></div><div class="rc-price">₹6–12K<span>per month</span></div></div>
-    <div class="retainer-card"><div class="rc-left"><div class="rc-icon">🌐</div><div><div class="rc-name">Website Maintenance</div><div class="rc-desc">Updates, speed & security</div></div></div><div class="rc-price">₹2–4K<span>per month</span></div></div>
-    <div class="retainer-card"><div class="rc-left"><div class="rc-icon">⭐</div><div><div class="rc-name">Full Marketing Retainer</div><div class="rc-desc">SEO + Creatives + Ads management</div></div></div><div class="rc-price">₹15–25K<span>per month</span></div></div>
+    <a class="retainer-card" href="loudmark-retainer.html?plan=seo"><div class="rc-left"><div class="rc-icon">🔍</div><div><div class="rc-name">SEO Management</div><div class="rc-desc">Monthly reporting + optimisation</div></div></div><div style="display:flex;align-items:center;gap:0.8rem"><div class="rc-price">₹5–10K<span>per month</span></div><div class="rc-arrow">→</div></div></a>
+    <a class="retainer-card" href="loudmark-retainer.html?plan=social"><div class="rc-left"><div class="rc-icon">📣</div><div><div class="rc-name">Social Media Creatives</div><div class="rc-desc">8–12 posts per month</div></div></div><div style="display:flex;align-items:center;gap:0.8rem"><div class="rc-price">₹6–12K<span>per month</span></div><div class="rc-arrow">→</div></div></a>
+    <a class="retainer-card" href="loudmark-retainer.html?plan=maintenance"><div class="rc-left"><div class="rc-icon">🌐</div><div><div class="rc-name">Website Maintenance</div><div class="rc-desc">Updates, speed & security</div></div></div><div style="display:flex;align-items:center;gap:0.8rem"><div class="rc-price">₹2–4K<span>per month</span></div><div class="rc-arrow">→</div></div></a>
+    <a class="retainer-card" href="loudmark-retainer.html?plan=full"><div class="rc-left"><div class="rc-icon">⭐</div><div><div class="rc-name">Full Marketing Retainer</div><div class="rc-desc">SEO + Creatives + Ads management</div></div></div><div style="display:flex;align-items:center;gap:0.8rem"><div class="rc-price">₹15–25K<span>per month</span></div><div class="rc-arrow">→</div></div></a>
   </div>
 </section>
 
