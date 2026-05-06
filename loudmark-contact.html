@@ -111,12 +111,12 @@ footer{background:#060E1A;padding:1.5rem 4rem;display:flex;align-items:center;ju
           <div class="form-row">
             <div class="form-group">
               <label>Your Name <span class="req">*</span></label>
-              <input type="text" id="f_name" placeholder="Aryan Sharma" autocomplete="name">
-              <div class="field-error" id="e_name">Please enter your full name (at least 2 characters).</div>
+              <input type="text" id="f_name" placeholder="Your full name" autocomplete="name">
+              <div class="field-error" id="e_name">Name must be at least 2 characters and contain letters only — no numbers or symbols.</div>
             </div>
             <div class="form-group">
               <label>Business / Brand Name <span class="req">*</span></label>
-              <input type="text" id="f_business" placeholder="e.g. Knot Sobr">
+              <input type="text" id="f_business" placeholder="Your business or brand name">
               <div class="field-error" id="e_business">Please enter your business name.</div>
             </div>
           </div>
@@ -126,21 +126,21 @@ footer{background:#060E1A;padding:1.5rem 4rem;display:flex;align-items:center;ju
           <div class="form-row">
             <div class="form-group">
               <label>Email Address <span class="req">*</span></label>
-              <input type="email" id="f_email" placeholder="you@email.com" autocomplete="email">
+              <input type="email" id="f_email" placeholder="Your email address" autocomplete="email">
               <div class="field-error" id="e_email">Please enter a valid email address (e.g. name@domain.com).</div>
             </div>
             <div class="form-group">
               <label>Phone / WhatsApp <span class="req">*</span></label>
-              <input type="tel" id="f_phone" placeholder="+91 98765 43210" maxlength="14" autocomplete="tel">
-              <div class="field-error" id="e_phone">Enter a valid 10-digit Indian mobile number starting with 6-9.</div>
+              <input type="tel" id="f_phone" placeholder="10-digit mobile number" maxlength="14" autocomplete="tel">
+              <div class="field-error" id="e_phone">Enter a valid Indian mobile number — 10 digits starting with 6, 7, 8, or 9.</div>
             </div>
           </div>
         </div>
 
         <div class="form-group">
           <label>Your Website or Instagram Link</label>
-          <input type="text" id="f_website" placeholder="https://yourwebsite.com or @yourhandle">
-          <div class="field-error" id="e_website">Enter a valid URL (https://...) or Instagram handle (@...).</div>
+          <input type="text" id="f_website" placeholder="https://yourwebsite.com or @yourinstagram">
+          <div class="field-error" id="e_website">Enter a valid website URL starting with https:// or an Instagram handle starting with @.</div>
         </div>
 
         <div class="form-group">
@@ -228,17 +228,57 @@ function handleCategoryChange() {
   clearErr('f_category','e_category');
 }
 
-// Validation rules
+// Validation rules — strict
 const rules = {
-  f_name:     v => v.trim().length >= 2,
+  // Name: only letters, spaces, dots, hyphens. No numbers or symbols. Min 2 chars.
+  f_name: v => {
+    const t = v.trim();
+    return t.length >= 2 && /^[a-zA-Z\u00C0-\u024F\s.\-']+$/.test(t);
+  },
+  // Business: at least 2 chars, no leading/trailing spaces only
   f_business: v => v.trim().length >= 2,
-  f_email:    v => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()),
-  f_phone:    v => /^(\+91|91)?[6-9]\d{9}$/.test(v.replace(/[\s\-()]/g,'')),
-  f_website:  v => {
+  // Email: strict format check — must have valid local part, @, domain, and TLD of 2+ chars
+  f_email: v => {
+    const t = v.trim().toLowerCase();
+    // Must match strict email format
+    if (!/^[a-z0-9]([a-z0-9._+\-]*[a-z0-9])?@[a-z0-9]([a-z0-9\-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9\-]*[a-z0-9])?)*\.[a-z]{2,}$/.test(t)) return false;
+    // No consecutive dots
+    if (/\.\./.test(t)) return false;
+    // Local part cannot start or end with a dot
+    const local = t.split('@')[0];
+    if (local.startsWith('.') || local.endsWith('.')) return false;
+    // Must have at least one dot in domain
+    const domain = t.split('@')[1];
+    if (!domain || !domain.includes('.')) return false;
+    // TLD must be at least 2 chars
+    const tld = domain.split('.').pop();
+    if (!tld || tld.length < 2) return false;
+    return true;
+  },
+  // Phone: must be valid Indian mobile — exactly 10 digits starting with 6-9
+  f_phone: v => {
+    // Strip all spaces, dashes, brackets
+    let cleaned = v.replace(/[\s\-()]/g, '');
+    // Remove +91 or 91 prefix
+    if (cleaned.startsWith('+91')) cleaned = cleaned.slice(3);
+    else if (cleaned.startsWith('91') && cleaned.length === 12) cleaned = cleaned.slice(2);
+    // Must be exactly 10 digits starting with 6, 7, 8, or 9
+    return /^[6-9]\d{9}$/.test(cleaned);
+  },
+  // Website: optional — if filled must be valid https URL or @handle
+  f_website: v => {
     if (!v.trim()) return true;
-    if (v.trim().startsWith('@') && v.trim().length > 1) return true;
-    try { const u = new URL(v.trim()); return ['http:','https:'].includes(u.protocol); }
-    catch { return false; }
+    const t = v.trim();
+    // Accept @instagramhandle
+    if (t.startsWith('@')) return t.length > 1 && /^@[a-zA-Z0-9._]{1,30}$/.test(t);
+    // Accept https:// URLs only (not http for security)
+    try {
+      const u = new URL(t);
+      if (!['http:','https:'].includes(u.protocol)) return false;
+      // Must have a valid domain with at least one dot
+      if (!u.hostname.includes('.')) return false;
+      return true;
+    } catch { return false; }
   }
 };
 
