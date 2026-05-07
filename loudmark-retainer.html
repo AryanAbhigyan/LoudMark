@@ -114,10 +114,9 @@ nav{position:sticky;top:0;z-index:200;padding:1.2rem 4rem;display:flex;align-ite
 .cta-list li{display:flex;align-items:flex-start;gap:0.65rem;font-size:0.85rem;color:var(--light);line-height:1.4}
 .cta-list li::before{content:'✓';color:var(--success);font-weight:700;flex-shrink:0;font-size:0.78rem;margin-top:0.12rem}
 .cta-divider{height:1px;background:var(--border-soft);margin-bottom:1.5rem}
-.btn-sub{display:block;width:100%;padding:1rem;background:var(--orange);color:var(--dark);text-align:center;font-weight:700;font-size:0.9rem;letter-spacing:1.5px;text-transform:uppercase;border-radius:6px;text-decoration:none;transition:all 0.2s;border:none;cursor:pointer;font-family:'DM Sans',sans-serif}
-.btn-sub:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(255,107,53,0.4)}
-.btn-audit{display:block;width:100%;padding:0.85rem;background:transparent;color:var(--white);text-align:center;font-weight:500;font-size:0.83rem;letter-spacing:1px;text-transform:uppercase;border-radius:6px;text-decoration:none;transition:all 0.2s;border:1.5px solid rgba(255,255,255,0.1);margin-top:0.6rem}
-.btn-audit:hover{border-color:var(--orange);background:var(--orange-dim)}
+.btn-audit-main{display:block;width:100%;padding:1rem;background:var(--orange);color:var(--dark);text-align:center;font-weight:700;font-size:0.9rem;letter-spacing:1.5px;text-transform:uppercase;border-radius:6px;text-decoration:none;transition:all 0.2s;border:none;cursor:pointer;font-family:'DM Sans',sans-serif}
+.btn-audit-main:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(255,107,53,0.4)}
+.btn-audit{display:none}
 .cta-secure{text-align:center;font-size:0.68rem;color:var(--grey);margin-top:0.8rem;line-height:1.6}
 
 .contact-mini{background:var(--dark3);border:1px solid var(--border-soft);border-radius:12px;padding:1.2rem 1.5rem}
@@ -171,7 +170,7 @@ footer{background:#050C18;padding:1.5rem 4rem;display:flex;align-items:center;ju
 <nav>
   <a class="nav-logo" href="index.html"><span>LOUD</span>MARK</a>
   <div class="nav-right">
-    <a href="index.html" class="nav-link">← Home</a>
+    <a href="javascript:history.back()" class="nav-link">← Back</a>
     <a href="loudmark-contact.html" class="nav-cta">Free Audit</a>
   </div>
 </nav>
@@ -376,9 +375,8 @@ function buildHTML(k) {
           <div class="cta-body">
             <ul class="cta-list">${p.ctaList.map(f=>`<li>${f}</li>`).join('')}</ul>
             <div class="cta-divider"></div>
-            <a class="btn-sub" href="loudmark-payment.html?plan=${k}&type=retainer">Subscribe Now →</a>
-            <a class="btn-audit" href="loudmark-contact.html">Get a Free Audit First</a>
-            <div class="cta-secure">🔒 Secure via Razorpay · Cancel anytime · No hidden charges</div>
+            <a class="btn-audit-main" href="loudmark-contact.html">Get a Free Audit →</a>
+            <div class="cta-secure">🔒 No commitment · We'll recommend the right plan for you</div>
           </div>
         </div>
         <div class="contact-mini">
