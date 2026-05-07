@@ -210,6 +210,7 @@ footer{background:#060E1A;padding:1.5rem 4rem;display:flex;align-items:center;ju
 const EJS_KEY      = 'CVzGfMeyxyZOqCrPr';
 const EJS_SERVICE  = 'service_loudmark';
 const EJS_TEMPLATE = 'template_loudmark';
+const EJS_AUTOREPLY = 'template_autoreply';
 emailjs.init({ publicKey: EJS_KEY });
 
 // Pre-select from URL plan param
@@ -383,7 +384,7 @@ document.getElementById('auditForm').addEventListener('submit', async function(e
   btn.textContent = 'Sending...';
   btn.disabled = true;
 
-  // Send via EmailJS
+  // Send notification to Loudmark
   try {
     await emailjs.send(EJS_SERVICE, EJS_TEMPLATE, {
       to_email: 'loudmark.studio@gmail.com',
@@ -399,7 +400,18 @@ document.getElementById('auditForm').addEventListener('submit', async function(e
       submitted_at: sub.timestamp
     });
   } catch(err) {
-    console.warn('EmailJS:', err.text || err);
+    console.warn('EmailJS notification:', err.text || err);
+  }
+
+  // Send auto-reply to client
+  try {
+    await emailjs.send(EJS_SERVICE, EJS_AUTOREPLY, {
+      client_email: sub.email,
+      client_name: sub.name,
+      client_business: sub.business
+    });
+  } catch(err) {
+    console.warn('EmailJS autoreply:', err.text || err);
   }
 
   setTimeout(() => {
