@@ -5,475 +5,424 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Monthly Retainer — Loudmark</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300;1,600&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-:root{--dark:#0A1628;--dark2:#0F1F38;--orange:#FF6B35;--orange-dim:rgba(255,107,53,0.12);--white:#FFFFFF;--grey:#94A3B8;--card:#0D1E35;--border:rgba(255,107,53,0.2);--success:#22C55E}
+:root{--dark:#080F1C;--dark2:#0C1524;--dark3:#0F1E35;--orange:#FF6B35;--orange-dim:rgba(255,107,53,0.1);--white:#F8F4EF;--grey:#7A8EA8;--light:#C8D5E8;--card:#0D1B2E;--border:rgba(255,107,53,0.18);--border-soft:rgba(255,107,53,0.08);--success:#22C55E}
 html{scroll-behavior:smooth}
-body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--white);min-height:100vh}
+body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--white);min-height:100vh;overflow-x:hidden}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:0.5}
 
-/* NAV */
-nav{padding:1.4rem 4rem;display:flex;align-items:center;justify-content:space-between;background:rgba(10,22,40,0.95);border-bottom:1px solid rgba(255,107,53,0.1);position:sticky;top:0;z-index:100;backdrop-filter:blur(20px)}
-.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:3px;color:var(--white);text-decoration:none}
+nav{position:sticky;top:0;z-index:200;padding:1.2rem 4rem;display:flex;align-items:center;justify-content:space-between;background:rgba(8,15,28,0.92);backdrop-filter:blur(24px);border-bottom:1px solid var(--border-soft)}
+.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:1.7rem;letter-spacing:4px;color:var(--white);text-decoration:none}
 .nav-logo span{color:var(--orange)}
-.nav-back{color:var(--grey);text-decoration:none;font-size:0.88rem;font-weight:500;letter-spacing:1px;text-transform:uppercase;transition:color 0.2s;display:flex;align-items:center;gap:0.5rem}
-.nav-back:hover{color:var(--orange)}
+.nav-right{display:flex;align-items:center;gap:2rem}
+.nav-link{color:var(--grey);text-decoration:none;font-size:0.8rem;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;transition:color 0.2s}
+.nav-link:hover{color:var(--orange)}
+.nav-cta{background:var(--orange);color:var(--dark);padding:0.5rem 1.3rem;border-radius:3px;font-size:0.78rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;text-decoration:none;transition:opacity 0.2s}
+.nav-cta:hover{opacity:0.85}
 
-/* HERO BAND */
-.plan-hero{background:var(--dark2);border-bottom:1px solid var(--border);padding:4rem;position:relative;overflow:hidden}
-.plan-hero::before{content:'';position:absolute;top:-100px;right:-100px;width:500px;height:500px;background:radial-gradient(circle,rgba(255,107,53,0.07),transparent 70%);pointer-events:none}
-.plan-hero-inner{max-width:800px;position:relative;z-index:2}
-.plan-breadcrumb{display:flex;align-items:center;gap:0.5rem;font-size:0.72rem;color:var(--grey);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:1.5rem}
-.plan-breadcrumb a{color:var(--grey);text-decoration:none;transition:color 0.2s}
-.plan-breadcrumb a:hover{color:var(--orange)}
-.plan-breadcrumb span{color:rgba(255,107,53,0.5)}
-.plan-tag{display:inline-flex;align-items:center;gap:0.5rem;background:var(--orange-dim);border:1px solid var(--border);color:var(--orange);font-size:0.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:0.3rem 0.9rem;border-radius:100px;margin-bottom:1.2rem}
-.plan-tag::before{content:'';width:6px;height:6px;background:var(--orange);border-radius:50%;animation:pulse 1.5s ease infinite}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(1.3)}}
-.plan-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,6vw,5rem);line-height:0.92;letter-spacing:2px;margin-bottom:1rem}
-.plan-title .orange{color:var(--orange)}
-.plan-subtitle{color:var(--grey);font-size:1.05rem;line-height:1.75;max-width:560px;margin-bottom:2rem}
-.plan-price-row{display:flex;align-items:flex-end;gap:1.5rem;flex-wrap:wrap}
-.plan-price-main{font-family:'Bebas Neue',sans-serif;font-size:3.5rem;color:var(--orange);letter-spacing:2px;line-height:1}
-.plan-price-note{font-size:0.85rem;color:var(--grey);line-height:1.5;margin-bottom:0.4rem}
-.plan-price-note strong{color:var(--white)}
+/* SWITCHER HERO */
+.switcher-hero{position:relative;padding:5rem 4rem 4rem;overflow:hidden;border-bottom:1px solid var(--border-soft);background:var(--dark2)}
+.sh-glow{position:absolute;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(255,107,53,0.07),transparent 65%);top:-200px;right:-150px;pointer-events:none}
+.sh-glow2{position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(20,50,100,0.4),transparent 70%);bottom:-100px;left:-100px;pointer-events:none}
+.sh-tag{font-size:0.7rem;color:var(--orange);text-transform:uppercase;letter-spacing:4px;font-weight:600;margin-bottom:1rem;display:flex;align-items:center;gap:0.8rem;position:relative;z-index:2}
+.sh-tag::before{content:'';width:28px;height:1px;background:var(--orange)}
+.sh-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,5vw,4rem);line-height:0.95;letter-spacing:2px;margin-bottom:0.8rem;position:relative;z-index:2}
+.sh-sub{color:var(--grey);font-size:1rem;line-height:1.7;max-width:520px;margin-bottom:3rem;position:relative;z-index:2}
 
-/* MAIN LAYOUT */
-.page-body{display:grid;grid-template-columns:1fr 380px;gap:3rem;padding:4rem;align-items:start;max-width:1200px;margin:0 auto}
+.plan-tabs{display:flex;gap:0.6rem;flex-wrap:wrap;position:relative;z-index:2}
+.plan-tab{display:flex;align-items:center;gap:0.6rem;padding:0.75rem 1.5rem;background:var(--card);border:1.5px solid var(--border-soft);border-radius:100px;cursor:pointer;transition:all 0.25s;font-size:0.82rem;font-weight:500;color:var(--grey);user-select:none}
+.plan-tab:hover{border-color:rgba(255,107,53,0.4);color:var(--white)}
+.plan-tab.active{background:var(--orange);border-color:var(--orange);color:var(--dark);font-weight:700;box-shadow:0 8px 25px rgba(255,107,53,0.3)}
 
-/* LEFT — Details */
-.detail-col{display:flex;flex-direction:column;gap:3rem}
+/* PLAN CONTENT */
+.plan-content{display:none;animation:fadeIn 0.35s ease both}
+.plan-content.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 
-.section-block{}
-.sb-tag{font-size:0.7rem;color:var(--orange);text-transform:uppercase;letter-spacing:3px;font-weight:600;margin-bottom:0.8rem;display:flex;align-items:center;gap:0.6rem}
-.sb-tag::before{content:'';width:20px;height:1.5px;background:var(--orange)}
-.sb-title{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;margin-bottom:1rem}
-.sb-body{color:var(--grey);font-size:0.95rem;line-height:1.8}
+/* PLAN INTRO */
+.plan-intro{display:grid;grid-template-columns:1fr auto;gap:3rem;align-items:center;padding:3.5rem 4rem;border-bottom:1px solid var(--border-soft);background:linear-gradient(160deg,var(--dark2) 0%,var(--dark3) 100%);position:relative;overflow:hidden}
+.plan-intro::before{content:'';position:absolute;top:-80px;right:-80px;width:350px;height:350px;border-radius:50%;background:radial-gradient(circle,rgba(255,107,53,0.06),transparent 70%);pointer-events:none}
+.pi-tag{font-size:0.68rem;color:var(--orange);text-transform:uppercase;letter-spacing:4px;font-weight:600;margin-bottom:0.9rem;display:flex;align-items:center;gap:0.6rem}
+.pi-tag::before{content:'';width:18px;height:1px;background:var(--orange)}
+.pi-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.8rem,5vw,4rem);line-height:0.92;letter-spacing:2px;margin-bottom:1rem}
+.pi-title .o{color:var(--orange)}
+.pi-desc{color:var(--grey);font-size:0.97rem;line-height:1.8;max-width:580px}
+.pi-right{text-align:right;flex-shrink:0;position:relative;z-index:2}
+.pi-price-label{font-size:0.65rem;color:var(--grey);text-transform:uppercase;letter-spacing:2px;margin-bottom:0.5rem}
+.pi-price{font-family:'Bebas Neue',sans-serif;font-size:3rem;color:var(--orange);letter-spacing:2px;line-height:1}
+.pi-price-note{font-size:0.75rem;color:var(--grey);margin-top:0.4rem;letter-spacing:1px}
+.pi-tags{display:flex;gap:0.5rem;margin-top:1.2rem;flex-wrap:wrap;justify-content:flex-end}
+.pi-tag-pill{background:var(--orange-dim);border:1px solid var(--border);color:var(--orange);font-size:0.62rem;font-weight:600;padding:0.22rem 0.65rem;border-radius:100px;letter-spacing:1px}
 
-/* What's included */
-.included-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:0.8rem;margin-top:0.5rem}
-.included-item{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.2rem;transition:border-color 0.2s}
-.included-item:hover{border-color:var(--orange)}
-.ii-icon{font-size:1.4rem;margin-bottom:0.6rem}
-.ii-title{font-weight:600;font-size:0.9rem;margin-bottom:0.3rem}
-.ii-desc{font-size:0.8rem;color:var(--grey);line-height:1.5}
+/* BODY LAYOUT */
+.plan-body{display:grid;grid-template-columns:1fr 360px;gap:0;align-items:start}
 
-/* Timeline */
-.timeline{display:flex;flex-direction:column;gap:0;margin-top:0.5rem;position:relative}
-.timeline::before{content:'';position:absolute;left:19px;top:20px;bottom:20px;width:2px;background:var(--border)}
-.timeline-item{display:flex;gap:1.2rem;align-items:flex-start;padding-bottom:1.5rem;position:relative;z-index:2}
-.timeline-item:last-child{padding-bottom:0}
-.tl-dot{width:40px;height:40px;border-radius:50%;background:var(--orange);display:flex;align-items:center;justify-content:center;font-size:0.85rem;font-weight:700;flex-shrink:0;font-family:'Bebas Neue',sans-serif;letter-spacing:0.5px}
-.tl-content{}
-.tl-week{font-size:0.68rem;color:var(--orange);text-transform:uppercase;letter-spacing:2px;font-weight:600;margin-bottom:0.2rem}
-.tl-title{font-weight:600;font-size:0.92rem;margin-bottom:0.3rem}
-.tl-desc{font-size:0.82rem;color:var(--grey);line-height:1.55}
+/* LEFT */
+.left-col{padding:3.5rem 4rem;border-right:1px solid var(--border-soft);display:flex;flex-direction:column;gap:4rem}
+.sec-tag{font-size:0.65rem;color:var(--orange);text-transform:uppercase;letter-spacing:4px;font-weight:600;margin-bottom:0.8rem;display:flex;align-items:center;gap:0.6rem}
+.sec-tag::before{content:'';width:18px;height:1px;background:var(--orange)}
+.sec-heading{font-family:'Cormorant Garamond',serif;font-size:1.85rem;font-weight:600;line-height:1.2;margin-bottom:1.5rem;color:var(--white)}
+.sec-heading em{font-style:italic;color:var(--orange)}
 
-/* Results */
-.results-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:0.5rem}
-.result-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.2rem;text-align:center}
-.result-num{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--orange);letter-spacing:1px;line-height:1;margin-bottom:0.3rem}
-.result-label{font-size:0.75rem;color:var(--grey);line-height:1.4}
+/* INCLUDED */
+.inc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--border-soft);border:1px solid var(--border-soft);border-radius:14px;overflow:hidden}
+.inc-item{background:var(--card);padding:1.6rem;transition:background 0.2s}
+.inc-item:hover{background:rgba(255,107,53,0.04)}
+.inc-icon{font-size:1.8rem;margin-bottom:0.8rem;display:block}
+.inc-name{font-weight:700;font-size:0.92rem;margin-bottom:0.4rem;color:var(--white)}
+.inc-desc{font-size:0.82rem;color:var(--grey);line-height:1.65}
+
+/* TIMELINE */
+.timeline{position:relative;display:flex;flex-direction:column}
+.timeline::before{content:'';position:absolute;left:21px;top:28px;bottom:28px;width:1px;background:linear-gradient(to bottom,var(--orange),rgba(255,107,53,0.05))}
+.tl-item{display:flex;gap:1.5rem;padding-bottom:2.2rem;position:relative;z-index:1}
+.tl-item:last-child{padding-bottom:0}
+.tl-num{width:44px;height:44px;border-radius:50%;background:var(--orange);display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:1rem;flex-shrink:0;box-shadow:0 0 0 6px rgba(255,107,53,0.08),0 4px 16px rgba(255,107,53,0.2)}
+.tl-body{padding-top:0.55rem}
+.tl-period{font-size:0.62rem;color:var(--orange);text-transform:uppercase;letter-spacing:2.5px;font-weight:600;margin-bottom:0.25rem}
+.tl-title{font-weight:700;font-size:0.95rem;margin-bottom:0.3rem;color:var(--white)}
+.tl-desc{font-size:0.83rem;color:var(--grey);line-height:1.65}
+
+/* RESULTS */
+.results-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border-soft);border:1px solid var(--border-soft);border-radius:14px;overflow:hidden;margin-bottom:1.2rem}
+.rg-item{background:var(--card);padding:1.5rem;text-align:center}
+.rg-num{font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:var(--orange);letter-spacing:1px;line-height:1;margin-bottom:0.4rem}
+.rg-label{font-size:0.7rem;color:var(--grey);line-height:1.4;text-transform:uppercase;letter-spacing:1px}
+.results-note{font-size:0.88rem;color:var(--grey);line-height:1.8;padding:1.2rem 1.5rem;background:var(--card);border-left:3px solid var(--orange);border-radius:0 8px 8px 0;border:1px solid var(--border-soft);border-left-color:var(--orange);border-left-width:3px}
 
 /* FAQ */
-.faq-list{display:flex;flex-direction:column;gap:0.6rem;margin-top:0.5rem}
-.faq-item{background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden}
-.faq-q{padding:1rem 1.2rem;font-weight:600;font-size:0.9rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:color 0.2s}
-.faq-q:hover{color:var(--orange)}
-.faq-chevron{font-size:0.8rem;color:var(--grey);transition:transform 0.2s}
-.faq-item.open .faq-chevron{transform:rotate(180deg)}
-.faq-a{padding:0 1.2rem;max-height:0;overflow:hidden;transition:max-height 0.3s ease,padding 0.3s;font-size:0.85rem;color:var(--grey);line-height:1.7}
-.faq-item.open .faq-a{max-height:200px;padding:0 1.2rem 1rem}
+.faq-wrap{display:flex;flex-direction:column;gap:1px;background:var(--border-soft);border:1px solid var(--border-soft);border-radius:14px;overflow:hidden}
+.faq-item{background:var(--card)}
+.faq-q{padding:1.1rem 1.4rem;font-weight:600;font-size:0.9rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:1rem;transition:background 0.2s;color:var(--white)}
+.faq-q:hover{background:rgba(255,107,53,0.04)}
+.faq-chev{color:var(--orange);font-size:0.65rem;flex-shrink:0;transition:transform 0.25s}
+.faq-item.open .faq-chev{transform:rotate(180deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height 0.3s ease,padding 0.3s;font-size:0.85rem;color:var(--grey);line-height:1.75;padding:0 1.4rem}
+.faq-item.open .faq-a{max-height:200px;padding:0 1.4rem 1.2rem}
 
-/* RIGHT — Sticky CTA card */
-.cta-col{position:sticky;top:90px}
-.cta-card{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden}
-.cta-card-top{background:var(--orange);padding:1.5rem}
-.cta-card-plan{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:2px;color:var(--dark);margin-bottom:0.3rem}
-.cta-card-price{font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:var(--dark);letter-spacing:1px;line-height:1}
-.cta-card-period{font-size:0.78rem;color:rgba(10,22,40,0.6);font-weight:600;letter-spacing:1px}
-.cta-card-body{padding:1.5rem}
-.cta-features{list-style:none;display:flex;flex-direction:column;gap:0.6rem;margin-bottom:1.5rem}
-.cta-features li{display:flex;align-items:flex-start;gap:0.6rem;font-size:0.85rem;color:#CBD5E1}
-.cta-features li::before{content:'✓';color:var(--success);font-weight:700;flex-shrink:0}
-.cta-divider{height:1px;background:var(--border);margin-bottom:1.5rem}
-.cta-subscribe-btn{width:100%;padding:1rem;background:var(--orange);color:var(--dark);border:none;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;letter-spacing:0.5px;text-decoration:none;display:block;text-align:center}
-.cta-subscribe-btn:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(255,107,53,0.4)}
-.cta-audit-btn{width:100%;padding:0.85rem;background:transparent;color:var(--white);border:1.5px solid rgba(255,255,255,0.15);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.9rem;font-weight:500;cursor:pointer;transition:all 0.2s;letter-spacing:0.5px;text-decoration:none;display:block;text-align:center;margin-top:0.7rem}
-.cta-audit-btn:hover{border-color:var(--orange);background:var(--orange-dim)}
-.cta-note{font-size:0.72rem;color:var(--grey);text-align:center;margin-top:0.8rem;line-height:1.6}
-.cta-contact{margin-top:1.5rem;padding-top:1.2rem;border-top:1px solid var(--border)}
-.cta-contact-label{font-size:0.68rem;color:var(--grey);text-transform:uppercase;letter-spacing:2px;font-weight:600;margin-bottom:0.6rem}
-.cta-contact-link{display:flex;align-items:center;gap:0.5rem;font-size:0.83rem;color:var(--grey);text-decoration:none;transition:color 0.2s;margin-bottom:0.4rem}
-.cta-contact-link:hover{color:var(--orange)}
-.cta-contact-link span{color:var(--orange)}
+/* RIGHT CTA */
+.right-col{padding:2.5rem;position:sticky;top:72px;display:flex;flex-direction:column;gap:1.5rem}
+.cta-card{background:var(--dark3);border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,0.3)}
+.cta-top{background:var(--orange);padding:1.5rem 1.8rem}
+.cta-plan{font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:3px;color:var(--dark);margin-bottom:0.3rem;opacity:0.7}
+.cta-price{font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:var(--dark);letter-spacing:1px;line-height:1;margin-bottom:0.2rem}
+.cta-period{font-size:0.7rem;color:rgba(10,15,28,0.55);font-weight:600;letter-spacing:1.5px;text-transform:uppercase}
+.cta-body{padding:1.5rem 1.8rem}
+.cta-list{list-style:none;display:flex;flex-direction:column;gap:0.6rem;margin-bottom:1.5rem}
+.cta-list li{display:flex;align-items:flex-start;gap:0.65rem;font-size:0.85rem;color:var(--light);line-height:1.4}
+.cta-list li::before{content:'✓';color:var(--success);font-weight:700;flex-shrink:0;font-size:0.78rem;margin-top:0.12rem}
+.cta-divider{height:1px;background:var(--border-soft);margin-bottom:1.5rem}
+.btn-sub{display:block;width:100%;padding:1rem;background:var(--orange);color:var(--dark);text-align:center;font-weight:700;font-size:0.9rem;letter-spacing:1.5px;text-transform:uppercase;border-radius:6px;text-decoration:none;transition:all 0.2s;border:none;cursor:pointer;font-family:'DM Sans',sans-serif}
+.btn-sub:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(255,107,53,0.4)}
+.btn-audit{display:block;width:100%;padding:0.85rem;background:transparent;color:var(--white);text-align:center;font-weight:500;font-size:0.83rem;letter-spacing:1px;text-transform:uppercase;border-radius:6px;text-decoration:none;transition:all 0.2s;border:1.5px solid rgba(255,255,255,0.1);margin-top:0.6rem}
+.btn-audit:hover{border-color:var(--orange);background:var(--orange-dim)}
+.cta-secure{text-align:center;font-size:0.68rem;color:var(--grey);margin-top:0.8rem;line-height:1.6}
+
+.contact-mini{background:var(--dark3);border:1px solid var(--border-soft);border-radius:12px;padding:1.2rem 1.5rem}
+.cm-label{font-size:0.62rem;color:var(--orange);text-transform:uppercase;letter-spacing:3px;font-weight:600;margin-bottom:0.8rem}
+.cm-link{display:flex;align-items:center;gap:0.6rem;text-decoration:none;color:var(--grey);font-size:0.82rem;transition:color 0.2s;margin-bottom:0.45rem}
+.cm-link:last-child{margin-bottom:0}
+.cm-link:hover{color:var(--white)}
+.cm-icon{color:var(--orange)}
+
+.trust-list{display:flex;flex-direction:column;gap:0.45rem}
+.trust-item{display:flex;align-items:center;gap:0.6rem;font-size:0.77rem;color:var(--grey)}
+.t-dot{width:5px;height:5px;background:var(--success);border-radius:50%;flex-shrink:0}
 
 /* OTHER PLANS */
-.other-plans{padding:4rem;border-top:1px solid var(--border);background:var(--dark2)}
-.op-title{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:2px;margin-bottom:0.4rem}
-.op-title span{color:var(--orange)}
-.op-sub{color:var(--grey);font-size:0.88rem;margin-bottom:2rem}
-.op-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
-.op-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.3rem 1.5rem;display:flex;align-items:center;justify-content:space-between;text-decoration:none;transition:all 0.2s}
+.other-plans{border-top:1px solid var(--border-soft);padding:2.5rem 4rem;background:var(--dark2)}
+.op-label{font-size:0.65rem;color:var(--grey);text-transform:uppercase;letter-spacing:3px;font-weight:600;margin-bottom:1.2rem}
+.op-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+.op-card{background:var(--card);border:1px solid var(--border-soft);border-radius:10px;padding:1.1rem 1.3rem;display:flex;align-items:center;justify-content:space-between;text-decoration:none;transition:all 0.2s;cursor:pointer;border:1.5px solid var(--border-soft)}
 .op-card:hover{border-color:var(--orange);transform:translateY(-2px)}
-.op-left{display:flex;align-items:center;gap:0.8rem}
-.op-icon{font-size:1.3rem}
-.op-name{font-weight:600;font-size:0.9rem;color:var(--white);margin-bottom:0.15rem}
-.op-price{font-size:0.75rem;color:var(--grey)}
-.op-arrow{color:var(--orange);font-size:1rem;opacity:0;transition:all 0.2s}
-.op-card:hover .op-arrow{opacity:1;transform:translateX(4px)}
+.op-card.active{border-color:var(--orange);background:var(--orange-dim);pointer-events:none}
+.op-left{display:flex;align-items:center;gap:0.7rem}
+.op-icon{font-size:1.2rem}
+.op-name{font-weight:600;font-size:0.82rem;color:var(--white);margin-bottom:0.1rem}
+.op-price{font-size:0.68rem;color:var(--grey)}
+.op-arr{color:var(--orange);font-size:0.9rem;opacity:0;transition:all 0.2s}
+.op-card:hover .op-arr{opacity:1;transform:translateX(3px)}
+.op-card.active .op-arr{opacity:1}
 
-footer{background:#060E1A;padding:1.5rem 4rem;display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(255,107,53,0.1);flex-wrap:wrap;gap:1rem}
-.footer-logo{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:3px;color:var(--white)}
-.footer-logo span{color:var(--orange)}
-.footer-copy{color:var(--grey);font-size:0.78rem}
+footer{background:#050C18;padding:1.5rem 4rem;display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--border-soft);flex-wrap:wrap;gap:1rem}
+.f-logo{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:3px;color:var(--white)}
+.f-logo span{color:var(--orange)}
+.f-copy{color:var(--grey);font-size:0.75rem}
 
-@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-.fade-up{animation:fadeUp 0.6s ease both}
-
-@media(max-width:1024px){.page-body{grid-template-columns:1fr;padding:2rem 1.5rem}.cta-col{position:static}.other-plans{padding:2.5rem 1.5rem}.op-grid{grid-template-columns:1fr}.nav{padding:1.2rem 1.5rem}.plan-hero{padding:2.5rem 1.5rem}.included-grid{grid-template-columns:1fr}.results-grid{grid-template-columns:repeat(2,1fr)}footer{padding:1.5rem;flex-direction:column;text-align:center}}
+@media(max-width:1024px){
+  nav,footer{padding:1.2rem 1.5rem}
+  .switcher-hero,.other-plans{padding-left:1.5rem;padding-right:1.5rem}
+  .plan-intro{grid-template-columns:1fr;gap:1.5rem;padding:2.5rem 1.5rem}
+  .pi-right{text-align:left}
+  .pi-tags{justify-content:flex-start}
+  .plan-body{grid-template-columns:1fr}
+  .left-col{border-right:none;border-bottom:1px solid var(--border-soft);padding:2.5rem 1.5rem}
+  .right-col{padding:2rem 1.5rem;position:static}
+  .inc-grid{grid-template-columns:1fr}
+  .results-grid{grid-template-columns:repeat(2,1fr)}
+  .op-grid{grid-template-columns:repeat(2,1fr)}
+}
 </style>
 </head>
 <body>
 
 <nav>
   <a class="nav-logo" href="index.html"><span>LOUD</span>MARK</a>
-  <a class="nav-back" href="index.html#retainer">← Back</a>
+  <div class="nav-right">
+    <a href="index.html" class="nav-link">← Home</a>
+    <a href="loudmark-contact.html" class="nav-cta">Free Audit</a>
+  </div>
 </nav>
 
-<!-- HERO — filled by JS -->
-<div class="plan-hero fade-up">
-  <div class="plan-hero-inner">
-    <div class="plan-breadcrumb">
-      <a href="index.html">Home</a>
-      <span>/</span>
-      <a href="index.html#retainer">Retainers</a>
-      <span>/</span>
-      <span id="breadcrumbCurrent" style="color:var(--white)">Plan</span>
-    </div>
-    <div class="plan-tag" id="heroTag">Monthly Retainer</div>
-    <h1 class="plan-title" id="heroTitle">Loading...</h1>
-    <p class="plan-subtitle" id="heroSubtitle"></p>
-    <div class="plan-price-row">
-      <div class="plan-price-main" id="heroPrice"></div>
-      <div class="plan-price-note">per month · <strong>Cancel anytime</strong> · No lock-in</div>
-    </div>
+<div class="switcher-hero">
+  <div class="sh-glow"></div>
+  <div class="sh-glow2"></div>
+  <div class="sh-tag">Monthly Retainers</div>
+  <h1 class="sh-title">YOUR BRAND,<br>GROWING EVERY MONTH.</h1>
+  <p class="sh-sub">Pick the ongoing service that fits your business right now. Cancel anytime. No lock-in. Results you can actually measure.</p>
+  <div class="plan-tabs">
+    <div class="plan-tab active" onclick="switchPlan('seo',this)">🔍 SEO Management</div>
+    <div class="plan-tab" onclick="switchPlan('social',this)">📣 Social Media Creatives</div>
+    <div class="plan-tab" onclick="switchPlan('maintenance',this)">🌐 Website Maintenance</div>
+    <div class="plan-tab" onclick="switchPlan('full',this)">⭐ Full Marketing Retainer</div>
   </div>
 </div>
 
-<!-- BODY -->
-<div class="page-body">
-  <!-- LEFT -->
-  <div class="detail-col">
+<div id="planContents"></div>
 
-    <!-- What's included -->
-    <div class="section-block fade-up">
-      <div class="sb-tag">What You Get</div>
-      <h2 class="sb-title" id="includedTitle">What's Included Every Month</h2>
-      <div class="included-grid" id="includedGrid"></div>
-    </div>
-
-    <!-- How it works month by month -->
-    <div class="section-block fade-up">
-      <div class="sb-tag">The Process</div>
-      <h2 class="sb-title">What Happens Each Month</h2>
-      <div class="timeline" id="timeline"></div>
-    </div>
-
-    <!-- Expected results -->
-    <div class="section-block fade-up">
-      <div class="sb-tag">Expected Results</div>
-      <h2 class="sb-title">What You Can Expect</h2>
-      <p class="sb-body" id="resultsBody" style="margin-bottom:1.2rem"></p>
-      <div class="results-grid" id="resultsGrid"></div>
-    </div>
-
-    <!-- FAQ -->
-    <div class="section-block fade-up">
-      <div class="sb-tag">Common Questions</div>
-      <h2 class="sb-title">FAQs</h2>
-      <div class="faq-list" id="faqList"></div>
-    </div>
-
-  </div>
-
-  <!-- RIGHT — Sticky CTA -->
-  <div class="cta-col fade-up">
-    <div class="cta-card">
-      <div class="cta-card-top">
-        <div class="cta-card-plan" id="ctaPlan"></div>
-        <div class="cta-card-price" id="ctaPrice"></div>
-        <div class="cta-card-period">Per Month · GST Extra</div>
-      </div>
-      <div class="cta-card-body">
-        <ul class="cta-features" id="ctaFeatures"></ul>
-        <div class="cta-divider"></div>
-        <a class="cta-subscribe-btn" id="ctaPayBtn" href="#">Subscribe Now →</a>
-        <a class="cta-audit-btn" href="loudmark-contact.html">Get a Free Audit First</a>
-        <p class="cta-note">🔒 Secure payment via Razorpay · Cancel anytime · No hidden charges</p>
-        <div class="cta-contact">
-          <div class="cta-contact-label">Have questions?</div>
-          <a href="mailto:loudmark.studio@gmail.com" class="cta-contact-link"><span>✉</span> loudmark.studio@gmail.com</a>
-          <a href="https://www.instagram.com/loudmark.studio" target="_blank" class="cta-contact-link"><span>📸</span> @loudmark.studio</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- OTHER PLANS -->
 <div class="other-plans">
-  <div class="op-title">EXPLORE OTHER <span>PLANS</span></div>
-  <div class="op-sub">Mix and match or go all-in with the Full Marketing Retainer.</div>
-  <div class="op-grid" id="otherPlansGrid"></div>
+  <div class="op-label">All Retainer Plans — Click to Switch</div>
+  <div class="op-grid" id="opGrid"></div>
 </div>
 
 <footer>
-  <div class="footer-logo"><span>LOUD</span>MARK</div>
-  <div class="footer-copy">© 2026 Loudmark. Marking Your Presence. Loudly.</div>
+  <div class="f-logo"><span>LOUD</span>MARK</div>
+  <div class="f-copy">© 2026 Loudmark Studio. Marking Your Presence. Loudly.</div>
 </footer>
 
 <script>
-// ── All plan data ──
 const plans = {
-  seo: {
-    name: 'SEO Management',
-    tag: 'Monthly SEO Retainer',
-    title: 'GET FOUND ON\nGOOGLE <span class="orange">EVERY MONTH.</span>',
-    subtitle: 'We manage your entire search engine presence — keywords, rankings, Google Business, and monthly reporting — so your business keeps climbing while you focus on running it.',
-    priceDisplay: '₹5,000 – ₹10,000',
-    priceParam: 'seo',
-    icon: '🔍',
-    ctaFeatures: ['Monthly keyword research & tracking','On-page SEO optimisation','Google Business Profile management','Backlink monitoring','Monthly performance report','WhatsApp/email support'],
-    included: [
-      { icon: '🔑', title: 'Keyword Research', desc: 'We identify the exact terms your customers are searching for and target them strategically each month.' },
-      { icon: '📄', title: 'On-Page Optimisation', desc: 'Title tags, meta descriptions, headings, and content updates on your website to improve ranking signals.' },
-      { icon: '📍', title: 'Google Business Management', desc: 'Keep your Google Maps listing updated, respond to reviews, post updates, and optimise for local searches.' },
-      { icon: '🔗', title: 'Backlink Monitoring', desc: 'Track links pointing to your site and flag any toxic backlinks that could hurt your rankings.' },
-      { icon: '📊', title: 'Monthly Report', desc: 'A clear, jargon-free report showing exactly where you rank, what improved, and what we're working on next.' },
-      { icon: '💬', title: 'Dedicated Support', desc: 'Direct WhatsApp/email access to your SEO manager for questions, updates, or urgent changes.' },
+  seo:{
+    name:'SEO Management',icon:'🔍',
+    t1:'GET FOUND ON',t2:'GOOGLE.',to:'EVERY SINGLE MONTH.',
+    desc:'We manage your complete search engine presence — keyword research, on-page optimisation, Google Business Profile, backlink monitoring, and clear monthly reports. You rank higher. Customers find you. We handle everything.',
+    price:'₹5,000 – ₹10,000',tags:['Local SEO','Google Business','Keywords','Monthly Report'],
+    ctaList:['Monthly keyword research & tracking','On-page SEO optimisation','Google Business Profile management','Backlink monitoring & cleanup','Technical SEO fixes','Monthly performance report with rankings','WhatsApp/email support throughout'],
+    included:[
+      {icon:'🔑',name:'Keyword Research',desc:'We identify the exact terms your customers search for — local, national, and long-tail — and build a monthly targeting strategy around them.'},
+      {icon:'📄',name:'On-Page Optimisation',desc:'Title tags, meta descriptions, heading structure, image alt text, and content improvements to send the right signals to Google.'},
+      {icon:'📍',name:'Google Business Profile',desc:'We keep your Google Maps listing fully active — posts, Q&A, photo updates, and optimisation for local pack rankings in your city.'},
+      {icon:'🔗',name:'Backlink Monitoring',desc:'We track every link pointing to your site, identify toxic backlinks dragging your rankings down, and flag them for disavowal.'},
+      {icon:'⚙️',name:'Technical SEO',desc:'Fix crawl errors, broken links, slow pages, mobile issues, and Core Web Vitals scores that directly affect your Google ranking.'},
+      {icon:'📊',name:'Monthly Report',desc:'A clear, jargon-free ranking report every month showing keyword positions, traffic data, improvements, and next month\'s priorities.'},
     ],
-    timeline: [
-      { week: 'Week 1', title: 'Audit & Setup', desc: 'Full SEO audit of your website and Google Business profile. Identify quick wins and build the strategy.' },
-      { week: 'Week 2', title: 'Keyword Targeting & On-Page Work', desc: 'Implement keyword targets, update meta tags, fix technical issues, and optimise existing content.' },
-      { week: 'Week 3', title: 'Google Business & Local SEO', desc: 'Update your listing, post fresh content, respond to reviews, and push for local map pack rankings.' },
-      { week: 'Week 4', title: 'Report & Plan Next Month', desc: 'Send you a full ranking report, review what moved, and brief you on the plan for the next month.' },
+    timeline:[
+      {p:'Week 1',t:'Full SEO Audit',d:'Deep audit of your website and Google Business profile. We identify every technical issue, keyword gap, and opportunity — then build the month\'s strategy.'},
+      {p:'Week 2',t:'On-Page Work & Keyword Targeting',d:'Implement keyword targets across key pages, update meta tags, fix technical issues, and optimise existing content for better ranking signals.'},
+      {p:'Week 3',t:'Google Business & Local Push',d:'Update your listing, publish fresh posts, respond to reviews, add photos, and push for local map pack rankings in your target location.'},
+      {p:'Week 4',t:'Report + Plan for Next Month',d:'Full ranking report showing everything that moved. We debrief, review wins, and brief you on the strategy for the next month.'},
     ],
-    resultsBody: 'SEO is a compounding effort — the longer you stay, the stronger your rankings get. Most clients start seeing measurable movement in 6–10 weeks, with significant ranking jumps by month 3.',
-    results: [
-      { num: '6–10', label: 'Weeks to first ranking movement' },
-      { num: '3x', label: 'Average traffic growth by month 3' },
-      { num: '#1', label: 'Target — first page Google results' },
-    ],
-    faqs: [
-      { q: 'How long before I see results?', a: 'SEO is not overnight. You can expect to see movement in keyword rankings within 6–10 weeks. Significant results typically come by month 3 when the strategy compounds.' },
-      { q: 'Do I need a website for this?', a: 'Yes — SEO requires a website to optimise. If you don\'t have one, we can build one first. We also work on your Google Business profile which doesn\'t need a site.' },
-      { q: 'Can I cancel anytime?', a: 'Yes. We work on monthly rolling contracts. Give us notice before the next billing cycle and we\'ll wrap up cleanly. No penalties.' },
-      { q: 'What do I need to provide?', a: 'Access to your website (or we can work with your developer), your Google Business login, and basic info about your business and target customers.' },
+    rNote:'SEO is compounding — results build month over month. Most clients see ranking movement in 6–10 weeks and significant position jumps by month 3.',
+    results:[{n:'6–10',l:'Weeks to first ranking movement'},{n:'3x',l:'Average traffic growth by month 3'},{n:'Pg.1',l:'Target for your main keywords'}],
+    faqs:[
+      {q:'How long before I see results?',a:'SEO is not instant. Expect meaningful ranking movement within 6–10 weeks. Significant results typically compound by month 3 as the strategy builds momentum.'},
+      {q:'Do I need a website already?',a:'Yes — SEO requires a website to optimise. If you don\'t have one, we can build it first. We also manage Google Business Profile which works without a website.'},
+      {q:'What do I need to provide?',a:'Access to your website backend (or your developer), your Google Business login, and a short onboarding call so we understand your business goals.'},
+      {q:'Can I cancel anytime?',a:'Yes. We work on rolling monthly contracts. Notify us before your next billing cycle and we\'ll wrap everything up cleanly. Zero penalties.'},
     ]
   },
-
-  social: {
-    name: 'Social Media Creatives',
-    tag: 'Monthly Content Retainer',
-    title: 'CONTENT THAT\nACTUALLY <span class="orange">CONVERTS.</span>',
-    subtitle: 'We design 8–12 scroll-stopping posts, reels covers, and stories every month for your Instagram. You get a full content calendar, captions, and hashtags — ready to post.',
-    priceDisplay: '₹6,000 – ₹12,000',
-    priceParam: 'social',
-    icon: '📣',
-    ctaFeatures: ['8–12 designed posts per month','Reel covers & story graphics','Captions written for each post','Hashtag sets per post','Monthly content calendar','1 round of revisions'],
-    included: [
-      { icon: '🖼️', title: '8–12 Post Designs', desc: 'Fully designed Instagram posts — carousels, single images, infographics — all matching your brand identity.' },
-      { icon: '🎬', title: 'Reel Covers', desc: 'Branded reel cover frames so your profile grid looks cohesive and professional even before viewers hit play.' },
-      { icon: '📖', title: 'Stories & Highlights', desc: 'Designed story graphics for announcements, offers, polls, and highlight covers.' },
-      { icon: '✍️', title: 'Captions & Hashtags', desc: 'We write the caption and select the right hashtag mix for every single post. You just copy, paste, post.' },
-      { icon: '🗓️', title: 'Content Calendar', desc: 'A monthly calendar showing what to post on which day for maximum reach and consistency.' },
-      { icon: '🔄', title: '1 Round of Revisions', desc: 'Don\'t like a design? We revise it. One full revision round per month on any of the deliverables.' },
+  social:{
+    name:'Social Media Creatives',icon:'📣',
+    t1:'CONTENT THAT',t2:'STOPS THE SCROLL.',to:'EVERY SINGLE MONTH.',
+    desc:'We design 8–12 fully branded posts, reel covers, and story graphics every month for your Instagram. Captions written. Hashtags researched. Content calendar delivered. You just schedule and post.',
+    price:'₹6,000 – ₹12,000',tags:['8–12 Posts','Reel Covers','Captions Written','Content Calendar'],
+    ctaList:['8–12 fully designed posts per month','Reel cover frames for all reels','Story graphics and highlight covers','Captions written for every post','Hashtag sets researched per post','Monthly content calendar included','1 full round of revisions'],
+    included:[
+      {icon:'🖼️',name:'8–12 Post Designs',desc:'Carousels, single images, infographics, and announcement graphics — all designed to your exact brand palette, fonts, and visual identity every month.'},
+      {icon:'🎬',name:'Reel Cover Frames',desc:'Custom reel thumbnail frames so your entire grid looks cohesive and professional. First impressions matter before anyone hits play.'},
+      {icon:'📲',name:'Story Graphics',desc:'Designed story frames for offers, announcements, countdowns, and polls — keeping your audience engaged between feed posts.'},
+      {icon:'✍️',name:'Captions + Hashtags',desc:'We write every caption and research the right hashtag mix for maximum organic reach. You literally just copy, paste, and post.'},
+      {icon:'🗓️',name:'Content Calendar',desc:'A day-by-day posting calendar for the entire month, built around your business goals, upcoming offers, and key dates.'},
+      {icon:'🔄',name:'1 Round of Revisions',desc:'Not happy with a design? We revise any post within 24 hours. One full revision round per month is included in every plan.'},
     ],
-    timeline: [
-      { week: 'Day 1–3', title: 'Brief & Mood Board', desc: 'We understand your month\'s goals, upcoming offers, and tone. We share a mood board for approval before designing.' },
-      { week: 'Day 4–12', title: 'Design All Posts', desc: 'We design all 8–12 posts, reel covers, and stories based on the approved direction.' },
-      { week: 'Day 13–15', title: 'Review & Revisions', desc: 'You review everything. Request changes and we revise within 24 hours.' },
-      { week: 'Day 16', title: 'Deliver + Calendar', desc: 'Final files delivered via Google Drive along with your content calendar and captions doc.' },
+    timeline:[
+      {p:'Day 1–3',t:'Monthly Brief & Direction',d:'We gather your goals — upcoming launches, offers, themes — and share a mood board direction for your approval before any design begins.'},
+      {p:'Day 4–12',t:'Full Design Sprint',d:'All 8–12 posts, reel covers, and stories designed in one sprint. Brand-consistent, scroll-stopping, and built for your audience.'},
+      {p:'Day 13–15',t:'Review & Revisions',d:'You review every file. Request any changes and we revise within 24 hours. One full revision round is included in the plan.'},
+      {p:'Day 16',t:'Final Delivery',d:'All files delivered via a shared Google Drive folder with your content calendar doc and captions. Ready to schedule and post.'},
     ],
-    resultsBody: 'Consistent, well-designed content builds brand recognition over time. Clients on this retainer typically see a 40–80% increase in profile visits and significantly higher story views within 60 days.',
-    results: [
-      { num: '8–12', label: 'Posts delivered per month' },
-      { num: '60%', label: 'Average increase in profile visits' },
-      { num: '24hr', label: 'Revision turnaround time' },
-    ],
-    faqs: [
-      { q: 'Do I need to provide photos?', a: 'For product or lifestyle posts, yes — you provide the photos and we design around them. For text-based or graphic posts, we handle everything end-to-end.' },
-      { q: 'What format are the files delivered in?', a: 'All files are delivered as high-res PNG/JPG (1080x1080 and 1080x1920 for stories) via a shared Google Drive folder.' },
-      { q: 'Can I request specific post types?', a: 'Absolutely. During the monthly brief we ask exactly what you need — offers, testimonials, product launches, educational content, or anything else.' },
-      { q: 'Do you also post for me?', a: 'Not in this plan — we deliver the files, captions, and calendar, and you post them. If you want us to manage posting as well, ask about the Full Marketing Retainer.' },
+    rNote:'Consistent branded content builds recognition over time. Clients on this plan typically see 40–80% growth in profile visits within 60 days of consistent posting.',
+    results:[{n:'8–12',l:'Designed posts every month'},{n:'60%',l:'Avg increase in profile visits'},{n:'24hr',l:'Revision turnaround time'}],
+    faqs:[
+      {q:'Do I need to provide photos?',a:'For product or personal brand posts, yes — you provide photos and we design around them. For graphic or informational posts, we handle everything entirely.'},
+      {q:'What format are the files?',a:'High-res PNG and JPG at 1080x1080 for feed posts and 1080x1920 for stories, delivered via a shared Google Drive folder. Ready to post directly.'},
+      {q:'Do you post the content for me?',a:'This plan delivers files, captions, and a calendar — you do the posting. If you want us to fully manage your account, that\'s under the Full Marketing Retainer.'},
+      {q:'Can I request specific post types?',a:'Yes — during the monthly brief we ask exactly what you need. Offers, testimonials, product launches, educational content, anything specific to your month.'},
     ]
   },
-
-  maintenance: {
-    name: 'Website Maintenance',
-    tag: 'Monthly Website Retainer',
-    title: 'YOUR WEBSITE,\nALWAYS <span class="orange">RUNNING PERFECT.</span>',
-    subtitle: 'We keep your website fast, secure, and up to date every month — fixing bugs, updating content, improving speed, and making sure nothing breaks while you focus on your business.',
-    priceDisplay: '₹2,000 – ₹4,000',
-    priceParam: 'maintenance',
-    icon: '🌐',
-    ctaFeatures: ['Monthly speed & performance check','Content updates (up to 5 changes)','Security monitoring & fixes','Broken link & error checks','Mobile responsiveness checks','Monthly health report'],
-    included: [
-      { icon: '⚡', title: 'Speed Optimisation', desc: 'Monthly audit of your website\'s loading speed. We compress images, clean up code, and keep your site fast on mobile and desktop.' },
-      { icon: '🔐', title: 'Security Monitoring', desc: 'Check for vulnerabilities, keep plugins/themes updated (if WordPress), and ensure your SSL certificate is active.' },
-      { icon: '✏️', title: 'Content Updates', desc: 'Need to change a price, add a new product, update your address or hours? We handle up to 5 content change requests per month.' },
-      { icon: '🔍', title: 'Broken Link & Error Fixes', desc: 'Monthly scan for 404 errors, broken links, and console errors that could hurt your SEO or user experience.' },
-      { icon: '📱', title: 'Mobile Check', desc: 'Verify your site looks and works correctly across major screen sizes and devices every month.' },
-      { icon: '📊', title: 'Monthly Health Report', desc: 'A simple report showing your site\'s current status, what was fixed, and what we recommend next.' },
+  maintenance:{
+    name:'Website Maintenance',icon:'🌐',
+    t1:'YOUR WEBSITE.',t2:'ALWAYS FAST.',to:'ALWAYS RUNNING.',
+    desc:'We keep your website performing at its best every single month — fast loading, secure, updated, and error-free. You never worry about something breaking while you\'re focused on running your business.',
+    price:'₹2,000 – ₹4,000',tags:['Speed Checks','Content Updates','Security','Health Report'],
+    ctaList:['Monthly speed & performance audit','Up to 5 content update requests','Security monitoring and fixes','Broken link and error scanning','Mobile responsiveness checks','Monthly website health report','24-hour emergency response'],
+    included:[
+      {icon:'⚡',name:'Speed Optimisation',desc:'Monthly Lighthouse and GTmetrix audit. We compress images, clean scripts, and fix everything slowing your site down — targeting a 90+ performance score.'},
+      {icon:'🔐',name:'Security Monitoring',desc:'Check for vulnerabilities, update plugins and themes, verify SSL is active, and flag any suspicious activity or security gaps.'},
+      {icon:'✏️',name:'Content Updates',desc:'Need to change a price, update your hours, swap an image, or add a product? We handle up to 5 content update requests every single month.'},
+      {icon:'🔍',name:'Error & Link Scanning',desc:'Monthly scan for 404 errors, broken internal links, console errors, and missing metadata that hurts your SEO and user experience.'},
+      {icon:'📱',name:'Mobile Checks',desc:'Test your site across major device sizes and browsers monthly to catch anything that\'s broken or shifted since the last update.'},
+      {icon:'📋',name:'Monthly Health Report',desc:'Clear summary report showing your site\'s performance score, what was fixed, what was updated, and what we recommend next.'},
     ],
-    timeline: [
-      { week: 'Week 1', title: 'Speed & Performance Audit', desc: 'Run full Lighthouse / GTmetrix audit. Identify slowdowns and fix them. Target 90+ performance score.' },
-      { week: 'Week 2', title: 'Content Updates & Fixes', desc: 'Apply all requested content changes, fix any broken links or errors flagged since last month.' },
-      { week: 'Week 3', title: 'Security & Mobile Check', desc: 'Check security headers, SSL, plugin updates, and run mobile responsiveness tests across devices.' },
-      { week: 'Week 4', title: 'Report & Recommendations', desc: 'Send your monthly health report with completed work, current scores, and suggestions for improvements.' },
+    timeline:[
+      {p:'Week 1',t:'Speed & Performance Audit',d:'Full Lighthouse/GTmetrix audit. Identify and fix everything slowing your site — image compression, script cleanup, caching, and Core Web Vitals improvements.'},
+      {p:'Week 2',t:'Content Updates & Error Fixes',d:'Apply all content change requests, fix broken links, resolve 404 errors, and address any console issues flagged since last month.'},
+      {p:'Week 3',t:'Security & Mobile Review',d:'Security headers check, SSL verification, plugin updates, and cross-device mobile responsiveness testing across major screen sizes and browsers.'},
+      {p:'Week 4',t:'Health Report Delivery',d:'Monthly health report with current performance scores, a log of everything completed, and recommendations for improvements we spotted.'},
     ],
-    resultsBody: 'A well-maintained website loads faster, ranks better on Google, and gives visitors a smoother experience. Even small speed improvements can directly impact how many visitors convert into enquiries.',
-    results: [
-      { num: '90+', label: 'Target Google PageSpeed score' },
-      { num: '5', label: 'Content change requests per month' },
-      { num: '24hr', label: 'Emergency fix response time' },
-    ],
-    faqs: [
-      { q: 'What platforms do you maintain?', a: 'We maintain websites built on Webflow, Framer, WordPress, Shopify, and custom HTML/CSS. Ask us about your specific platform.' },
-      { q: 'What if something breaks urgently?', a: 'Maintenance clients get priority emergency support. If something breaks, contact us on WhatsApp and we\'ll respond within 24 hours.' },
-      { q: 'What counts as a content change?', a: 'A content change is updating text, swapping an image, adding a new section, or editing a product. Complex redesign requests fall outside this plan.' },
-      { q: 'Do I need to give you access to my site?', a: 'Yes — we\'ll need editor/admin access to your CMS or hosting to make changes. All access is kept confidential and secure.' },
+    rNote:'A fast, secure, and error-free website directly impacts your SEO rankings and conversion rate. Even a 1-second improvement in load time can meaningfully increase how many visitors contact you.',
+    results:[{n:'90+',l:'Target Google PageSpeed score'},{n:'5',l:'Content changes handled monthly'},{n:'24hr',l:'Emergency fix response time'}],
+    faqs:[
+      {q:'What platforms do you support?',a:'We maintain websites built on Webflow, Framer, Shopify, WordPress, and custom HTML/CSS. Ask us if you\'re on a different platform.'},
+      {q:'What if something breaks urgently?',a:'Maintenance clients get priority emergency support. If something breaks unexpectedly, WhatsApp us and we respond within 24 hours.'},
+      {q:'What counts as a content change?',a:'Updating text, swapping an image, editing a price or product, or adding a small section. Major redesigns or new page builds are a separate project.'},
+      {q:'Do I need to give you website access?',a:'Yes — we need editor or admin access to your CMS or hosting platform. All credentials are stored securely and never shared.'},
     ]
   },
-
-  full: {
-    name: 'Full Marketing Retainer',
-    tag: 'All-in-One Monthly Retainer',
-    title: 'YOUR COMPLETE\nDIGITAL TEAM. <span class="orange">EVERY MONTH.</span>',
-    subtitle: 'The complete package — SEO, social media creatives, website maintenance, and ad management all in one retainer. We become your outsourced digital marketing team.',
-    priceDisplay: '₹15,000 – ₹25,000',
-    priceParam: 'full',
-    icon: '⭐',
-    ctaFeatures: ['Everything in SEO Management','Everything in Social Media Creatives','Everything in Website Maintenance','Meta & Google Ads management','Monthly strategy call','Priority support (12hr response)'],
-    included: [
-      { icon: '🔍', title: 'Full SEO Management', desc: 'Keyword research, on-page work, Google Business, backlink monitoring, and monthly SEO reporting.' },
-      { icon: '📣', title: 'Social Media Creatives', desc: '8–12 designed posts, reel covers, stories, captions, and content calendar every month.' },
-      { icon: '🌐', title: 'Website Maintenance', desc: 'Speed checks, content updates, security monitoring, and monthly website health report.' },
-      { icon: '📢', title: 'Meta & Google Ads', desc: 'We manage your paid ad campaigns — creative, targeting, budget optimisation, and monthly reporting.' },
-      { icon: '📞', title: 'Monthly Strategy Call', desc: 'A 30-minute video call every month to review results, align on goals, and plan the next 30 days together.' },
-      { icon: '⚡', title: 'Priority Support', desc: '12-hour response guarantee on WhatsApp. You\'re always our top priority on this plan.' },
+  full:{
+    name:'Full Marketing Retainer',icon:'⭐',
+    t1:'YOUR COMPLETE',t2:'DIGITAL TEAM.',to:'ALL IN ONE.',
+    desc:'SEO, social media creatives, website maintenance, and paid ads — all handled every month under one plan. We become your outsourced marketing department. One partner. One invoice. Everything covered.',
+    price:'₹15,000 – ₹25,000',tags:['SEO + Creatives','Website Care','Ads Management','Strategy Calls'],
+    ctaList:['Full SEO management every month','8–12 social media designs','Website maintenance included','Meta & Google Ads management','Monthly 30-min strategy call','Priority 12-hour support response','Unified monthly performance report'],
+    included:[
+      {icon:'🔍',name:'Full SEO Management',desc:'Everything in our SEO plan — keyword research, on-page work, Google Business, backlink monitoring, and monthly ranking report.'},
+      {icon:'📣',name:'Social Media Creatives',desc:'Everything in our Social plan — 8–12 posts, reel covers, stories, captions, hashtags, and your monthly content calendar.'},
+      {icon:'🌐',name:'Website Maintenance',desc:'Everything in our Maintenance plan — speed optimisation, content updates, security checks, and monthly health report.'},
+      {icon:'📢',name:'Meta & Google Ads',desc:'We manage your paid campaigns end-to-end — creative, targeting, A/B testing, budget optimisation, and monthly ad performance reporting.'},
+      {icon:'📞',name:'Monthly Strategy Call',desc:'A dedicated 30-minute video call every month to review results across all channels and build the plan together for the next 30 days.'},
+      {icon:'⚡',name:'Priority Support',desc:'12-hour response guaranteed on WhatsApp. As a Full Retainer client you are always our top priority — any question, any time.'},
     ],
-    timeline: [
-      { week: 'Week 1', title: 'SEO Work + Content Brief', desc: 'Run SEO audit, implement optimisations, and gather the brief for this month\'s social content and ad campaigns.' },
-      { week: 'Week 2', title: 'Design + Ads Launch', desc: 'Design all social content, launch or update ad campaigns, and handle any website maintenance tasks.' },
-      { week: 'Week 3', title: 'Review + Optimise', desc: 'Review ad performance, revise creatives if needed, and push additional SEO or website improvements.' },
-      { week: 'Week 4', title: 'Strategy Call + Full Report', desc: 'Monthly strategy call with full performance report — SEO rankings, ad results, social stats, and next month\'s plan.' },
+    timeline:[
+      {p:'Week 1',t:'SEO Work + Content Brief + Ad Review',d:'Run this month\'s SEO tasks, gather the social content brief, and review/adjust ad campaigns based on last month\'s performance data.'},
+      {p:'Week 2',t:'Design Sprint + Ad Creatives + Website',d:'Design all social content and ad creatives, launch or update campaigns, and handle all website maintenance tasks for the month.'},
+      {p:'Week 3',t:'Optimise + Mid-Month Review',d:'Review ad performance mid-month, optimise targeting and spend, revise underperforming creatives, and push additional SEO improvements.'},
+      {p:'Week 4',t:'Strategy Call + Unified Report',d:'Full unified report covering SEO rankings, ad results, social performance, and website health — followed by your 30-minute strategy call.'},
     ],
-    resultsBody: 'This is our most comprehensive offering. Clients on the Full Retainer consistently see faster growth across all channels because everything works together — your SEO feeds your content, your ads amplify your organic reach, and your website converts it all.',
-    results: [
-      { num: '4-in-1', label: 'Services working together' },
-      { num: '12hr', label: 'Priority support response time' },
-      { num: '30min', label: 'Monthly 1-on-1 strategy call' },
-    ],
-    faqs: [
-      { q: 'Does ad spend come out of the retainer?', a: 'No — the retainer covers our management fee. Ad spend (the money that goes to Meta/Google) is a separate budget that you set and control.' },
-      { q: 'What\'s the minimum ad budget recommended?', a: 'We recommend a minimum of ₹5,000/month ad spend for Meta Ads to see meaningful results. More budget means more reach.' },
-      { q: 'Can I start with a smaller plan and upgrade?', a: 'Absolutely. Many clients start with SEO or Social and upgrade to the Full Retainer once they see results. Just let us know.' },
-      { q: 'Is there a minimum commitment?', a: 'We recommend at least 3 months to see meaningful results from the combined effort. But technically, it\'s rolling monthly — no lock-in.' },
+    rNote:'When SEO, social, ads, and your website all work together under one strategy, results compound faster. Every channel amplifies the others.',
+    results:[{n:'4-in-1',l:'Services working as one strategy'},{n:'12hr',l:'Priority support response time'},{n:'30min',l:'Monthly 1-on-1 strategy call'}],
+    faqs:[
+      {q:'Is ad spend included in the fee?',a:'No — the retainer covers our management and creative fees. Ad spend (paid directly to Meta/Google) is a separate budget you set and control.'},
+      {q:'What\'s the minimum ad budget?',a:'We recommend at least ₹5,000/month ad spend to see meaningful results. More budget = more reach. We help you spend it efficiently.'},
+      {q:'Can I start smaller and upgrade later?',a:'Yes — many clients start with SEO-only or Social-only and upgrade once they see results. Just let us know when you\'re ready.'},
+      {q:'Is there a minimum commitment?',a:'We recommend 3 months for the combined strategy to compound. But technically it\'s rolling monthly — no lock-in, cancel anytime.'},
     ]
   }
 };
 
-// Other plans for the bottom section
-const allPlans = [
-  { key: 'seo',         icon: '🔍', name: 'SEO Management',          price: '₹5,000–₹10,000/mo' },
-  { key: 'social',      icon: '📣', name: 'Social Media Creatives',   price: '₹6,000–₹12,000/mo' },
-  { key: 'maintenance', icon: '🌐', name: 'Website Maintenance',      price: '₹2,000–₹4,000/mo'  },
-  { key: 'full',        icon: '⭐', name: 'Full Marketing Retainer',  price: '₹15,000–₹25,000/mo' },
-];
+const keys = ['seo','social','maintenance','full'];
+let current = new URLSearchParams(location.search).get('plan') || 'seo';
+if (!plans[current]) current = 'seo';
 
-// ── Init ──
-const params = new URLSearchParams(location.search);
-const key = params.get('plan') || 'seo';
-const plan = plans[key] || plans.seo;
-
-// Update page title
-document.title = plan.name + ' — Loudmark';
-
-// Hero
-document.getElementById('breadcrumbCurrent').textContent = plan.name;
-document.getElementById('heroTag').textContent = plan.tag;
-document.getElementById('heroTitle').innerHTML = plan.title.replace('\n','<br>');
-document.getElementById('heroSubtitle').textContent = plan.subtitle;
-document.getElementById('heroPrice').textContent = plan.priceDisplay;
-
-// CTA card
-document.getElementById('ctaPlan').textContent = plan.name;
-document.getElementById('ctaPrice').textContent = plan.priceDisplay;
-document.getElementById('ctaFeatures').innerHTML = plan.ctaFeatures.map(f => `<li>${f}</li>`).join('');
-document.getElementById('ctaPayBtn').href = `loudmark-payment.html?plan=${plan.priceParam}&type=retainer`;
-
-// Included grid
-document.getElementById('includedGrid').innerHTML = plan.included.map(i => `
-  <div class="included-item">
-    <div class="ii-icon">${i.icon}</div>
-    <div class="ii-title">${i.title}</div>
-    <div class="ii-desc">${i.desc}</div>
-  </div>
-`).join('');
-
-// Timeline
-document.getElementById('timeline').innerHTML = plan.timeline.map((t,i) => `
-  <div class="timeline-item">
-    <div class="tl-dot">${String(i+1).padStart(2,'0')}</div>
-    <div class="tl-content">
-      <div class="tl-week">${t.week}</div>
-      <div class="tl-title">${t.title}</div>
-      <div class="tl-desc">${t.desc}</div>
-    </div>
-  </div>
-`).join('');
-
-// Results
-document.getElementById('resultsBody').textContent = plan.resultsBody;
-document.getElementById('resultsGrid').innerHTML = plan.results.map(r => `
-  <div class="result-card">
-    <div class="result-num">${r.num}</div>
-    <div class="result-label">${r.label}</div>
-  </div>
-`).join('');
-
-// FAQs
-document.getElementById('faqList').innerHTML = plan.faqs.map(f => `
-  <div class="faq-item">
-    <div class="faq-q" onclick="toggleFaq(this)">
-      ${f.q}
-      <span class="faq-chevron">▼</span>
-    </div>
-    <div class="faq-a">${f.a}</div>
-  </div>
-`).join('');
-
-// Other plans
-const others = allPlans.filter(p => p.key !== key);
-document.getElementById('otherPlansGrid').innerHTML = others.map(p => `
-  <a class="op-card" href="loudmark-retainer.html?plan=${p.key}">
-    <div class="op-left">
-      <div class="op-icon">${p.icon}</div>
+function buildHTML(k) {
+  const p = plans[k];
+  return `<div class="plan-content${k===current?' active':''}" id="plan-${k}">
+    <div class="plan-intro">
       <div>
-        <div class="op-name">${p.name}</div>
-        <div class="op-price">${p.price}</div>
+        <div class="pi-tag">${p.name}</div>
+        <h2 class="pi-title">${p.t1}<br>${p.t2}<br><span class="o">${p.to}</span></h2>
+        <p class="pi-desc">${p.desc}</p>
+      </div>
+      <div class="pi-right">
+        <div class="pi-price-label">Starting from</div>
+        <div class="pi-price">${p.price}</div>
+        <div class="pi-price-note">Per month · Cancel anytime · No lock-in</div>
+        <div class="pi-tags">${p.tags.map(t=>`<span class="pi-tag-pill">${t}</span>`).join('')}</div>
       </div>
     </div>
-    <div class="op-arrow">→</div>
-  </a>
-`).join('');
+    <div class="plan-body">
+      <div class="left-col">
+        <div>
+          <div class="sec-tag">What You Get</div>
+          <h3 class="sec-heading">Everything included <em>every month</em></h3>
+          <div class="inc-grid">${p.included.map(i=>`<div class="inc-item"><span class="inc-icon">${i.icon}</span><div class="inc-name">${i.name}</div><div class="inc-desc">${i.desc}</div></div>`).join('')}</div>
+        </div>
+        <div>
+          <div class="sec-tag">The Process</div>
+          <h3 class="sec-heading">What happens <em>each month</em></h3>
+          <div class="timeline">${p.timeline.map((t,i)=>`<div class="tl-item"><div class="tl-num">${String(i+1).padStart(2,'0')}</div><div class="tl-body"><div class="tl-period">${t.p}</div><div class="tl-title">${t.t}</div><div class="tl-desc">${t.d}</div></div></div>`).join('')}</div>
+        </div>
+        <div>
+          <div class="sec-tag">Expected Results</div>
+          <h3 class="sec-heading">What you can <em>expect</em></h3>
+          <div class="results-grid">${p.results.map(r=>`<div class="rg-item"><div class="rg-num">${r.n}</div><div class="rg-label">${r.l}</div></div>`).join('')}</div>
+          <div class="results-note">${p.rNote}</div>
+        </div>
+        <div>
+          <div class="sec-tag">Common Questions</div>
+          <h3 class="sec-heading">Before you <em>decide</em></h3>
+          <div class="faq-wrap">${p.faqs.map(f=>`<div class="faq-item"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')">${f.q}<span class="faq-chev">▼</span></div><div class="faq-a">${f.a}</div></div>`).join('')}</div>
+        </div>
+      </div>
+      <div class="right-col">
+        <div class="cta-card">
+          <div class="cta-top">
+            <div class="cta-plan">${p.name.toUpperCase()}</div>
+            <div class="cta-price">${p.price}</div>
+            <div class="cta-period">Per Month · GST Extra</div>
+          </div>
+          <div class="cta-body">
+            <ul class="cta-list">${p.ctaList.map(f=>`<li>${f}</li>`).join('')}</ul>
+            <div class="cta-divider"></div>
+            <a class="btn-sub" href="loudmark-payment.html?plan=${k}&type=retainer">Subscribe Now →</a>
+            <a class="btn-audit" href="loudmark-contact.html">Get a Free Audit First</a>
+            <div class="cta-secure">🔒 Secure via Razorpay · Cancel anytime · No hidden charges</div>
+          </div>
+        </div>
+        <div class="contact-mini">
+          <div class="cm-label">Have Questions?</div>
+          <a href="mailto:loudmark.studio@gmail.com" class="cm-link"><span class="cm-icon">✉️</span> loudmark.studio@gmail.com</a>
+          <a href="https://www.instagram.com/loudmark.studio" target="_blank" class="cm-link"><span class="cm-icon">📸</span> @loudmark.studio</a>
+        </div>
+        <div class="trust-list">
+          <div class="trust-item"><div class="t-dot"></div>No lock-in — cancel anytime</div>
+          <div class="trust-item"><div class="t-dot"></div>Work starts within 48 hours</div>
+          <div class="trust-item"><div class="t-dot"></div>Monthly delivery, always on schedule</div>
+          <div class="trust-item"><div class="t-dot"></div>Direct WhatsApp access to your team</div>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
 
-// FAQ toggle
-function toggleFaq(el) {
-  const item = el.parentElement;
-  item.classList.toggle('open');
+document.getElementById('planContents').innerHTML = keys.map(buildHTML).join('');
+
+function renderOtherPlans() {
+  document.getElementById('opGrid').innerHTML = keys.map(k=>{
+    const p=plans[k];
+    return `<div class="op-card${k===current?' active':''}" onclick="switchPlan('${k}',null)">
+      <div class="op-left"><div class="op-icon">${p.icon}</div><div><div class="op-name">${p.name}</div><div class="op-price">${p.price}/mo</div></div></div>
+      <div class="op-arr">${k===current?'✓':'→'}</div>
+    </div>`;
+  }).join('');
+}
+renderOtherPlans();
+
+// Set correct active tab on load
+document.querySelectorAll('.plan-tab').forEach((tab,i) => {
+  tab.classList.toggle('active', keys[i] === current);
+});
+
+function switchPlan(k, tabEl) {
+  current = k;
+  document.querySelectorAll('.plan-tab').forEach((t,i) => t.classList.toggle('active', keys[i]===k));
+  document.querySelectorAll('.plan-content').forEach(c => c.classList.remove('active'));
+  document.getElementById('plan-'+k).classList.add('active');
+  renderOtherPlans();
+  history.replaceState(null,'','?plan='+k);
+  document.querySelector('.switcher-hero').scrollIntoView({behavior:'smooth',block:'end'});
 }
 </script>
 </body>
