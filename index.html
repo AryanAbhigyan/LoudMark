@@ -386,13 +386,24 @@
   .cta-contact-item .icon { color: var(--orange); }
 
   /* FOOTER */
-  footer { background: #060E1A; padding: 2rem 4rem; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid rgba(255,107,53,0.1); flex-wrap: wrap; gap: 1rem; }
-  .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 3px; color: var(--white); }
+  footer { background: #060E1A; border-top: 1px solid rgba(255,107,53,0.1); }
+  .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; padding: 3.5rem 4rem 2.5rem; }
+  .footer-brand {}
+  .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; letter-spacing: 3px; color: var(--white); margin-bottom: 0.5rem; }
   .footer-logo span { color: var(--orange); }
-  .footer-copy { color: var(--grey); font-size: 0.8rem; }
-  .footer-links { display: flex; gap: 1.5rem; }
-  .footer-links a { color: var(--grey); font-size: 0.8rem; text-decoration: none; transition: color 0.2s; }
-  .footer-links a:hover { color: var(--orange); }
+  .footer-tagline { font-size: 0.82rem; color: var(--grey); margin-bottom: 1.2rem; font-style: italic; }
+  .footer-contact-links { display: flex; flex-direction: column; gap: 0.4rem; }
+  .footer-contact-links a { color: var(--grey); text-decoration: none; font-size: 0.82rem; transition: color 0.2s; }
+  .footer-contact-links a:hover { color: var(--orange); }
+  .footer-col { display: flex; flex-direction: column; gap: 0.6rem; }
+  .footer-col-title { font-size: 0.68rem; color: var(--orange); text-transform: uppercase; letter-spacing: 3px; font-weight: 600; margin-bottom: 0.4rem; }
+  .footer-col a { color: var(--grey); text-decoration: none; font-size: 0.83rem; transition: color 0.2s; }
+  .footer-col a:hover { color: var(--white); }
+  .footer-bottom { display: flex; align-items: center; justify-content: space-between; padding: 1.2rem 4rem; border-top: 1px solid rgba(255,107,53,0.06); flex-wrap: wrap; gap: 1rem; }
+  .footer-copy { color: var(--grey); font-size: 0.75rem; }
+  .footer-legal-links { display: flex; gap: 1.5rem; }
+  .footer-legal-links a { color: var(--grey); text-decoration: none; font-size: 0.75rem; transition: color 0.2s; }
+  .footer-legal-links a:hover { color: var(--orange); }
 
   /* SCROLL REVEAL */
   .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
@@ -411,7 +422,8 @@
     .process-grid { grid-template-columns: repeat(2,1fr); gap: 3rem; }
     .process-grid::before { display: none; }
     .retainer-grid { grid-template-columns: 1fr; }
-    footer { padding: 2rem; flex-direction: column; text-align: center; }
+    .footer-top { grid-template-columns: 1fr 1fr; padding: 2.5rem 1.5rem; gap: 2rem; }
+    .footer-bottom { padding: 1rem 1.5rem; flex-direction: column; text-align: center; }
   }
 </style>
 </head>
@@ -661,12 +673,45 @@
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-logo"><span>LOUD</span>MARK</div>
-  <div class="footer-copy">© 2026 Loudmark. Marking Your Presence. Loudly.</div>
-  <div class="footer-links">
-    <a href="#services">Services</a>
-    <a href="#pricing">Pricing</a>
-    <a href="loudmark-contact.html">Contact</a>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="footer-logo"><span>LOUD</span>MARK</div>
+      <div class="footer-tagline">Marking Your Presence. Loudly.</div>
+      <div class="footer-contact-links">
+        <a href="mailto:loudmark.studio@gmail.com">✉ loudmark.studio@gmail.com</a>
+        <a href="https://www.instagram.com/loudmark.studio" target="_blank">📸 @loudmark.studio</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Services</div>
+      <a href="#services">Website Design</a>
+      <a href="#services">Marketing Creatives</a>
+      <a href="#services">SEO Management</a>
+      <a href="#retainer">Monthly Retainers</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Quick Links</div>
+      <a href="#pricing">Pricing</a>
+      <a href="#work">Our Work</a>
+      <a href="#process">How It Works</a>
+      <a href="loudmark-contact.html">Get a Free Audit</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Legal</div>
+      <a href="loudmark-terms.html">Terms & Conditions</a>
+      <a href="loudmark-privacy.html">Privacy Policy</a>
+      <a href="loudmark-refund.html">Refund Policy</a>
+      <a href="loudmark-cancellation.html">Cancellation Policy</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2026 Loudmark Studio. All rights reserved.</div>
+    <div class="footer-legal-links">
+      <a href="loudmark-terms.html">Terms</a>
+      <a href="loudmark-privacy.html">Privacy</a>
+      <a href="loudmark-refund.html">Refunds</a>
+      <a href="loudmark-cancellation.html">Cancellations</a>
+    </div>
   </div>
 </footer>
 
