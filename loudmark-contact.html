@@ -3,6 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='12' fill='%230A1628'/><text y='.9em' font-size='60' font-family='Arial Black,sans-serif' fill='%23FF6B35' x='50%' text-anchor='middle' dominant-baseline='middle' dy='5'>L</text></svg>">
+<meta name="description" content="Request your free website and marketing audit from Loudmark Studio. We'll analyse your digital presence and show you exactly what to fix.">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Get a Free Digital Audit — Loudmark Studio">
+<meta property="og:description" content="Request your free website and marketing audit from Loudmark Studio. We'll analyse your digital presence and show you exactly what to fix.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://loudmark.studio/loudmark-contact.html">
+<meta property="og:image" content="https://loudmark.studio/og-image.jpg">
+<meta property="og:site_name" content="Loudmark Studio">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Get a Free Digital Audit — Loudmark Studio">
+<meta name="twitter:description" content="Request your free website and marketing audit from Loudmark Studio. We'll analyse your digital presence and show you exactly what to fix.">
 <title>Get a Free Audit — Loudmark</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
@@ -149,7 +161,17 @@ footer{background:#060E1A;padding:1.5rem 4rem;display:flex;align-items:center;ju
       <div class="audit-item"><div class="audit-item-icon">📣</div><div><div class="audit-item-title">Social & Ad Presence</div><div class="audit-item-desc">Instagram profile, creatives quality, and ad readiness.</div></div></div>
     </div>
     <div class="left-note">Response within 24 hours. Completely free.</div>
-  </div>
+    <div style="margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid rgba(255,107,53,0.12);">
+      <p style="font-size:0.75rem;color:var(--grey);text-transform:uppercase;letter-spacing:2px;font-weight:600;margin-bottom:0.8rem">Or reach us directly</p>
+      <div style="display:flex;flex-direction:column;gap:0.6rem">
+        <a href="https://wa.me/917789982004?text=Hi%20Loudmark%20Studio%2C%20I%27d%20like%20to%20get%20a%20free%20audit." target="_blank" style="display:inline-flex;align-items:center;gap:0.6rem;color:var(--white);text-decoration:none;font-size:0.88rem;font-weight:500;transition:color 0.2s" onmouseover="this.style.color='var(--orange)'" onmouseout="this.style.color='var(--white)'">
+          <span style="font-size:1.1rem">💬</span> WhatsApp us: +91 77899 82004
+        </a>
+        <a href="mailto:loudmark.studio@gmail.com" style="display:inline-flex;align-items:center;gap:0.6rem;color:var(--white);text-decoration:none;font-size:0.88rem;font-weight:500;transition:color 0.2s" onmouseover="this.style.color='var(--orange)'" onmouseout="this.style.color='var(--white)'">
+          <span style="font-size:1.1rem">📧</span> loudmark.studio@gmail.com
+        </a>
+      </div>
+    </div>
 
   <div class="right-panel">
     <div id="formWrap">
@@ -188,6 +210,7 @@ footer{background:#060E1A;padding:1.5rem 4rem;display:flex;align-items:center;ju
               <input type="text" id="emailOtpInput" placeholder="• • • • • •" maxlength="6" oninput="this.value=this.value.replace(/\D/g,'')">
               <button type="button" class="otp-verify-btn" onclick="verifyEmailOTP()">Verify</button>
             </div>
+            <div id="emailOtpErr" style="font-size:0.78rem;color:var(--error);min-height:1rem;margin-top:0.3rem;display:none"></div>
             <div class="otp-resend">
               Didn't receive it?
               <button type="button" class="otp-resend-btn" id="emailResendBtn" onclick="sendEmailOTP(true)" disabled>Resend in <span id="emailTimer">60</span>s</button>
@@ -209,6 +232,7 @@ footer{background:#060E1A;padding:1.5rem 4rem;display:flex;align-items:center;ju
               <input type="text" id="phoneOtpInput" placeholder="• • • • • •" maxlength="6" oninput="this.value=this.value.replace(/\D/g,'')">
               <button type="button" class="otp-verify-btn" onclick="verifyPhoneOTP()">Verify</button>
             </div>
+            <div id="phoneOtpErr" style="font-size:0.78rem;color:var(--error);min-height:1rem;margin-top:0.3rem;display:none"></div>
             <div class="otp-resend">
               Didn't receive it?
               <button type="button" class="otp-resend-btn" id="phoneResendBtn" onclick="sendPhoneOTP(true)" disabled>Resend in <span id="phoneTimer">60</span>s</button>
@@ -269,6 +293,7 @@ footer{background:#060E1A;padding:1.5rem 4rem;display:flex;align-items:center;ju
           <textarea id="f_message" placeholder="Tell us about your goals, challenges, or anything else..."></textarea>
         </div>
 
+        <div id="otpWarningBanner" style="display:none;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:8px;padding:0.8rem 1rem;font-size:0.84rem;color:#ef4444;margin-bottom:0.5rem"></div>
         <button type="submit" class="submit-btn" id="submitBtn">Send My Request →</button>
         <p class="form-privacy">🔒 Both your email and phone are verified with OTP. Your data is safe with us.</p>
       </form>
@@ -296,6 +321,23 @@ const EJS_TEMPLATE  = 'template_loudmark';
 const EJS_AUTOREPLY = 'template_autoreply';
 const EJS_OTP_TPL   = 'template_autoreply';
 emailjs.init({ publicKey: EJS_KEY });
+
+// ── Inline OTP error helpers ──
+function showOtpErr(elId, msg) {
+  const el = document.getElementById(elId);
+  if (!el) return;
+  el.textContent = '⚠ ' + msg;
+  el.style.display = 'block';
+  setTimeout(() => { el.style.display = 'none'; el.textContent = ''; }, 5000);
+}
+function showOtpBanner(msg) {
+  const el = document.getElementById('otpWarningBanner');
+  if (!el) return;
+  el.textContent = msg;
+  el.style.display = 'block';
+  el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  setTimeout(() => { el.style.display = 'none'; }, 6000);
+}
 
 // Pre-select plan
 const params = new URLSearchParams(location.search);
@@ -450,7 +492,7 @@ async function sendEmailOTP(isResend=false){
   } catch(err){
     btn.disabled=false;
     btn.textContent='Send OTP to Email';
-    alert('Failed to send OTP. Please try again.');
+    showOtpErr('emailOtpErr', 'Failed to send OTP. Please try again.');
     console.error(err);
   }
 }
@@ -458,8 +500,7 @@ async function sendEmailOTP(isResend=false){
 function verifyEmailOTP(){
   const entered = document.getElementById('emailOtpInput').value.trim();
   if(!entered || entered.length!==6){
-    alert('Please enter the 6-digit OTP.');
-    return;
+    showOtpErr('emailOtpErr', 'Please enter the 6-digit OTP.'); return;
   }
   if(entered === emailOTP){
     emailVerified=true;
@@ -490,7 +531,7 @@ async function sendPhoneOTP(isResend=false){
 
   // Wait for Firebase to be ready
   if(!window._firebaseReady){
-    alert('System initialising, please try again in a moment.');
+    showOtpErr('phoneOtpErr', 'System still loading, please wait a moment and try again.');
     return;
   }
 
@@ -534,11 +575,11 @@ async function sendPhoneOTP(isResend=false){
     btn.textContent='Send OTP to Phone';
     window._recaptchaVerifier=null;
     if(err.code==='auth/too-many-requests'){
-      alert('Too many attempts. Please wait a few minutes before trying again.');
+      showOtpErr('phoneOtpErr', 'Too many attempts. Please wait a few minutes before trying again.');
     } else if(err.code==='auth/invalid-phone-number'){
-      alert('Invalid phone number format. Please check and try again.');
+      showOtpErr('phoneOtpErr', 'Invalid phone number format. Please check and try again.');
     } else {
-      alert('Could not send OTP. Please try again.');
+      showOtpErr('phoneOtpErr', 'Could not send OTP. Please try again.');
     }
     console.error(err);
   }
@@ -547,11 +588,10 @@ async function sendPhoneOTP(isResend=false){
 async function verifyPhoneOTP(){
   const entered = document.getElementById('phoneOtpInput').value.trim();
   if(!entered || entered.length!==6){
-    alert('Please enter the 6-digit OTP.');
-    return;
+    showOtpErr('phoneOtpErr', 'Please enter the 6-digit OTP.'); return;
   }
   if(!firebaseConfirmation){
-    alert('Please request the OTP first.');
+    showOtpErr('phoneOtpErr', 'Please request an OTP first by clicking \'Send OTP to Phone\'.');
     return;
   }
 
@@ -608,12 +648,12 @@ document.getElementById('auditForm').addEventListener('submit', async function(e
 
   // OTP verification checks
   if(!emailVerified){
-    alert('⚠ Please verify your email address with an OTP before submitting.');
+    showOtpBanner('⚠ Please verify your email address with an OTP before submitting.');
     document.getElementById('f_email').scrollIntoView({behavior:'smooth',block:'center'});
     ok=false;
   }
   if(!phoneVerified){
-    alert('⚠ Please verify your phone number with an OTP before submitting.');
+    showOtpBanner('⚠ Please verify your phone number with an OTP before submitting. Scroll up to the phone field.');
     document.getElementById('f_phone').scrollIntoView({behavior:'smooth',block:'center'});
     ok=false;
   }

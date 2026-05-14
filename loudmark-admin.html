@@ -3,6 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='12' fill='%230A1628'/><text y='.9em' font-size='60' font-family='Arial Black,sans-serif' fill='%23FF6B35' x='50%' text-anchor='middle' dominant-baseline='middle' dy='5'>L</text></svg>">
+<meta name="description" content="Loudmark Studio internal admin panel.">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Admin Panel — Loudmark Studio">
+<meta property="og:description" content="Loudmark Studio internal admin panel.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="">
+<meta property="og:image" content="https://loudmark.studio/og-image.jpg">
+<meta property="og:site_name" content="Loudmark Studio">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Admin Panel — Loudmark Studio">
+<meta name="twitter:description" content="Loudmark Studio internal admin panel.">
 <title>Loudmark Admin Panel</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -125,9 +137,53 @@ tr:hover .row-actions{opacity:1}
 .setup-notice-body code{background:rgba(255,255,255,0.08);padding:0.1rem 0.4rem;border-radius:3px;font-family:monospace;font-size:0.75rem;color:var(--warning)}
 
 @media(max-width:900px){.admin-header{padding:1rem 1.5rem}.stats-bar{grid-template-columns:repeat(2,1fr)}.main{padding:1.5rem}.search-box{width:180px}}
+
+/* LOGIN SCREEN */
+#loginScreen{position:fixed;inset:0;background:var(--dark);z-index:9999;display:flex;align-items:center;justify-content:center;padding:2rem}
+.login-box{background:var(--dark2);border:1px solid var(--border);border-radius:20px;padding:3rem 2.5rem;width:100%;max-width:420px;display:flex;flex-direction:column;align-items:center;gap:1.5rem}
+.login-logo{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:4px;color:var(--white)}
+.login-logo span{color:var(--orange)}
+.login-badge{background:var(--orange-dim);border:1px solid var(--border);color:var(--orange);font-size:0.65rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:0.25rem 0.8rem;border-radius:100px;margin-top:-0.5rem}
+.login-title{font-size:1rem;color:var(--grey);font-weight:400;text-align:center;line-height:1.5}
+.login-form{width:100%;display:flex;flex-direction:column;gap:1rem}
+.login-input-wrap{position:relative}
+.login-input{width:100%;background:var(--card);border:1.5px solid rgba(255,255,255,0.08);border-radius:10px;padding:0.9rem 1rem;color:var(--white);font-family:'DM Sans',sans-serif;font-size:1rem;outline:none;transition:border-color 0.2s;letter-spacing:2px}
+.login-input::placeholder{letter-spacing:0;color:rgba(148,163,184,0.4)}
+.login-input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(255,107,53,0.1)}
+.login-input.err{border-color:var(--error)!important;box-shadow:0 0 0 3px rgba(239,68,68,0.1)!important}
+.login-err{font-size:0.78rem;color:var(--error);text-align:center;min-height:1rem;transition:opacity 0.2s}
+.login-btn{width:100%;background:var(--orange);color:var(--dark);border:none;padding:0.95rem;border-radius:10px;font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:3px;cursor:pointer;transition:opacity 0.2s}
+.login-btn:hover{opacity:0.88}
+.login-btn:disabled{opacity:0.5;cursor:not-allowed}
+.login-hint{font-size:0.72rem;color:rgba(148,163,184,0.4);text-align:center}
+.login-shake{animation:shake 0.4s ease}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+#adminContent{display:none}
+.logout-btn{background:transparent;border:1px solid var(--border);color:var(--grey);padding:0.5rem 1rem;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:0.78rem;font-weight:600;cursor:pointer;transition:all 0.2s;text-transform:uppercase;letter-spacing:1px}
+.logout-btn:hover{border-color:var(--error);color:var(--error)}
 </style>
 </head>
 <body>
+
+<!-- LOGIN SCREEN -->
+<div id="loginScreen">
+  <div class="login-box">
+    <div class="login-logo"><span>LOUD</span>MARK</div>
+    <div class="login-badge">Admin Access Only</div>
+    <p class="login-title">Enter your admin password<br>to access the panel</p>
+    <div class="login-form">
+      <div class="login-input-wrap">
+        <input class="login-input" type="password" id="pwInput" placeholder="Enter password" onkeydown="if(event.key==='Enter')tryLogin()">
+      </div>
+      <div class="login-err" id="loginErr"></div>
+      <button class="login-btn" id="loginBtn" onclick="tryLogin()">UNLOCK PANEL</button>
+    </div>
+    <div class="login-hint">Only you should know this URL and password.</div>
+  </div>
+</div>
+
+<!-- ADMIN CONTENT (hidden until login) -->
+<div id="adminContent">
 
 <!-- HEADER -->
 <div class="admin-header">
@@ -139,6 +195,7 @@ tr:hover .row-actions{opacity:1}
     <a href="index.html" class="site-link" target="_blank">View Live Site ↗</a>
     <button class="header-btn" onclick="loadDemoData()">Load Demo Data</button>
     <button class="header-btn danger" onclick="clearAllData()">Clear All Data</button>
+    <button class="logout-btn" onclick="logout()">Logout</button>
   </div>
 </div>
 
@@ -517,6 +574,52 @@ function loadDemoData() {
 
 // Init
 loadData();
+</script>
+
+</div><!-- end adminContent -->
+
+<script>
+// ── ADMIN PASSWORD ──
+// To change your password: edit the value between the quotes below
+const ADMIN_PASSWORD = '@Aryan14';
+const SESSION_KEY = 'lm_admin_auth';
+
+function tryLogin() {
+  const input = document.getElementById('pwInput');
+  const errEl = document.getElementById('loginErr');
+  const btn = document.getElementById('loginBtn');
+
+  if (input.value === ADMIN_PASSWORD) {
+    sessionStorage.setItem(SESSION_KEY, 'true');
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('adminContent').style.display = 'block';
+    loadData();
+  } else {
+    input.classList.add('err', 'login-shake');
+    errEl.textContent = 'Incorrect password. Please try again.';
+    btn.disabled = true;
+    setTimeout(() => {
+      input.classList.remove('login-shake');
+      input.value = '';
+      btn.disabled = false;
+    }, 1000);
+    setTimeout(() => { input.classList.remove('err'); errEl.textContent = ''; }, 3000);
+  }
+}
+
+function logout() {
+  if (!confirm('Log out of the admin panel?')) return;
+  sessionStorage.removeItem(SESSION_KEY);
+  document.getElementById('adminContent').style.display = 'none';
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('pwInput').value = '';
+}
+
+// Auto-unlock if session is still active (page refresh)
+if (sessionStorage.getItem(SESSION_KEY) === 'true') {
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('adminContent').style.display = 'block';
+}
 </script>
 </body>
 </html>
