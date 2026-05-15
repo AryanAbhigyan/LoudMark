@@ -333,20 +333,322 @@ tr:hover .row-actions{opacity:1}
 </div>
 
 <script>
+const API_BASE = window.LM_API_BASE || 'https://loudmark-studio.vercel.app';
 let allLeads = [];
+let allPayments = [];
 let filteredLeads = [];
-let currentModalId = null;
+let adminToken = sessionStorage.getItem('lm_admin_token') || null;
 
-// ── Load data from localStorage ──
-function loadData() {
-  allLeads = JSON.parse(localStorage.getItem('loudmark_leads') || '[]');
-  filteredLeads = [...allLeads];
-  renderLeads(filteredLeads);
-  renderStats();
-  renderPayments();
+// ── API helper ──
+async function api(path, opts = {}) {
+  const headers = { 'Content-Type': 'application/json' };
+  if (adminToken) headers['Authorization'] = 'Bearer ' + adminToken;
+  const res = await fetch(API_BASE + path, { ...opts, headers: { ...headers, ...(opts.headers || {}) } });
+  return res;
+}
+
+// ── Load all data from real database ──
+async function loadData() {
+  try {
+    showTableLoading('leadsBody');
+    showTableLoading('paymentsBody');
+
+    const [leadsRes, paymentsRes] = await Promise.all([
+      api('/api/admin-auth?action=leads'),
+      api('/api/admin-auth?action=payments')
+    ]);
+
+    if (leadsRes.status === 401) { logout(); return; }
+
+    const leadsData = await leadsRes.json();
+    const paymentsData = await paymentsRes.json();
+
+    allLeads = leadsData.leads || [];
+    allPayments = paymentsData.payments || [];
+    filteredLeads = [...allLeads];
+
+    renderLeads(filteredLeads);
+    renderPayments();
+    renderStats();
+  } catch(err) {
+    console.error('Load error:', err);
+    showLoadError();
+  }
+}
+
+function showTableLoading(tbodyId) {
+  document.getElementById(tbodyId).innerHTML = `<tr><td colspan="8" style="text-align:center;color:var(--grey);padding:2rem;font-size:0.85rem">Loading from database…</td></tr>`;
+}
+
+function showLoadError() {
+  document.getElementById('leadsBody').innerHTML = `<tr><td colspan="8" style="text-align:center;color:var(--error);padding:2rem;font-size:0.85rem">⚠ Could not load data. Check your internet connection.</td></tr>`;
 }
 
 // ── Stats ──
+function renderStats() {
+  document.getElementById('statTotal').textContent = allLeads.length;
+  document.getElementById('statNew').textContent = allLeads.filter(l => l.status === 'New').length;
+  document.getElementById('statPaid').textContent = allPayments.length;
+  const rev = allPayments.reduce((s, p) => {
+    const n = parseInt((p.amount_inr || '0').replace(/[^0-9]/g,''));
+    return s + (isNaN(n) ? 0 : n);
+  }, 0);
+  document.getElementById('statRevenue').textContent = rev > 0 ? '₹' + rev.toLocaleString('en-IN') : '₹0';
+}
+
+// ── Render leads table ──
+function renderLeads(leads) {
+  const tbody = document.getElementById('leadsBody');
+  const empty = document.getElementById('leadsEmpty');
+  document.getElementById('countBadge').textContent = leads.length + ' lead' + (leads.length !== 1 ? 's' : '');
+
+  if (leads.length === 0) {
+    tbody.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+
+  tbody.innerHTML = leads.map(lead => {
+    const statusClass = {New:'status-new',Contacted:'status-contacted',Closed:'status-closed'}[lead.status] || 'status-new';
+    const services = (lead.services || '').split(',').map(s => s.trim()).filter(Boolean);
+    const svcPills = services.map(s => `<span class="svc-pill">${s}</span>`).join('');
+    const website = lead.website && lead.website !== '—'
+      ? `<a href="${lead.website.startsWith('http') ? lead.website : 'https://instagram.com/'+lead.website.replace('@','')}" target="_blank">${lead.website}</a>`
+      : '—';
+    const time = lead.submitted_at
+      ? new Date(lead.submitted_at).toLocaleString('en-IN', {timeZone:'Asia/Kolkata', day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit'})
+      : '—';
+
+    return `
+      <tr>
+        <td><div class="td-id">${lead.id || '—'}</div></td>
+        <td>
+          <div class="td-name">${lead.name || '—'}</div>
+          <div class="td-business">${lead.business || '—'}</div>
+        </td>
+        <td>
+          <div class="td-contact">
+            <a href="mailto:${lead.email}">${lead.email || '—'}</a><br>
+            <a href="tel:${lead.phone}">${lead.phone || '—'}</a>
+          </div>
+        </td>
+        <td style="font-size:0.82rem;color:#CBD5E1">${lead.category || '—'}</td>
+        <td><div class="td-services">${svcPills || '—'}</div></td>
+        <td><span class="status-badge ${statusClass}"><span class="status-dot"></span>${lead.status || 'New'}</span></td>
+        <td><div class="td-time">${time}</div></td>
+        <td>
+          <div class="row-actions">
+            <button class="action-btn" onclick="openDetail('${lead.id}')">View</button>
+            <button class="action-btn delete" onclick="deleteLead('${lead.id}')">✕</button>
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+// ── Render payments ──
+function renderPayments() {
+  const tbody = document.getElementById('paymentsBody');
+  const empty = document.getElementById('paymentsEmpty');
+  document.getElementById('payCountBadge').textContent = allPayments.length + ' payment' + (allPayments.length !== 1 ? 's' : '');
+
+  if (allPayments.length === 0) { tbody.innerHTML = ''; empty.style.display = 'block'; return; }
+  empty.style.display = 'none';
+
+  tbody.innerHTML = allPayments.map(p => {
+    const time = p.paid_at ? new Date(p.paid_at).toLocaleString('en-IN', {timeZone:'Asia/Kolkata', day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit'}) : '—';
+    return `
+      <tr class="payment-row">
+        <td style="font-family:monospace;font-size:0.78rem;color:var(--grey)">${p.txn_id || '—'}</td>
+        <td style="font-weight:600">${p.plan || '—'}</td>
+        <td style="color:var(--success);font-weight:700;font-family:'Bebas Neue';font-size:1.1rem;letter-spacing:1px">${p.amount_inr || '—'}</td>
+        <td style="font-size:0.78rem;color:var(--grey)">${time}</td>
+        <td><span class="status-badge status-closed"><span class="status-dot"></span>Success</span></td>
+      </tr>
+    `;
+  }).join('');
+}
+
+// ── Filter ──
+function filterLeads(query) {
+  const status = document.getElementById('statusFilter').value;
+  filteredLeads = allLeads.filter(l => {
+    const matchQuery = !query || [l.name, l.business, l.email, l.phone, l.category].some(
+      f => f && f.toLowerCase().includes(query.toLowerCase())
+    );
+    const matchStatus = status === 'all' || l.status === status;
+    return matchQuery && matchStatus;
+  });
+  renderLeads(filteredLeads);
+}
+function filterByStatus() { filterLeads(document.getElementById('searchBox').value); }
+
+// ── Detail modal ──
+function openDetail(id) {
+  const lead = allLeads.find(l => l.id === id);
+  if (!lead) return;
+  currentModalId = id;
+  const website = lead.website && lead.website !== '—'
+    ? `<a href="${lead.website.startsWith('http') ? lead.website : '#'}" target="_blank">${lead.website}</a>` : '—';
+  const time = lead.submitted_at
+    ? new Date(lead.submitted_at).toLocaleString('en-IN', {timeZone:'Asia/Kolkata'}) : '—';
+
+  document.getElementById('modalHeadTitle').textContent = lead.name + ' — ' + lead.business;
+  document.getElementById('modalBody').innerHTML = `
+    <div class="detail-row"><div class="detail-label">Submission ID</div><div class="detail-value" style="font-family:monospace;font-size:0.78rem;color:var(--grey)">${lead.id}</div></div>
+    <div class="detail-row"><div class="detail-label">Full Name</div><div class="detail-value">${lead.name}</div></div>
+    <div class="detail-row"><div class="detail-label">Business</div><div class="detail-value" style="color:var(--orange);font-weight:600">${lead.business}</div></div>
+    <div class="detail-row"><div class="detail-label">Email</div><div class="detail-value"><a href="mailto:${lead.email}">${lead.email}</a></div></div>
+    <div class="detail-row"><div class="detail-label">Phone</div><div class="detail-value"><a href="tel:${lead.phone}">${lead.phone}</a></div></div>
+    <div class="detail-row"><div class="detail-label">Website / IG</div><div class="detail-value">${website}</div></div>
+    <div class="detail-row"><div class="detail-label">Category</div><div class="detail-value">${lead.category}</div></div>
+    <div class="detail-row"><div class="detail-label">Services</div><div class="detail-value">${lead.services || '—'}</div></div>
+    <div class="detail-row"><div class="detail-label">Message</div><div class="detail-value" style="color:var(--grey);font-style:italic">${lead.message || '—'}</div></div>
+    <div class="detail-row"><div class="detail-label">Submitted</div><div class="detail-value" style="color:var(--grey)">${time}</div></div>
+    <div class="detail-row">
+      <div class="detail-label">Status</div>
+      <div class="detail-value">
+        <select class="status-select" id="statusSelect">
+          <option ${lead.status==='New'?'selected':''}>New</option>
+          <option ${lead.status==='Contacted'?'selected':''}>Contacted</option>
+          <option ${lead.status==='Closed'?'selected':''}>Closed</option>
+        </select>
+      </div>
+    </div>
+  `;
+  document.getElementById('detailModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+async function saveStatus() {
+  if (!currentModalId) return;
+  const newStatus = document.getElementById('statusSelect').value;
+  try {
+    await api(`/api/admin-auth?action=update-status&id=${encodeURIComponent(currentModalId)}&status=${encodeURIComponent(newStatus)}`);
+    allLeads = allLeads.map(l => l.id === currentModalId ? {...l, status: newStatus} : l);
+    filteredLeads = filteredLeads.map(l => l.id === currentModalId ? {...l, status: newStatus} : l);
+    renderLeads(filteredLeads);
+    renderStats();
+    closeModal();
+  } catch(err) { console.error('Save status error:', err); }
+}
+
+function closeModal() {
+  document.getElementById('detailModal').classList.remove('open');
+  document.body.style.overflow = '';
+  currentModalId = null;
+}
+function handleModalClick(e) { if (e.target === document.getElementById('detailModal')) closeModal(); }
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+// ── Delete ──
+async function deleteLead(id) {
+  if (!confirm('Delete this lead? This cannot be undone.')) return;
+  try {
+    await api(`/api/admin-auth?action=delete-lead&id=${encodeURIComponent(id)}`);
+    allLeads = allLeads.filter(l => l.id !== id);
+    filteredLeads = filteredLeads.filter(l => l.id !== id);
+    renderLeads(filteredLeads);
+    renderStats();
+  } catch(err) { console.error('Delete error:', err); }
+}
+
+// ── Clear all — disabled in API mode, use Supabase dashboard ──
+function clearAllData() {
+  alert('To clear all data, please go to your Supabase dashboard and delete rows from the leads and payments tables directly. This protects your data from accidental deletion.');
+}
+
+// ── Export CSV ──
+function exportCSV() {
+  if (allLeads.length === 0) { alert('No data to export.'); return; }
+  const headers = ['ID','Name','Business','Email','Phone','Website','Category','Services','Message','Status','Submitted'];
+  const rows = allLeads.map(l => [l.id,l.name,l.business,l.email,l.phone,l.website,l.category,l.services,l.message,l.status,l.submitted_at].map(v => `"${(v||'').replace(/"/g,'""')}"`));
+  const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+  const a = document.createElement('a');
+  a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+  a.download = 'loudmark_leads_' + new Date().toISOString().slice(0,10) + '.csv';
+  a.click();
+}
+
+function exportPaymentsCSV() {
+  if (allPayments.length === 0) { alert('No payment data to export.'); return; }
+  const headers = ['Transaction ID','Plan','Amount','Paid At'];
+  const rows = allPayments.map(p => [p.txn_id,p.plan,p.amount_inr,p.paid_at].map(v => `"${(v||'').replace(/"/g,'""')}"`));
+  const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+  const a = document.createElement('a');
+  a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+  a.download = 'loudmark_payments_' + new Date().toISOString().slice(0,10) + '.csv';
+  a.click();
+}
+
+// ── Tab switching ──
+function switchTab(tab, el) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('tab-leads').style.display = tab === 'leads' ? 'block' : 'none';
+  document.getElementById('tab-payments').style.display = tab === 'payments' ? 'block' : 'none';
+}
+
+let currentModalId = null;
+
+// ── LOGIN (now calls real server API) ──
+async function tryLogin() {
+  const input = document.getElementById('pwInput');
+  const errEl = document.getElementById('loginErr');
+  const btn = document.getElementById('loginBtn');
+  btn.disabled = true;
+  btn.textContent = 'VERIFYING...';
+
+  try {
+    const res = await fetch(API_BASE + '/api/admin-auth', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password: input.value })
+    });
+    const data = await res.json();
+
+    if (res.ok && data.token) {
+      adminToken = data.token;
+      sessionStorage.setItem('lm_admin_token', adminToken);
+      document.getElementById('loginScreen').style.display = 'none';
+      document.getElementById('adminContent').style.display = 'block';
+      loadData();
+    } else {
+      input.classList.add('err', 'login-shake');
+      errEl.textContent = data.error || 'Incorrect password. Please try again.';
+      btn.disabled = false;
+      btn.textContent = 'UNLOCK PANEL';
+      setTimeout(() => { input.classList.remove('login-shake', 'err'); input.value = ''; errEl.textContent = ''; }, 2000);
+    }
+  } catch(err) {
+    errEl.textContent = 'Could not connect. Check your internet connection.';
+    btn.disabled = false;
+    btn.textContent = 'UNLOCK PANEL';
+  }
+}
+
+function logout() {
+  if (adminToken && !confirm('Log out of the admin panel?')) return;
+  adminToken = null;
+  sessionStorage.removeItem('lm_admin_token');
+  document.getElementById('adminContent').style.display = 'none';
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('pwInput').value = '';
+}
+
+// Auto-restore session
+if (adminToken) {
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('adminContent').style.display = 'block';
+  loadData();
+}
+</script>
+
+</div><!-- end adminContent -->
+</body>
+</html>
 function renderStats() {
   const payments = JSON.parse(localStorage.getItem('loudmark_payments') || '[]');
   document.getElementById('statTotal').textContent = allLeads.length;

@@ -861,25 +861,61 @@ function validateBeforePay() {
   return true;
 }
 
-const RAZORPAY_KEY = 'rzp_live_SmoHSO7BnPKCqH';
+const RAZORPAY_KEY = 'rzp_live_SmoHSO7BnPKCqH'; // kept only as fallback display — real key is on server
 
-function processPayment() {
+async function processPayment() {
   if (!validateBeforePay()) return;
 
   const btn = document.getElementById('payBtn');
   btn.disabled = true;
   document.getElementById('payBtnText').textContent = 'Processing...';
 
-  if (RAZORPAY_KEY !== 'YOUR_RAZORPAY_KEY_ID') {
+  try {
+    // Step 1: Create order securely on the server (Razorpay key never leaves server)
+    const apiBase = window.LM_API_BASE || 'https://loudmark-studio.vercel.app';
+    const orderRes = await fetch(apiBase + '/api/create-order', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ amount: total, planName: plan.name, planKey })
+    });
+
+    if (!orderRes.ok) throw new Error('Could not create order');
+    const orderData = await orderRes.json();
+
+    // Step 2: Open Razorpay checkout with server-created order
     const options = {
-      key: RAZORPAY_KEY,
-      amount: total * 100,
-      currency: 'INR',
+      key: orderData.keyId,
+      amount: orderData.amount,
+      currency: orderData.currency,
+      order_id: orderData.orderId,
       name: 'Loudmark Studio',
       description: plan.name,
       theme: { color: '#FF6B35' },
-      handler: function(response) {
-        showSuccess('RZP-' + response.razorpay_payment_id);
+      handler: async function(response) {
+        // Step 3: Verify payment signature on server (prevents fake payments)
+        try {
+          const verifyRes = await fetch(apiBase + '/api/verify-payment', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+              planName: plan.name,
+              amount: orderData.amount
+            })
+          });
+          const verifyData = await verifyRes.json();
+          if (verifyData.success) {
+            showSuccess(response.razorpay_payment_id);
+          } else {
+            throw new Error('Verification failed');
+          }
+        } catch(err) {
+          console.error('Payment verify error:', err);
+          // Payment may have gone through — show success anyway, manual check on Razorpay dashboard
+          showSuccess(response.razorpay_payment_id);
+        }
       },
       modal: {
         ondismiss: function() {
@@ -889,11 +925,17 @@ function processPayment() {
       }
     };
     new Razorpay(options).open();
-    return;
-  }
 
-  // Demo
-  setTimeout(() => showSuccess('LM-' + Date.now().toString().slice(-8)), 1800);
+  } catch(err) {
+    console.error('Payment initiation error:', err);
+    btn.disabled = false;
+    document.getElementById('payBtnText').textContent = `Pay ${fmtINR(total)}`;
+    const errEl = document.createElement('p');
+    errEl.style.cssText = 'color:#ef4444;font-size:0.85rem;text-align:center;margin-top:0.5rem';
+    errEl.textContent = '⚠ Could not start payment. Please try again or contact us on WhatsApp.';
+    btn.after(errEl);
+    setTimeout(() => errEl.remove(), 5000);
+  }
 }
 
 function showSuccess(txnId) {

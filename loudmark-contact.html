@@ -667,8 +667,6 @@ document.getElementById('auditForm').addEventListener('submit', async function(e
   const finalCat=cat==='Other'?document.getElementById('f_othercat').value.trim():cat;
   const services=checked.map(c=>c.value).join(', ');
   const sub={
-    id:'LM-'+Date.now(),
-    timestamp:new Date().toLocaleString('en-IN',{timeZone:'Asia/Kolkata'}),
     name:document.getElementById('f_name').value.trim(),
     business:document.getElementById('f_business').value.trim(),
     email:document.getElementById('f_email').value.trim(),
@@ -677,28 +675,35 @@ document.getElementById('auditForm').addEventListener('submit', async function(e
     category:finalCat,
     services,
     message:document.getElementById('f_message').value.trim()||'—',
-    status:'New',
-    verified:'Email ✓ · Phone ✓'
   };
-
-  const saved=JSON.parse(localStorage.getItem('loudmark_leads')||'[]');
-  saved.unshift(sub);
-  localStorage.setItem('loudmark_leads',JSON.stringify(saved));
 
   const btn=document.getElementById('submitBtn');
   btn.textContent='Sending...';
   btn.disabled=true;
 
+  // ── Save to real database via secure API ──
+  try {
+    const apiBase = window.LM_API_BASE || 'https://loudmark-studio.vercel.app';
+    const saveRes = await fetch(apiBase + '/api/save-lead', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(sub)
+    });
+    if (!saveRes.ok) console.warn('Lead save warning:', await saveRes.text());
+  } catch(err) { console.warn('Lead save error:', err); }
+
+  // ── Send notification email via EmailJS ──
   try {
     await emailjs.send(EJS_SERVICE,EJS_TEMPLATE,{
       to_email:'loudmark.studio@gmail.com',
-      submission_id:sub.id,client_name:sub.name,client_business:sub.business,
+      client_name:sub.name,client_business:sub.business,
       client_email:sub.email,client_phone:sub.phone,client_website:sub.website,
       client_category:sub.category,client_services:sub.services,
-      client_message:sub.message,submitted_at:sub.timestamp
+      client_message:sub.message,submitted_at:new Date().toLocaleString('en-IN',{timeZone:'Asia/Kolkata'})
     });
   } catch(err){console.warn('Notification email:',err);}
 
+  // ── Send autoreply to client ──
   try {
     await emailjs.send(EJS_SERVICE,EJS_AUTOREPLY,{
       client_email:sub.email,client_name:sub.name,client_business:sub.business
