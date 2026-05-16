@@ -1,21 +1,9 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "api/*.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "*.html",
-      "use": "@vercel/static"
-    }
-  ],
-  "routes": [
-    { "src": "/api/admin-auth", "dest": "/api/admin-auth.js" },
-    { "src": "/api/create-order", "dest": "/api/create-order.js" },
-    { "src": "/api/save-lead", "dest": "/api/save-lead.js" },
-    { "src": "/api/verify-payment", "dest": "/api/verify-payment.js" },
-    { "src": "/", "dest": "/index.html" },
-    { "src": "/(.*)", "dest": "/$1" }
+  "rewrites": [
+    { "source": "/api/admin-auth", "destination": "/api/admin-auth.js" },
+    { "source": "/api/create-order", "destination": "/api/create-order.js" },
+    { "source": "/api/save-lead", "destination": "/api/save-lead.js" },
+    { "source": "/api/verify-payment", "destination": "/api/verify-payment.js" },
+    { "source": "/", "destination": "/index.html" }
   ]
 }
