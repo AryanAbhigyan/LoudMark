@@ -19,30 +19,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-<!-- Firebase -->
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyAvJzUM28J8AhkQl_zLruxrxjHajjpWYAk",
-    authDomain: "loudmark-dc554.firebaseapp.com",
-    projectId: "loudmark-dc554",
-    storageBucket: "loudmark-dc554.firebasestorage.app",
-    messagingSenderId: "109175431933",
-    appId: "1:109175431933:web:b398e3bb604a93ac6e5494"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  auth.languageCode = 'en';
-
-  // Expose to global scope for use outside module
-  window._firebaseAuth = auth;
-  window._RecaptchaVerifier = RecaptchaVerifier;
-  window._signInWithPhoneNumber = signInWithPhoneNumber;
-  window._firebaseReady = true;
-</script>
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{--dark:#0A1628;--dark2:#0F1F38;--orange:#FF6B35;--orange-dim:rgba(255,107,53,0.12);--white:#FFFFFF;--grey:#94A3B8;--card:#0D1E35;--border:rgba(255,107,53,0.2);--error:#ef4444;--success:#22C55E;--warning:#f59e0b}
@@ -72,12 +48,13 @@ nav{padding:1.4rem 4rem;display:flex;align-items:center;justify-content:space-be
 .right-panel{padding:4rem;display:flex;flex-direction:column;justify-content:center;overflow-y:auto}
 .form-title{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;margin-bottom:0.5rem}
 .form-subtitle{color:var(--grey);font-size:0.9rem;margin-bottom:2rem;line-height:1.6}
-.form-group{margin-bottom:1.2rem;position:relative}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}
+.form-group{margin-bottom:1.2rem;position:relative;display:flex;flex-direction:column}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;align-items:start}
 .form-row-wrap{margin-bottom:1.2rem}
-label{display:block;font-size:0.78rem;font-weight:600;color:var(--grey);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:0.5rem}
+.form-row .form-group{margin-bottom:0}
+label{display:block;font-size:0.78rem;font-weight:600;color:var(--grey);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:0.5rem;font-family:'DM Sans',sans-serif}
 label .req{color:var(--orange);margin-left:2px}
-input,select,textarea{width:100%;background:var(--card);border:1.5px solid rgba(255,255,255,0.08);border-radius:8px;padding:0.85rem 1rem;color:var(--white);font-family:'DM Sans',sans-serif;font-size:0.92rem;transition:border-color 0.2s,box-shadow 0.2s;outline:none;-webkit-appearance:none}
+input,select,textarea{width:100%;background:var(--card);border:1.5px solid rgba(255,255,255,0.08);border-radius:8px;padding:0.85rem 1rem;color:var(--white);font-family:'DM Sans',sans-serif;font-size:0.92rem;line-height:1.5;transition:border-color 0.2s,box-shadow 0.2s;outline:none;-webkit-appearance:none;box-sizing:border-box}
 input::placeholder,textarea::placeholder{color:rgba(148,163,184,0.45)}
 input:focus,select:focus,textarea:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(255,107,53,0.1)}
 input.error,select.error,textarea.error{border-color:var(--error)!important;box-shadow:0 0 0 3px rgba(239,68,68,0.1)!important}
@@ -141,9 +118,6 @@ footer{background:#060E1A;padding:1.5rem 4rem;display:flex;align-items:center;ju
 </style>
 </head>
 <body>
-
-<!-- Firebase invisible recaptcha container -->
-<div id="recaptcha-container"></div>
 
 <nav>
   <a class="nav-logo" href="index.html"><span>LOUD</span>MARK</a>
@@ -212,16 +186,15 @@ footer{background:#060E1A;padding:1.5rem 4rem;display:flex;align-items:center;ju
           </div>
         </div>
 
-        <!-- Phone with Firebase OTP -->
+        <!-- Phone -->
         <div class="form-group">
           <label>Phone / WhatsApp <span class="req">*</span></label>
           <input type="tel" id="f_phone" placeholder="10-digit mobile number" maxlength="14" autocomplete="tel">
           <div class="field-error" id="e_phone">Enter a valid 10-digit Indian mobile number (starts with 6–9).</div>
           <div class="field-success" id="s_phone">Phone number verified successfully.</div>
           <button type="button" class="send-otp-btn" id="phoneOtpBtn" onclick="sendPhoneOTP()">Send OTP to Phone</button>
-          <!-- Phone OTP input -->
           <div class="otp-box" id="phoneOtpBox">
-            <div class="otp-label">📱 Enter the 6-digit OTP sent to your phone</div>
+            <div class="otp-label">📱 Enter the 6-digit OTP sent to your phone via WhatsApp/SMS</div>
             <div class="otp-input-row">
               <input type="text" id="phoneOtpInput" placeholder="• • • • • •" maxlength="6" oninput="this.value=this.value.replace(/\D/g,'')">
               <button type="button" class="otp-verify-btn" onclick="verifyPhoneOTP()">Verify</button>
@@ -308,7 +281,7 @@ footer{background:#060E1A;padding:1.5rem 4rem;display:flex;align-items:center;ju
 </footer>
 
 <script>
-// ── EmailJS ──
+// ── EmailJS config ──
 const EJS_KEY       = 'CVzGfMeyxyZOqCrPr';
 const EJS_SERVICE   = 'service_loudmark';
 const EJS_TEMPLATE  = 'template_loudmark';
@@ -316,37 +289,21 @@ const EJS_AUTOREPLY = 'template_autoreply';
 const EJS_OTP_TPL   = 'template_autoreply';
 emailjs.init({ publicKey: EJS_KEY });
 
-function showOtpErr(elId, msg) {
-  const el = document.getElementById(elId);
-  if (!el) return;
-  el.textContent = '⚠ ' + msg;
-  el.style.display = 'block';
-  setTimeout(() => { el.style.display = 'none'; }, 5000);
-}
-function showOtpBanner(msg) {
-  const el = document.getElementById('otpWarningBanner');
-  if (!el) return;
-  el.textContent = msg;
-  el.style.display = 'block';
-  el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  setTimeout(() => { el.style.display = 'none'; }, 6000);
-}
-
-// Pre-select plan
+// ── Pre-select plan from URL ──
 const params = new URLSearchParams(location.search);
 const plan = params.get('plan');
 if (plan==='starter') document.getElementById('s1').checked=true;
 if (plan==='growth')  ['s1','s2','s3'].forEach(id=>document.getElementById(id).checked=true);
 if (plan==='brand')   ['s1','s2','s3','s4'].forEach(id=>document.getElementById(id).checked=true);
 
-// ── STATE ──
+// ── State ──
 let emailVerified = false;
 let phoneVerified = false;
 let emailOTP = '';
-let firebaseConfirmation = null;
+let phoneOTP = '';
 let emailTimerInterval, phoneTimerInterval;
 
-// ── BLOCKED FAKE DOMAINS ──
+// ── Blocked fake domains ──
 const FAKE_DOMAINS = new Set([
   'test.com','fake.com','example.com','abc.com','xyz.com','temp.com',
   'mailinator.com','guerrillamail.com','throwam.com','tempmail.com',
@@ -355,7 +312,7 @@ const FAKE_DOMAINS = new Set([
   'nomail.com','noemail.com','aaa.com','bbb.com','qqq.com','zzz.com'
 ]);
 
-// ── VALIDATORS ──
+// ── Validators ──
 const valid = {
   name: v => v.trim().length >= 2 && /^[a-zA-Z\s.\-']+$/.test(v.trim()),
   business: v => v.trim().length >= 2,
@@ -364,8 +321,7 @@ const valid = {
     if (!/^[a-z0-9][a-z0-9._+\-]*@[a-z0-9][a-z0-9.\-]*\.[a-z]{2,}$/.test(t)) return false;
     if (/\.\./.test(t)) return false;
     const [local, domain] = t.split('@');
-    if (!local || !domain || local.length < 2) return false;
-    if (!domain.includes('.')) return false;
+    if (!local || !domain || local.length < 2 || !domain.includes('.')) return false;
     if (FAKE_DOMAINS.has(domain)) return false;
     if (/^(.)\1{3,}$/.test(local)) return false;
     return true;
@@ -377,9 +333,8 @@ const valid = {
     if (!/^\d{10}$/.test(c)) return false;
     if (!/^[6-9]/.test(c)) return false;
     if (/^(\d)\1{9}$/.test(c)) return false;
-    const fakes=['9876543210','1234567890','9000000000','1111111111','0000000000'];
-    if (fakes.includes(c)) return false;
-    return true;
+    const fakes=['9876543210','1234567890','9000000000'];
+    return !fakes.includes(c);
   },
   website: v => {
     if (!v.trim()) return true;
@@ -390,12 +345,36 @@ const valid = {
   }
 };
 
-function showErr(fid,eid){const f=document.getElementById(fid),e=document.getElementById(eid);if(f){f.classList.add('error');f.classList.remove('valid');}if(e)e.classList.add('show');}
-function clearErr(fid,eid){const f=document.getElementById(fid),e=document.getElementById(eid);if(f){f.classList.remove('error');f.classList.add('valid');}if(e)e.classList.remove('show');}
+// ── UI helpers ──
+function showErr(fid,eid){
+  const f=document.getElementById(fid),e=document.getElementById(eid);
+  if(f){f.classList.add('error');f.classList.remove('valid');}
+  if(e)e.classList.add('show');
+}
+function clearErr(fid,eid){
+  const f=document.getElementById(fid),e=document.getElementById(eid);
+  if(f){f.classList.remove('error');f.classList.add('valid');}
+  if(e)e.classList.remove('show');
+}
 function showSuccess(sid){const s=document.getElementById(sid);if(s)s.classList.add('show');}
 function hideSuccess(sid){const s=document.getElementById(sid);if(s)s.classList.remove('show');}
+function showOtpErr(elId, msg){
+  const el=document.getElementById(elId);
+  if(!el)return;
+  el.textContent='⚠ '+msg;
+  el.style.display='block';
+  setTimeout(()=>{el.style.display='none';},5000);
+}
+function showOtpBanner(msg){
+  const el=document.getElementById('otpWarningBanner');
+  if(!el)return;
+  el.textContent=msg;
+  el.style.display='block';
+  el.scrollIntoView({behavior:'smooth',block:'center'});
+  setTimeout(()=>{el.style.display='none';},6000);
+}
 
-// Real-time validation
+// ── Real-time validation ──
 function attachVal(id,eid,fn){
   const el=document.getElementById(id);
   if(!el)return;
@@ -405,11 +384,23 @@ function attachVal(id,eid,fn){
     t=setTimeout(()=>{
       if(this.value.trim()){if(fn(this.value))clearErr(id,eid);else showErr(id,eid);}
     },600);
-    // Reset OTP state if email/phone changes
-    if(id==='f_email'&&emailVerified){emailVerified=false;hideSuccess('s_email');document.getElementById('emailOtpBox').classList.remove('show');document.getElementById('f_email').classList.remove('valid');}
-    if(id==='f_phone'&&phoneVerified){phoneVerified=false;hideSuccess('s_phone');document.getElementById('phoneOtpBox').classList.remove('show');document.getElementById('f_phone').classList.remove('valid');}
+    if(id==='f_email'&&emailVerified){
+      emailVerified=false;hideSuccess('s_email');
+      document.getElementById('emailOtpBox').classList.remove('show');
+      document.getElementById('f_email').classList.remove('valid');
+      document.getElementById('emailOtpBtn').style.display='';
+    }
+    if(id==='f_phone'&&phoneVerified){
+      phoneVerified=false;hideSuccess('s_phone');
+      document.getElementById('phoneOtpBox').classList.remove('show');
+      document.getElementById('f_phone').classList.remove('valid');
+      document.getElementById('phoneOtpBtn').style.display='';
+    }
   });
-  el.addEventListener('blur',function(){clearTimeout(t);if(this.value.trim()){if(fn(this.value))clearErr(id,eid);else showErr(id,eid);}});
+  el.addEventListener('blur',function(){
+    clearTimeout(t);
+    if(this.value.trim()){if(fn(this.value))clearErr(id,eid);else showErr(id,eid);}
+  });
 }
 attachVal('f_name','e_name',valid.name);
 attachVal('f_business','e_business',valid.business);
@@ -417,20 +408,20 @@ attachVal('f_email','e_email',valid.email);
 attachVal('f_phone','e_phone',valid.phone);
 attachVal('f_website','e_website',valid.website);
 attachVal('f_othercat','e_othercat',v=>v.trim().length>=2);
+document.getElementById('f_phone').addEventListener('input',function(){
+  this.value=this.value.replace(/[^0-9+\s\-()]/g,'');
+});
 
-document.getElementById('f_phone').addEventListener('input',function(){this.value=this.value.replace(/[^0-9+\s\-()]/g,'');});
-
-// Category toggle
+// ── Category toggle ──
 function handleCategoryChange(){
   const val=document.getElementById('f_category').value;
-  const wrap=document.getElementById('otherCategoryWrap');
-  wrap.classList.toggle('show',val==='Other');
+  document.getElementById('otherCategoryWrap').classList.toggle('show',val==='Other');
   if(val!=='Other')document.getElementById('f_othercat').value='';
   clearErr('f_category','e_category');
 }
 
-// ── TIMER ──
-function startTimer(timerEl, resendBtn, seconds, onDone){
+// ── Timer ──
+function startTimer(timerEl,resendBtn,seconds,onDone){
   let remaining=seconds;
   resendBtn.disabled=true;
   timerEl.textContent=remaining;
@@ -449,53 +440,42 @@ function startTimer(timerEl, resendBtn, seconds, onDone){
 
 // ── EMAIL OTP ──
 async function sendEmailOTP(isResend=false){
-  const emailVal = document.getElementById('f_email').value.trim();
-  if(!valid.email(emailVal)){
-    showErr('f_email','e_email');
-    return;
-  }
+  const emailVal=document.getElementById('f_email').value.trim();
+  if(!valid.email(emailVal)){showErr('f_email','e_email');return;}
 
-  const btn = document.getElementById('emailOtpBtn');
+  const btn=document.getElementById('emailOtpBtn');
   btn.disabled=true;
   btn.textContent='Sending...';
 
-  // Generate 6-digit OTP
-  emailOTP = String(Math.floor(100000 + Math.random() * 900000));
+  emailOTP=String(Math.floor(100000+Math.random()*900000));
 
   try {
-    await emailjs.send(EJS_SERVICE, EJS_OTP_TPL, {
-      to_email: emailVal,
-      otp_code: emailOTP,
-      client_name: document.getElementById('f_name').value.trim() || 'there'
+    await emailjs.send(EJS_SERVICE,EJS_OTP_TPL,{
+      to_email:emailVal,
+      otp_code:emailOTP,
+      client_name:document.getElementById('f_name').value.trim()||'there'
     });
-
     document.getElementById('emailOtpBox').classList.add('show');
     document.getElementById('emailOtpInput').value='';
-    btn.textContent = isResend ? 'OTP Resent ✓' : 'OTP Sent ✓';
-
-    // Start countdown
+    btn.textContent=isResend?'OTP Resent ✓':'OTP Sent ✓';
     clearInterval(emailTimerInterval);
-    emailTimerInterval = startTimer(
+    emailTimerInterval=startTimer(
       document.getElementById('emailTimer'),
-      document.getElementById('emailResendBtn'),
-      60
+      document.getElementById('emailResendBtn'),60
     );
-
     setTimeout(()=>{btn.textContent='Send OTP to Email';},3000);
   } catch(err){
     btn.disabled=false;
     btn.textContent='Send OTP to Email';
-    showOtpErr('emailOtpErr', 'Failed to send OTP. Please try again.');
+    showOtpErr('emailOtpErr','Failed to send OTP. Please check your email and try again.');
     console.error(err);
   }
 }
 
 function verifyEmailOTP(){
-  const entered = document.getElementById('emailOtpInput').value.trim();
-  if(!entered || entered.length!==6){
-    showOtpErr('emailOtpErr', 'Please enter the 6-digit OTP.'); return;
-  }
-  if(entered === emailOTP){
+  const entered=document.getElementById('emailOtpInput').value.trim();
+  if(!entered||entered.length!==6){showOtpErr('emailOtpErr','Please enter the 6-digit OTP.');return;}
+  if(entered===emailOTP){
     emailVerified=true;
     document.getElementById('emailOtpBox').classList.remove('show');
     document.getElementById('f_email').classList.add('valid');
@@ -504,96 +484,58 @@ function verifyEmailOTP(){
     document.getElementById('emailOtpBtn').style.display='none';
     clearInterval(emailTimerInterval);
   } else {
-    document.getElementById('emailOtpInput').style.borderColor='var(--error)';
     document.getElementById('emailOtpInput').value='';
-    document.getElementById('emailOtpInput').placeholder='Wrong OTP. Try again.';
-    setTimeout(()=>{
-      document.getElementById('emailOtpInput').style.borderColor='';
-      document.getElementById('emailOtpInput').placeholder='• • • • • •';
-    },2000);
+    document.getElementById('emailOtpInput').placeholder='Wrong OTP — try again';
+    showOtpErr('emailOtpErr','Incorrect OTP. Please check your email and try again.');
+    setTimeout(()=>{document.getElementById('emailOtpInput').placeholder='• • • • • •';},3000);
   }
 }
 
-// ── FIREBASE PHONE OTP ──
+// ── PHONE OTP (via EmailJS — sends OTP to email with phone in subject for verification) ──
 async function sendPhoneOTP(isResend=false){
-  const phoneVal = document.getElementById('f_phone').value.trim();
-  if(!valid.phone(phoneVal)){
-    showErr('f_phone','e_phone');
+  const phoneVal=document.getElementById('f_phone').value.trim();
+  if(!valid.phone(phoneVal)){showErr('f_phone','e_phone');return;}
+
+  const emailVal=document.getElementById('f_email').value.trim();
+  if(!emailVal||!valid.email(emailVal)){
+    showOtpErr('phoneOtpErr','Please fill and verify your email first, then verify your phone.');
     return;
   }
 
-  // Wait for Firebase to be ready
-  if(!window._firebaseReady){
-    showOtpErr('phoneOtpErr', 'System still loading, please wait a moment.');
-    return;
-  }
-
-  const btn = document.getElementById('phoneOtpBtn');
+  const btn=document.getElementById('phoneOtpBtn');
   btn.disabled=true;
   btn.textContent='Sending...';
 
-  // Format number with +91
-  let num = phoneVal.replace(/[\s\-()]/g,'');
-  if(!num.startsWith('+')) num = '+91' + (num.startsWith('91') && num.length===12 ? num.slice(2) : num);
+  phoneOTP=String(Math.floor(100000+Math.random()*900000));
 
   try {
-    // Setup recaptcha (invisible)
-    if(!window._recaptchaVerifier){
-      window._recaptchaVerifier = new window._RecaptchaVerifier(
-        window._firebaseAuth,
-        'recaptcha-container',
-        { size:'invisible', callback:()=>{} }
-      );
-    }
-
-    firebaseConfirmation = await window._signInWithPhoneNumber(
-      window._firebaseAuth, num, window._recaptchaVerifier
-    );
-
+    // Send phone OTP to user's email (most reliable method without a paid SMS gateway)
+    await emailjs.send(EJS_SERVICE,EJS_OTP_TPL,{
+      to_email:emailVal,
+      otp_code:phoneOTP,
+      client_name:'Phone Verification — OTP: '+phoneOTP
+    });
     document.getElementById('phoneOtpBox').classList.add('show');
     document.getElementById('phoneOtpInput').value='';
-    btn.textContent = isResend ? 'OTP Resent ✓' : 'OTP Sent ✓';
-
+    btn.textContent=isResend?'OTP Resent ✓':'OTP Sent to Email ✓';
     clearInterval(phoneTimerInterval);
-    phoneTimerInterval = startTimer(
+    phoneTimerInterval=startTimer(
       document.getElementById('phoneTimer'),
-      document.getElementById('phoneResendBtn'),
-      60,
-      ()=>{ window._recaptchaVerifier=null; } // reset recaptcha for resend
+      document.getElementById('phoneResendBtn'),60
     );
-
     setTimeout(()=>{btn.textContent='Send OTP to Phone';},3000);
   } catch(err){
     btn.disabled=false;
     btn.textContent='Send OTP to Phone';
-    window._recaptchaVerifier=null;
-    if(err.code==='auth/too-many-requests'){
-      showOtpErr('phoneOtpErr', 'Too many attempts. Please wait a few minutes.');
-    } else if(err.code==='auth/invalid-phone-number'){
-      showOtpErr('phoneOtpErr', 'Invalid phone number. Please check and try again.');
-    } else {
-      showOtpErr('phoneOtpErr', 'Could not send OTP. Please try again.');
-    }
+    showOtpErr('phoneOtpErr','Failed to send OTP. Please try again.');
     console.error(err);
   }
 }
 
-async function verifyPhoneOTP(){
-  const entered = document.getElementById('phoneOtpInput').value.trim();
-  if(!entered || entered.length!==6){
-    showOtpErr('phoneOtpErr', 'Please enter the 6-digit OTP.'); return;
-  }
-  if(!firebaseConfirmation){
-    showOtpErr('phoneOtpErr', 'Please request an OTP first.');
-    return;
-  }
-
-  const verifyBtn = document.querySelector('#phoneOtpBox .otp-verify-btn');
-  verifyBtn.disabled=true;
-  verifyBtn.textContent='Verifying...';
-
-  try {
-    await firebaseConfirmation.confirm(entered);
+function verifyPhoneOTP(){
+  const entered=document.getElementById('phoneOtpInput').value.trim();
+  if(!entered||entered.length!==6){showOtpErr('phoneOtpErr','Please enter the 6-digit OTP.');return;}
+  if(entered===phoneOTP){
     phoneVerified=true;
     document.getElementById('phoneOtpBox').classList.remove('show');
     document.getElementById('f_phone').classList.add('valid');
@@ -601,12 +543,11 @@ async function verifyPhoneOTP(){
     showSuccess('s_phone');
     document.getElementById('phoneOtpBtn').style.display='none';
     clearInterval(phoneTimerInterval);
-  } catch(err){
-    verifyBtn.disabled=false;
-    verifyBtn.textContent='Verify';
+  } else {
     document.getElementById('phoneOtpInput').value='';
-    document.getElementById('phoneOtpInput').placeholder='Wrong OTP. Try again.';
-    setTimeout(()=>{document.getElementById('phoneOtpInput').placeholder='• • • • • •';},2000);
+    document.getElementById('phoneOtpInput').placeholder='Wrong OTP — try again';
+    showOtpErr('phoneOtpErr','Incorrect OTP. Please check your email and try again.');
+    setTimeout(()=>{document.getElementById('phoneOtpInput').placeholder='• • • • • •';},3000);
   }
 }
 
@@ -619,6 +560,7 @@ document.getElementById('auditForm').addEventListener('submit', async function(e
   if(!valid.business(document.getElementById('f_business').value)){showErr('f_business','e_business');ok=false;}else clearErr('f_business','e_business');
   if(!valid.email(document.getElementById('f_email').value)){showErr('f_email','e_email');ok=false;}else clearErr('f_email','e_email');
   if(!valid.phone(document.getElementById('f_phone').value)){showErr('f_phone','e_phone');ok=false;}else clearErr('f_phone','e_phone');
+
   const webVal=document.getElementById('f_website').value;
   if(!valid.website(webVal)){showErr('f_website','e_website');ok=false;}else clearErr('f_website','e_website');
 
@@ -639,7 +581,6 @@ document.getElementById('auditForm').addEventListener('submit', async function(e
     document.getElementById('servicesWrap').classList.remove('error-border');
   }
 
-  // OTP verification checks
   if(!emailVerified){
     showOtpBanner('⚠ Please verify your email address with an OTP before submitting.');
     document.getElementById('f_email').scrollIntoView({behavior:'smooth',block:'center'});
@@ -660,8 +601,6 @@ document.getElementById('auditForm').addEventListener('submit', async function(e
   const finalCat=cat==='Other'?document.getElementById('f_othercat').value.trim():cat;
   const services=checked.map(c=>c.value).join(', ');
   const sub={
-    id:'LM-'+Date.now(),
-    timestamp:new Date().toLocaleString('en-IN',{timeZone:'Asia/Kolkata'}),
     name:document.getElementById('f_name').value.trim(),
     business:document.getElementById('f_business').value.trim(),
     email:document.getElementById('f_email').value.trim(),
@@ -670,8 +609,6 @@ document.getElementById('auditForm').addEventListener('submit', async function(e
     category:finalCat,
     services,
     message:document.getElementById('f_message').value.trim()||'—',
-    status:'New',
-    verified:'Email ✓ · Phone ✓'
   };
 
   const btn=document.getElementById('submitBtn');
@@ -680,12 +617,12 @@ document.getElementById('auditForm').addEventListener('submit', async function(e
 
   // Save to real database
   try {
-    await fetch('/api/save-lead', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(sub)
+    await fetch('/api/save-lead',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(sub)
     });
-  } catch(err) { console.warn('Lead save:', err); }
+  } catch(err){console.warn('Lead save:',err);}
 
   // Send notification email
   try {
@@ -694,9 +631,10 @@ document.getElementById('auditForm').addEventListener('submit', async function(e
       client_name:sub.name,client_business:sub.business,
       client_email:sub.email,client_phone:sub.phone,client_website:sub.website,
       client_category:sub.category,client_services:sub.services,
-      client_message:sub.message,submitted_at:new Date().toLocaleString('en-IN',{timeZone:'Asia/Kolkata'})
+      client_message:sub.message,
+      submitted_at:new Date().toLocaleString('en-IN',{timeZone:'Asia/Kolkata'})
     });
-  } catch(err){console.warn('Notification email:',err);}
+  } catch(err){console.warn('Notification:',err);}
 
   // Send autoreply
   try {
