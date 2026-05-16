@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "outputDirectory": "public",
+  "rewrites": [
+    { "source": "/api/admin-auth", "destination": "/api/admin-auth.js" },
+    { "source": "/api/create-order", "destination": "/api/create-order.js" },
+    { "source": "/api/save-lead", "destination": "/api/save-lead.js" },
+    { "source": "/api/verify-payment", "destination": "/api/verify-payment.js" }
+  ]
+}
