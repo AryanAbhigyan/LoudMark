@@ -881,9 +881,6 @@ loadData();
 </div><!-- end adminContent -->
 
 <script>
-// ── ADMIN PASSWORD ──
-// To change your password: edit the value between the quotes below
-const ADMIN_PASSWORD = '@Aryan14';
 const SESSION_KEY = 'lm_admin_auth';
 
 function tryLogin() {
@@ -891,22 +888,33 @@ function tryLogin() {
   const errEl = document.getElementById('loginErr');
   const btn = document.getElementById('loginBtn');
 
-  if (input.value === ADMIN_PASSWORD) {
-    sessionStorage.setItem(SESSION_KEY, 'true');
-    document.getElementById('loginScreen').style.display = 'none';
-    document.getElementById('adminContent').style.display = 'block';
-    loadData();
-  } else {
-    input.classList.add('err', 'login-shake');
-    errEl.textContent = 'Incorrect password. Please try again.';
-    btn.disabled = true;
-    setTimeout(() => {
-      input.classList.remove('login-shake');
-      input.value = '';
+  // Password is verified server-side via API — never stored in this file
+  const apiBase = window.LM_API_BASE || 'https://loudmark.netlify.app';
+  btn.disabled = true;
+  btn.textContent = 'VERIFYING...';
+
+  fetch(apiBase + '/api/admin-auth', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ password: input.value })
+  }).then(r => r.json()).then(data => {
+    if (data.token) {
+      sessionStorage.setItem(SESSION_KEY, data.token);
+      document.getElementById('loginScreen').style.display = 'none';
+      document.getElementById('adminContent').style.display = 'block';
+      loadData();
+    } else {
+      input.classList.add('err', 'login-shake');
+      errEl.textContent = data.error || 'Incorrect password.';
       btn.disabled = false;
-    }, 1000);
-    setTimeout(() => { input.classList.remove('err'); errEl.textContent = ''; }, 3000);
-  }
+      btn.textContent = 'UNLOCK PANEL';
+      setTimeout(() => { input.classList.remove('login-shake', 'err'); input.value = ''; errEl.textContent = ''; }, 2000);
+    }
+  }).catch(() => {
+    errEl.textContent = 'Connection error. Please try again.';
+    btn.disabled = false;
+    btn.textContent = 'UNLOCK PANEL';
+  });
 }
 
 function logout() {
@@ -918,7 +926,7 @@ function logout() {
 }
 
 // Auto-unlock if session is still active (page refresh)
-if (sessionStorage.getItem(SESSION_KEY) === 'true') {
+if (sessionStorage.getItem(SESSION_KEY)) {
   document.getElementById('loginScreen').style.display = 'none';
   document.getElementById('adminContent').style.display = 'block';
 }

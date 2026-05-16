@@ -861,7 +861,7 @@ function validateBeforePay() {
   return true;
 }
 
-const RAZORPAY_KEY = 'rzp_live_SmoHSO7BnPKCqH'; // kept only as fallback display — real key is on server
+// Razorpay key is fetched securely from server when payment is initiated
 
 async function processPayment() {
   if (!validateBeforePay()) return;
