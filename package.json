@@ -1,6 +1,7 @@
 {
   "name": "loudmark-studio",
   "version": "1.0.0",
+  "description": "Loudmark Studio backend API",
   "dependencies": {
     "@supabase/supabase-js": "^2.39.0",
     "razorpay": "^2.9.2"
