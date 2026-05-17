@@ -3,25 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='12' fill='%230A1628'/><text y='.9em' font-size='60' font-family='Arial Black,sans-serif' fill='%23FF6B35' x='50%' text-anchor='middle' dominant-baseline='middle' dy='5'>L</text></svg>">
 <meta name="description" content="Complete your payment securely via Razorpay. Pay via UPI, card or net banking for your Loudmark Studio project.">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="noindex">
 <meta property="og:title" content="Secure Checkout — Loudmark Studio">
-<meta property="og:description" content="Complete your payment securely via Razorpay. Pay via UPI, card or net banking for your Loudmark Studio project.">
+<meta property="og:description" content="Complete your payment securely via Razorpay.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://loudmark.netlify.app/loudmark-payment.html">
 <meta property="og:image" content="https://loudmark.netlify.app/og-image.jpg">
 <meta property="og:site_name" content="Loudmark Studio">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Secure Checkout — Loudmark Studio">
-<meta name="twitter:description" content="Complete your payment securely via Razorpay. Pay via UPI, card or net banking for your Loudmark Studio project.">
-<title>Checkout — Loudmark</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='12' fill='%230A1628'/><text y='.9em' font-size='60' font-family='Arial Black,sans-serif' fill='%23FF6B35' x='50%' text-anchor='middle' dominant-baseline='middle' dy='5'>L</text></svg>">
+<title>Secure Checkout — Loudmark Studio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-:root{--dark:#0A1628;--dark2:#0F1F38;--orange:#FF6B35;--orange-dim:rgba(255,107,53,0.12);--white:#FFFFFF;--grey:#94A3B8;--card:#0D1E35;--border:rgba(255,107,53,0.2);--border-soft:rgba(255,107,53,0.08);--success:#22C55E;--error:#ef4444;--warning:#f59e0b}
+:root{--dark:#0A1628;--dark2:#0F1F38;--orange:#FF6B35;--orange-dim:rgba(255,107,53,0.12);--white:#FFFFFF;--grey:#94A3B8;--card:#0D1E35;--border:rgba(255,107,53,0.2);--border-soft:rgba(255,107,53,0.08);--success:#22C55E}
 html{scroll-behavior:smooth}
 body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--white);min-height:100vh}
 
@@ -32,9 +29,9 @@ nav{padding:1.2rem 4rem;display:flex;align-items:center;justify-content:space-be
 .nav-back{color:var(--grey);text-decoration:none;font-size:0.82rem;font-weight:500;letter-spacing:1px;text-transform:uppercase;transition:color 0.2s}
 .nav-back:hover{color:var(--orange)}
 
-.page-wrap{display:grid;grid-template-columns:1.05fr 0.95fr;min-height:calc(100vh - 68px)}
+.page-wrap{display:grid;grid-template-columns:1.1fr 0.9fr;min-height:calc(100vh - 68px)}
 
-/* ── LEFT ORDER SUMMARY ── */
+/* ── LEFT: ORDER SUMMARY ── */
 .order-panel{background:var(--dark2);padding:3.5rem 4rem;border-right:1px solid var(--border-soft);display:flex;flex-direction:column;gap:2rem}
 .order-tag{font-size:0.68rem;color:var(--orange);text-transform:uppercase;letter-spacing:3px;font-weight:600;display:flex;align-items:center;gap:0.8rem}
 .order-tag::before{content:'';width:25px;height:1.5px;background:var(--orange)}
@@ -51,111 +48,49 @@ nav{padding:1.2rem 4rem;display:flex;align-items:center;justify-content:space-be
 .plan-features li{display:flex;align-items:flex-start;gap:0.6rem;font-size:0.85rem;color:#CBD5E1}
 .plan-features li::before{content:'→';color:var(--orange);font-size:0.75rem;flex-shrink:0;margin-top:0.1rem}
 
-/* Order breakdown */
 .breakdown{display:flex;flex-direction:column;gap:0}
 .br-row{display:flex;justify-content:space-between;align-items:center;font-size:0.87rem;color:var(--grey);padding:0.65rem 0;border-bottom:1px solid var(--border-soft)}
 .br-row:last-child{border-bottom:none;border-top:1.5px solid var(--border);margin-top:0.3rem;padding-top:0.8rem;color:var(--white);font-weight:700;font-size:1rem}
 .br-row:last-child .br-val{color:var(--orange);font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:1px}
-.br-row .br-label-small{font-size:0.68rem;color:var(--grey);margin-left:0.4rem;font-weight:400}
-.processing-badge{background:rgba(245,158,11,0.12);color:var(--warning);font-size:0.62rem;font-weight:600;padding:0.1rem 0.5rem;border-radius:100px;border:1px solid rgba(245,158,11,0.2);margin-left:0.4rem}
+.processing-badge{background:rgba(245,158,11,0.12);color:#f59e0b;font-size:0.62rem;font-weight:600;padding:0.1rem 0.5rem;border-radius:100px;border:1px solid rgba(245,158,11,0.2);margin-left:0.4rem}
 
-/* Trust */
 .trust-row{display:flex;flex-direction:column;gap:0.5rem}
 .trust-item{display:flex;align-items:center;gap:0.6rem;font-size:0.77rem;color:var(--grey)}
 .trust-dot{width:5px;height:5px;background:var(--success);border-radius:50%;flex-shrink:0}
 
-/* ── RIGHT PAYMENT PANEL ── */
-.payment-panel{padding:3.5rem 3.5rem;display:flex;flex-direction:column;justify-content:center;overflow-y:auto}
-.pay-title{font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:700;margin-bottom:0.4rem}
-.pay-sub{color:var(--grey);font-size:0.88rem;margin-bottom:2rem;line-height:1.6}
+/* ── RIGHT: CHECKOUT PANEL ── */
+.checkout-panel{padding:3.5rem;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}
+.checkout-inner{max-width:380px;width:100%}
 
-/* Method tabs */
-.pay-tabs{display:flex;gap:0;margin-bottom:2rem;background:var(--card);border:1px solid var(--border-soft);border-radius:10px;overflow:hidden}
-.pay-tab{flex:1;padding:0.75rem 0.5rem;background:transparent;border:none;color:var(--grey);font-family:'DM Sans',sans-serif;font-size:0.75rem;font-weight:600;letter-spacing:0.5px;text-transform:uppercase;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:0.4rem;border-bottom:2px solid transparent}
-.pay-tab.active{background:var(--orange-dim);color:var(--orange);border-bottom-color:var(--orange)}
-.pay-tab:hover:not(.active){background:rgba(255,255,255,0.03);color:var(--white)}
+.checkout-icon{font-size:3.5rem;margin-bottom:1.5rem;display:block}
+.checkout-title{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;margin-bottom:0.6rem}
+.checkout-sub{color:var(--grey);font-size:0.9rem;line-height:1.7;margin-bottom:2.5rem}
 
-.pay-section{display:none}
-.pay-section.active{display:flex;flex-direction:column;gap:1rem}
+/* Total badge */
+.total-badge{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.2rem 1.5rem;margin-bottom:2rem;text-align:left}
+.tb-label{font-size:0.65rem;color:var(--grey);text-transform:uppercase;letter-spacing:2px;font-weight:600;margin-bottom:0.4rem}
+.tb-amount{font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:var(--orange);letter-spacing:2px;line-height:1;margin-bottom:0.2rem}
+.tb-note{font-size:0.72rem;color:var(--grey)}
 
-/* ── FORM ELEMENTS ── */
-.form-group{display:flex;flex-direction:column;gap:0.4rem}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
-label{font-size:0.72rem;font-weight:600;color:var(--grey);text-transform:uppercase;letter-spacing:1.5px}
-input,select{width:100%;background:var(--card);border:1.5px solid rgba(255,255,255,0.08);border-radius:8px;padding:0.85rem 1rem;color:var(--white);font-family:'DM Sans',sans-serif;font-size:0.92rem;outline:none;transition:border-color 0.2s,box-shadow 0.2s;-webkit-appearance:none}
-input::placeholder{color:rgba(148,163,184,0.4)}
-input:focus,select:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(255,107,53,0.1)}
-input.valid{border-color:var(--success) !important;box-shadow:0 0 0 3px rgba(34,197,94,0.08) !important}
-input.invalid{border-color:var(--error) !important;box-shadow:0 0 0 3px rgba(239,68,68,0.08) !important}
-select option{background:#0D1E35;color:var(--white)}
+/* Proceed button */
+.proceed-btn{width:100%;padding:1.1rem;background:var(--orange);color:var(--dark);border:none;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;transition:all 0.2s;letter-spacing:0.5px;display:flex;align-items:center;justify-content:center;gap:0.7rem;margin-bottom:1rem}
+.proceed-btn:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(255,107,53,0.4)}
+.proceed-btn:disabled{opacity:0.6;cursor:not-allowed;transform:none}
+.proceed-btn .btn-icon{font-size:1.1rem}
 
-.field-msg{font-size:0.7rem;min-height:1rem;display:flex;align-items:center;gap:0.3rem}
-.field-msg.error{color:var(--error)}
-.field-msg.success{color:var(--success)}
-.field-msg.loading{color:var(--warning)}
+.secure-note{font-size:0.7rem;color:var(--grey);line-height:1.6;display:flex;align-items:center;justify-content:center;gap:0.4rem;margin-bottom:2rem}
 
-/* Input with icon right */
-.input-wrap{position:relative}
-.input-wrap input{padding-right:2.8rem}
-.input-status{position:absolute;right:0.9rem;top:50%;transform:translateY(-50%);font-size:0.9rem;pointer-events:none;transition:all 0.2s}
+/* Payment method icons */
+.pay-methods-row{display:flex;align-items:center;justify-content:center;gap:0.5rem;flex-wrap:wrap;padding-top:1.5rem;border-top:1px solid var(--border-soft)}
+.pm-label{font-size:0.62rem;color:var(--grey);text-transform:uppercase;letter-spacing:1.5px;width:100%;text-align:center;margin-bottom:0.5rem}
+.pm-badge{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);padding:0.3rem 0.7rem;border-radius:4px;font-size:0.65rem;color:var(--grey);letter-spacing:0.5px;font-weight:600}
 
-/* ── UPI SECTION ── */
-.upi-id-row{display:flex;gap:0}
-.upi-id-row input{flex:1;border-radius:8px 0 0 8px;border-right:none}
-.upi-verify-btn{background:var(--orange);color:var(--dark);border:none;padding:0 1.3rem;font-family:'DM Sans',sans-serif;font-size:0.78rem;font-weight:700;border-radius:0 8px 8px 0;cursor:pointer;letter-spacing:1px;text-transform:uppercase;transition:all 0.2s;white-space:nowrap;flex-shrink:0}
-.upi-verify-btn:hover{background:#e5602e}
-.upi-verify-btn:disabled{opacity:0.5;cursor:not-allowed}
-
-.upi-divider{display:flex;align-items:center;gap:1rem;color:var(--grey);font-size:0.75rem;letter-spacing:1px;text-transform:uppercase}
-.upi-divider::before,.upi-divider::after{content:'';flex:1;height:1px;background:var(--border-soft)}
-
-/* UPI App logos */
-.upi-apps-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0.7rem}
-.upi-app-btn{background:var(--card);border:1.5px solid rgba(255,255,255,0.07);border-radius:12px;padding:0.9rem 0.5rem 0.7rem;display:flex;flex-direction:column;align-items:center;gap:0.5rem;cursor:pointer;transition:all 0.2s;user-select:none}
-.upi-app-btn:hover{border-color:rgba(255,107,53,0.4);transform:translateY(-2px)}
-.upi-app-btn.selected{border-color:var(--orange);background:var(--orange-dim);box-shadow:0 0 0 2px rgba(255,107,53,0.15)}
-.upi-app-name{font-size:0.68rem;font-weight:600;color:var(--grey);letter-spacing:0.3px;text-align:center}
-.upi-app-btn.selected .upi-app-name{color:var(--orange)}
-
-/* Logo SVGs */
-.logo-svg{width:38px;height:38px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-
-/* ── CARD SECTION ── */
-.card-number-wrap{position:relative}
-.card-number-wrap input{padding-right:5rem;letter-spacing:1.5px}
-.card-brand-badges{position:absolute;right:0.8rem;top:50%;transform:translateY(-50%);display:flex;gap:0.3rem;align-items:center}
-.card-brand-badge{height:22px;border-radius:3px;opacity:0.35;transition:opacity 0.2s;overflow:hidden}
-.card-brand-badge.active{opacity:1}
-
-/* ── NET BANKING ── */
-.bank-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:0.6rem}
-.bank-btn{background:var(--card);border:1.5px solid rgba(255,255,255,0.07);border-radius:10px;padding:0.8rem 1rem;display:flex;align-items:center;gap:0.75rem;cursor:pointer;transition:all 0.2s}
-.bank-btn:hover{border-color:rgba(255,107,53,0.4)}
-.bank-btn.selected{border-color:var(--orange);background:var(--orange-dim)}
-.bank-logo{width:36px;height:36px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden}
-.bank-name{font-size:0.83rem;font-weight:600;color:var(--white)}
-.bank-type{font-size:0.65rem;color:var(--grey)}
-
-.other-bank-select{margin-top:0.5rem}
-
-/* ── PAY BUTTON ── */
-.pay-btn{width:100%;padding:1.05rem;background:var(--orange);color:var(--dark);border:none;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.95rem;font-weight:700;cursor:pointer;transition:all 0.2s;margin-top:1.5rem;letter-spacing:0.5px;display:flex;align-items:center;justify-content:center;gap:0.6rem}
-.pay-btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 12px 30px rgba(255,107,53,0.4)}
-.pay-btn:disabled{opacity:0.55;cursor:not-allowed;transform:none}
-
-.pay-secure-note{text-align:center;color:var(--grey);font-size:0.7rem;margin-top:0.8rem;line-height:1.6;display:flex;align-items:center;justify-content:center;gap:0.4rem}
-
-/* Payment logos */
-.accepted-logos{display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--border-soft)}
-.acc-label{font-size:0.65rem;color:var(--grey);text-transform:uppercase;letter-spacing:1.5px;flex-shrink:0}
-.acc-badge{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);padding:0.25rem 0.6rem;border-radius:3px;font-size:0.62rem;color:var(--grey);letter-spacing:0.5px;font-weight:600}
-
-/* Success */
-.success-screen{display:none;text-align:center;padding:3rem 2rem;animation:fadeUp 0.5s ease both}
+/* Success screen */
+.success-screen{display:none;text-align:center;padding:2rem;animation:fadeUp 0.5s ease both;width:100%}
 .success-circle{width:90px;height:90px;background:rgba(34,197,94,0.1);border:2px solid var(--success);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2.2rem;margin:0 auto 1.5rem}
 .success-title{font-family:'Bebas Neue',sans-serif;font-size:2.5rem;letter-spacing:2px;color:var(--success);margin-bottom:0.8rem}
 .success-txn{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.7rem 1.4rem;display:inline-block;font-family:monospace;font-size:0.88rem;color:var(--orange);margin-bottom:1.2rem;letter-spacing:1px}
-.success-msg{color:var(--grey);font-size:0.92rem;line-height:1.7;max-width:380px;margin:0 auto 2rem}
+.success-msg{color:var(--grey);font-size:0.9rem;line-height:1.7;max-width:340px;margin:0 auto 2rem}
 .back-btn{display:inline-flex;align-items:center;gap:0.5rem;color:var(--orange);text-decoration:none;font-weight:600;font-size:0.9rem;border:1.5px solid var(--border);padding:0.7rem 1.4rem;border-radius:8px;transition:background 0.2s}
 .back-btn:hover{background:var(--orange-dim)}
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
@@ -168,10 +103,8 @@ footer{background:#060E1A;padding:1.2rem 4rem;display:flex;align-items:center;ju
 @media(max-width:900px){
   nav,footer{padding:1rem 1.5rem}
   .page-wrap{grid-template-columns:1fr}
-  .order-panel,.payment-panel{padding:2.5rem 1.5rem}
-  .form-row{grid-template-columns:1fr}
-  .upi-apps-grid{grid-template-columns:repeat(2,1fr)}
-  .bank-grid{grid-template-columns:1fr}
+  .order-panel{padding:2.5rem 1.5rem}
+  .checkout-panel{padding:2.5rem 1.5rem}
 }
 </style>
 </head>
@@ -185,7 +118,7 @@ footer{background:#060E1A;padding:1.2rem 4rem;display:flex;align-items:center;ju
 
 <div class="page-wrap">
 
-  <!-- ── LEFT: ORDER SUMMARY ── -->
+  <!-- LEFT: ORDER SUMMARY -->
   <div class="order-panel">
     <div>
       <div class="order-tag">Order Summary</div>
@@ -227,265 +160,39 @@ footer{background:#060E1A;padding:1.2rem 4rem;display:flex;align-items:center;ju
       <div class="trust-item"><div class="trust-dot"></div>256-bit SSL encrypted</div>
       <div class="trust-item"><div class="trust-dot"></div>Instant payment confirmation</div>
       <div class="trust-item"><div class="trust-dot"></div>Powered by Razorpay · PCI DSS compliant</div>
-      <div class="trust-item"><div class="trust-dot"></div>24hr support after payment</div>
+      <div class="trust-item"><div class="trust-dot"></div>Work starts within 48 hours of payment</div>
     </div>
   </div>
 
-  <!-- ── RIGHT: PAYMENT FORM ── -->
-  <div class="payment-panel">
-    <div id="payWrap">
-      <h2 class="pay-title">Complete Payment</h2>
-      <p class="pay-sub">All transactions are verified and secured. Choose your payment method below.</p>
+  <!-- RIGHT: CHECKOUT -->
+  <div class="checkout-panel">
+    <div class="checkout-inner" id="checkoutWrap">
+      <span class="checkout-icon">🔐</span>
+      <h2 class="checkout-title">Secure Checkout</h2>
+      <p class="checkout-sub">Click the button below to proceed to our secure payment gateway. You can pay via UPI, cards, net banking, or wallets — all in one place.</p>
 
-      <!-- Method tabs -->
-      <div class="pay-tabs">
-        <button class="pay-tab active" onclick="switchMethod('upi',this)">📱 UPI</button>
-        <button class="pay-tab" onclick="switchMethod('card',this)">💳 Card</button>
-        <button class="pay-tab" onclick="switchMethod('netbanking',this)">🏦 Net Banking</button>
+      <div class="total-badge">
+        <div class="tb-label">Total Amount</div>
+        <div class="tb-amount" id="totalBadge">₹23,620</div>
+        <div class="tb-note">Inclusive of GST & processing fee</div>
       </div>
 
-      <!-- ── UPI ── -->
-      <div class="pay-section active" id="sec-upi">
-        <div class="form-group">
-          <label>Enter UPI ID</label>
-          <div class="upi-id-row">
-            <div class="input-wrap" style="flex:1">
-              <input type="text" id="upiId" placeholder="yourname@upi" autocomplete="off" oninput="onUpiInput()">
-              <span class="input-status" id="upiStatus"></span>
-            </div>
-            <button class="upi-verify-btn" id="upiVerifyBtn" onclick="verifyUPI()">Verify</button>
-          </div>
-          <div class="field-msg" id="upiMsg"></div>
-        </div>
-
-        <div class="upi-divider">Or pay with app</div>
-
-        <div>
-          <label style="margin-bottom:0.6rem;display:block">Select UPI App</label>
-          <div class="upi-apps-grid">
-
-            <!-- Google Pay -->
-            <div class="upi-app-btn" id="app-gpay" onclick="selectUpiApp('gpay')">
-              <svg class="logo-svg" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg">
-                <rect width="38" height="38" rx="8" fill="white"/>
-                <text x="19" y="24" text-anchor="middle" font-family="Arial" font-weight="bold" font-size="11" fill="#4285F4">G</text>
-                <text x="19" y="24" text-anchor="middle" font-family="Arial" font-weight="bold" font-size="11">
-                  <tspan fill="#4285F4">G</tspan>
-                </text>
-                <!-- G logo approximation -->
-                <path d="M19 8C13.48 8 9 12.48 9 18C9 23.52 13.48 28 19 28C24.52 28 29 23.52 29 18H19V21H24.9C24.1 23.3 21.7 25 19 25C15.13 25 12 21.87 12 18C12 14.13 15.13 11 19 11C20.9 11 22.6 11.7 23.9 12.9L26.1 10.7C24.2 8.95 21.7 8 19 8Z" fill="#4285F4"/>
-                <path d="M19 18H29V21H19V18Z" fill="#34A853"/>
-                <path d="M12 18C12 16.3 12.6 14.7 13.6 13.5L11.4 11.3C9.9 13 9 15.4 9 18H12Z" fill="#FBBC05"/>
-                <path d="M19 8C21.7 8 24.2 8.95 26.1 10.7L23.9 12.9C22.6 11.7 20.9 11 19 11V8Z" fill="#EA4335"/>
-              </svg>
-              <span class="upi-app-name">Google Pay</span>
-            </div>
-
-            <!-- PhonePe -->
-            <div class="upi-app-btn" id="app-phonepe" onclick="selectUpiApp('phonepe')">
-              <svg class="logo-svg" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg">
-                <rect width="38" height="38" rx="8" fill="#5F259F"/>
-                <circle cx="19" cy="15" r="5" fill="white"/>
-                <rect x="14" y="21" width="10" height="2" rx="1" fill="white"/>
-                <rect x="15" y="24" width="8" height="2" rx="1" fill="white"/>
-                <rect x="16" y="27" width="6" height="2" rx="1" fill="white"/>
-                <circle cx="19" cy="15" r="2.5" fill="#5F259F"/>
-              </svg>
-              <span class="upi-app-name">PhonePe</span>
-            </div>
-
-            <!-- Paytm -->
-            <div class="upi-app-btn" id="app-paytm" onclick="selectUpiApp('paytm')">
-              <svg class="logo-svg" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg">
-                <rect width="38" height="38" rx="8" fill="#00BAF2"/>
-                <rect x="8" y="14" width="22" height="3" rx="1.5" fill="white"/>
-                <rect x="8" y="19" width="16" height="3" rx="1.5" fill="white"/>
-                <rect x="8" y="24" width="10" height="3" rx="1.5" fill="white"/>
-              </svg>
-              <span class="upi-app-name">Paytm</span>
-            </div>
-
-            <!-- BHIM -->
-            <div class="upi-app-btn" id="app-bhim" onclick="selectUpiApp('bhim')">
-              <svg class="logo-svg" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg">
-                <rect width="38" height="38" rx="8" fill="#00529C"/>
-                <rect x="8" y="8" width="22" height="5" rx="0" fill="#FF9933"/>
-                <rect x="8" y="13" width="22" height="12" rx="0" fill="white"/>
-                <rect x="8" y="25" width="22" height="5" rx="0" fill="#138808"/>
-                <circle cx="19" cy="19" r="4" fill="#000080" opacity="0.15"/>
-                <text x="19" y="22" text-anchor="middle" font-family="Arial" font-weight="bold" font-size="7" fill="#000080">BHIM</text>
-              </svg>
-              <span class="upi-app-name">BHIM</span>
-            </div>
-
-          </div>
-        </div>
-        <div class="field-msg" id="upiAppMsg"></div>
-      </div>
-
-      <!-- ── CARD ── -->
-      <div class="pay-section" id="sec-card">
-
-        <div class="form-group">
-          <label>Card Number</label>
-          <div class="input-wrap card-number-wrap">
-            <input type="text" id="cardNum" placeholder="0000 0000 0000 0000" maxlength="19" oninput="onCardNumInput(this)" autocomplete="cc-number">
-            <div class="card-brand-badges" id="cardBrandBadges">
-              <!-- Visa -->
-              <svg id="badge-visa" class="card-brand-badge" width="38" height="24" viewBox="0 0 38 24" xmlns="http://www.w3.org/2000/svg">
-                <rect width="38" height="24" rx="3" fill="#1A1F71"/>
-                <text x="19" y="16" text-anchor="middle" font-family="Arial" font-weight="bold" font-size="9" fill="white" letter-spacing="0.5">VISA</text>
-              </svg>
-              <!-- Mastercard -->
-              <svg id="badge-mc" class="card-brand-badge" width="38" height="24" viewBox="0 0 38 24" xmlns="http://www.w3.org/2000/svg">
-                <rect width="38" height="24" rx="3" fill="#252525"/>
-                <circle cx="14" cy="12" r="7" fill="#EB001B"/>
-                <circle cx="24" cy="12" r="7" fill="#F79E1B"/>
-                <path d="M19 6.8C20.9 8.1 22.2 10 22.2 12C22.2 14 20.9 15.9 19 17.2C17.1 15.9 15.8 14 15.8 12C15.8 10 17.1 8.1 19 6.8Z" fill="#FF5F00"/>
-              </svg>
-              <!-- RuPay -->
-              <svg id="badge-rupay" class="card-brand-badge" width="38" height="24" viewBox="0 0 38 24" xmlns="http://www.w3.org/2000/svg">
-                <rect width="38" height="24" rx="3" fill="#1a7fc1"/>
-                <text x="19" y="16" text-anchor="middle" font-family="Arial" font-weight="bold" font-size="7" fill="white">RuPay</text>
-              </svg>
-            </div>
-          </div>
-          <div class="field-msg" id="cardNumMsg"></div>
-        </div>
-
-        <div class="form-group">
-          <label>Name on Card</label>
-          <div class="input-wrap">
-            <input type="text" id="cardName" placeholder="As printed on card" oninput="onCardNameInput(this)" autocomplete="cc-name" style="text-transform:uppercase">
-            <span class="input-status" id="cardNameStatus"></span>
-          </div>
-          <div class="field-msg" id="cardNameMsg"></div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label>Expiry Date</label>
-            <div class="input-wrap">
-              <input type="text" id="cardExpiry" placeholder="MM / YY" maxlength="7" oninput="onExpiryInput(this)" autocomplete="cc-exp">
-              <span class="input-status" id="cardExpiryStatus"></span>
-            </div>
-            <div class="field-msg" id="cardExpiryMsg"></div>
-          </div>
-          <div class="form-group">
-            <label>CVV</label>
-            <div class="input-wrap">
-              <input type="password" id="cardCvv" placeholder="•••" maxlength="4" oninput="onCvvInput(this)" autocomplete="cc-csc">
-              <span class="input-status" id="cardCvvStatus"></span>
-            </div>
-            <div class="field-msg" id="cardCvvMsg"></div>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- ── NET BANKING ── -->
-      <div class="pay-section" id="sec-netbanking">
-
-        <div class="form-group">
-          <label>Popular Banks</label>
-          <div class="bank-grid" id="bankGrid">
-
-            <div class="bank-btn" id="bank-sbi" onclick="selectBank('sbi')">
-              <svg class="bank-logo" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
-                <rect width="36" height="36" rx="6" fill="#22409A"/>
-                <ellipse cx="18" cy="20" rx="9" ry="7" fill="none" stroke="white" stroke-width="2"/>
-                <path d="M12 16 Q18 10 24 16" stroke="white" stroke-width="2" fill="none"/>
-                <circle cx="18" cy="20" r="2" fill="white"/>
-              </svg>
-              <div><div class="bank-name">SBI</div><div class="bank-type">State Bank of India</div></div>
-            </div>
-
-            <div class="bank-btn" id="bank-hdfc" onclick="selectBank('hdfc')">
-              <svg class="bank-logo" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
-                <rect width="36" height="36" rx="6" fill="#004C8F"/>
-                <rect x="8" y="10" width="8" height="16" rx="1" fill="#EE3424"/>
-                <rect x="20" y="10" width="8" height="16" rx="1" fill="#EE3424"/>
-                <rect x="12" y="17" width="12" height="3" rx="1" fill="white"/>
-              </svg>
-              <div><div class="bank-name">HDFC Bank</div><div class="bank-type">Private Sector Bank</div></div>
-            </div>
-
-            <div class="bank-btn" id="bank-icici" onclick="selectBank('icici')">
-              <svg class="bank-logo" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
-                <rect width="36" height="36" rx="6" fill="#B02A30"/>
-                <rect x="7" y="16" width="22" height="4" rx="2" fill="#F4A700"/>
-                <circle cx="18" cy="12" r="4" fill="#F4A700"/>
-                <circle cx="18" cy="24" r="4" fill="#F4A700"/>
-              </svg>
-              <div><div class="bank-name">ICICI Bank</div><div class="bank-type">Private Sector Bank</div></div>
-            </div>
-
-            <div class="bank-btn" id="bank-axis" onclick="selectBank('axis')">
-              <svg class="bank-logo" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
-                <rect width="36" height="36" rx="6" fill="#97144D"/>
-                <path d="M18 8 L28 26 H8 Z" fill="none" stroke="#E8B84B" stroke-width="2.5"/>
-                <path d="M13 26 L18 17 L23 26" stroke="#E8B84B" stroke-width="2" fill="none"/>
-              </svg>
-              <div><div class="bank-name">Axis Bank</div><div class="bank-type">Private Sector Bank</div></div>
-            </div>
-
-            <div class="bank-btn" id="bank-kotak" onclick="selectBank('kotak')">
-              <svg class="bank-logo" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
-                <rect width="36" height="36" rx="6" fill="#EF3E42"/>
-                <rect x="8" y="10" width="20" height="4" rx="2" fill="white"/>
-                <rect x="8" y="16" width="14" height="4" rx="2" fill="white"/>
-                <rect x="8" y="22" width="8" height="4" rx="2" fill="white"/>
-              </svg>
-              <div><div class="bank-name">Kotak Bank</div><div class="bank-type">Private Sector Bank</div></div>
-            </div>
-
-            <div class="bank-btn" id="bank-pnb" onclick="selectBank('pnb')">
-              <svg class="bank-logo" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
-                <rect width="36" height="36" rx="6" fill="#003F87"/>
-                <rect x="7" y="10" width="6" height="16" rx="1" fill="#F7A800"/>
-                <rect x="15" y="10" width="6" height="16" rx="1" fill="white"/>
-                <rect x="23" y="10" width="6" height="16" rx="1" fill="#009D3E"/>
-              </svg>
-              <div><div class="bank-name">Punjab National</div><div class="bank-type">Public Sector Bank</div></div>
-            </div>
-
-          </div>
-        </div>
-
-        <div class="form-group other-bank-select">
-          <label>Other Banks</label>
-          <select id="otherBank" onchange="onOtherBankSelect(this)">
-            <option value="">Select your bank...</option>
-            <option value="bob">Bank of Baroda</option>
-            <option value="canara">Canara Bank</option>
-            <option value="union">Union Bank of India</option>
-            <option value="indian">Indian Bank</option>
-            <option value="yes">Yes Bank</option>
-            <option value="indusind">IndusInd Bank</option>
-            <option value="idfcfirst">IDFC First Bank</option>
-            <option value="federalbank">Federal Bank</option>
-            <option value="bandhan">Bandhan Bank</option>
-            <option value="rbl">RBL Bank</option>
-          </select>
-          <div class="field-msg" id="bankMsg"></div>
-        </div>
-      </div>
-
-      <!-- PAY BUTTON -->
-      <button class="pay-btn" id="payBtn" onclick="processPayment()">
-        <span>🔒</span>
-        <span id="payBtnText">Pay ₹23,620</span>
+      <button class="proceed-btn" id="proceedBtn" onclick="processPayment()">
+        <span class="btn-icon">🔒</span>
+        <span id="proceedBtnText">Proceed to Pay</span>
       </button>
-      <div class="pay-secure-note">🔒 256-bit SSL · Razorpay · PCI DSS Level 1</div>
 
-      <div class="accepted-logos">
-        <span class="acc-label">Accepted:</span>
-        <span class="acc-badge">UPI</span>
-        <span class="acc-badge">Visa</span>
-        <span class="acc-badge">Mastercard</span>
-        <span class="acc-badge">RuPay</span>
-        <span class="acc-badge">Net Banking</span>
-        <span class="acc-badge">EMI</span>
+      <div class="secure-note">🔒 Payments secured by Razorpay · PCI DSS Level 1</div>
+
+      <div class="pay-methods-row">
+        <div class="pm-label">Accepted payment methods</div>
+        <span class="pm-badge">UPI</span>
+        <span class="pm-badge">Visa</span>
+        <span class="pm-badge">Mastercard</span>
+        <span class="pm-badge">RuPay</span>
+        <span class="pm-badge">Net Banking</span>
+        <span class="pm-badge">Wallets</span>
+        <span class="pm-badge">EMI</span>
       </div>
     </div>
 
@@ -498,6 +205,7 @@ footer{background:#060E1A;padding:1.2rem 4rem;display:flex;align-items:center;ju
       <a href="javascript:history.back()" class="back-btn">← Go Back</a>
     </div>
   </div>
+
 </div>
 
 <footer>
@@ -506,7 +214,6 @@ footer{background:#060E1A;padding:1.2rem 4rem;display:flex;align-items:center;ju
 </footer>
 
 <script>
-// ── PLAN DATA ──
 const PLANS = {
   starter:{name:'Starter Pack',badge:'One-Time',price:8000,note:'One-time project fee · Delivery in 7–14 days',features:['3–5 page custom website','3 marketing creatives','Basic on-page SEO setup','Mobile optimised','1 round of revisions']},
   growth:{name:'Growth Pack',badge:'Most Popular',price:20000,note:'One-time project fee · Delivery in 7–14 days',features:['8-page website (mobile-first)','8 creatives — static + reels','On-page + Local SEO','Google Business setup','1 month ad copy','2 rounds of revisions']},
@@ -518,9 +225,10 @@ const PLANS = {
 };
 
 const PROCESSING_FEE = 20;
+// Razorpay key is fetched securely from the server
 const fmtINR = n => '₹' + n.toLocaleString('en-IN');
 
-// Init from URL
+// Init plan from URL
 const params = new URLSearchParams(location.search);
 const planKey = params.get('plan') || 'growth';
 const plan = PLANS[planKey] || PLANS.growth;
@@ -536,378 +244,107 @@ const total = plan.price + gst + PROCESSING_FEE;
 document.getElementById('subtotal').textContent = fmtINR(plan.price);
 document.getElementById('gstAmt').textContent = fmtINR(gst);
 document.getElementById('totalAmt').textContent = fmtINR(total);
-document.getElementById('payBtnText').textContent = `Pay ${fmtINR(total)}`;
+document.getElementById('totalBadge').textContent = fmtINR(total);
+document.getElementById('proceedBtnText').textContent = `Proceed to Pay ${fmtINR(total)}`;
 
-// ── METHOD SWITCHING ──
-let activeMethod = 'upi';
-function switchMethod(m, btn) {
-  activeMethod = m;
-  document.querySelectorAll('.pay-tab').forEach(b=>b.classList.remove('active'));
-  document.querySelectorAll('.pay-section').forEach(s=>s.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById('sec-'+m).classList.add('active');
-}
-
-// ── UPI ──
-const VALID_UPI_HANDLES = new Set([
-  'okaxis','oksbi','okicici','okhdfcbank','ybl','paytm','apl','ibl',
-  'upi','axl','fbl','sbi','hdfcbank','icici','axis','kotak','pnb',
-  'bob','cnrb','unionbank','indianbank','yesbank','indus','idfcbank',
-  'federal','bandhan','rbl','icicib001','hsbc','citi','scmobile',
-  'aubank','idbi','allbank','mahb','barodampay','naviaxis','obc',
-  'ikwik','lime','freecharge','mobikwik','airtel','jio','superyes',
-  'postbank','equitas','esaf','utbi','kvb','tmb','dlb','jkb','kbl',
-  'dbs','pingpay','rabobank','abhibank','nsdl','slicepay'
-]);
-
-let upiVerified = false;
-let selectedUpiApp = '';
-
-function onUpiInput() {
-  upiVerified = false;
-  const val = document.getElementById('upiId').value.trim();
-  document.getElementById('upiStatus').textContent = '';
-  document.getElementById('upiMsg').textContent = '';
-  document.getElementById('upiMsg').className = 'field-msg';
-  document.getElementById('upiId').className = '';
-}
-
-function selectUpiApp(app) {
-  selectedUpiApp = app;
-  document.querySelectorAll('.upi-app-btn').forEach(b=>b.classList.remove('selected'));
-  document.getElementById('app-'+app).classList.add('selected');
-  document.getElementById('upiAppMsg').textContent = '';
-  document.getElementById('upiAppMsg').className = 'field-msg';
-}
-
-function verifyUPI() {
-  const val = document.getElementById('upiId').value.trim().toLowerCase();
-  const btn = document.getElementById('upiVerifyBtn');
-  const statusEl = document.getElementById('upiStatus');
-  const msgEl = document.getElementById('upiMsg');
-  const inputEl = document.getElementById('upiId');
-
-  if (!val) {
-    msgEl.textContent = '⚠ Please enter a UPI ID first.';
-    msgEl.className = 'field-msg error';
-    return;
-  }
-
-  // Format check: must be username@handle
-  if (!val.includes('@')) {
-    msgEl.textContent = '⚠ Invalid format. UPI ID must contain @ (e.g. name@upi)';
-    msgEl.className = 'field-msg error';
-    inputEl.className = 'invalid';
-    return;
-  }
-
-  const parts = val.split('@');
-  if (parts.length !== 2 || !parts[0] || !parts[1]) {
-    msgEl.textContent = '⚠ Invalid UPI ID format.';
-    msgEl.className = 'field-msg error';
-    inputEl.className = 'invalid';
-    return;
-  }
-
-  const username = parts[0];
-  const handle = parts[1];
-
-  // Username checks
-  if (username.length < 3) {
-    msgEl.textContent = '⚠ Username part too short.';
-    msgEl.className = 'field-msg error';
-    inputEl.className = 'invalid';
-    return;
-  }
-  if (!/^[a-z0-9._\-]+$/.test(username)) {
-    msgEl.textContent = '⚠ Username can only contain letters, numbers, dots, and hyphens.';
-    msgEl.className = 'field-msg error';
-    inputEl.className = 'invalid';
-    return;
-  }
-
-  // Handle check
-  if (!VALID_UPI_HANDLES.has(handle)) {
-    msgEl.textContent = `⚠ "${handle}" is not a recognised UPI bank handle. Check and try again.`;
-    msgEl.className = 'field-msg error';
-    inputEl.className = 'invalid';
-    return;
-  }
-
-  // Simulate verification
-  btn.textContent = 'Verifying...';
+async function processPayment() {
+  const btn = document.getElementById('proceedBtn');
   btn.disabled = true;
-  statusEl.textContent = '⏳';
-  msgEl.textContent = 'Contacting UPI network...';
-  msgEl.className = 'field-msg loading';
+  document.getElementById('proceedBtnText').textContent = 'Opening Razorpay...';
 
-  setTimeout(() => {
-    upiVerified = true;
-    statusEl.textContent = '✅';
-    inputEl.className = 'valid';
-    msgEl.textContent = '✓ UPI ID verified successfully';
-    msgEl.className = 'field-msg success';
-    btn.textContent = '✓ Verified';
-    btn.style.background = '#22C55E';
-    btn.style.color = 'white';
-  }, 1500);
-}
+  try {
+    // Create order securely on server — Razorpay key never exposed in browser
+    const orderRes = await fetch('/api/create-order', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ amount: total, planName: plan.name, planKey })
+    });
+    const orderData = await orderRes.json();
+    if (!orderData.orderId) throw new Error('Order creation failed');
 
-// ── CARD VALIDATION ──
-function luhn(num) {
-  const digits = num.replace(/\s/g,'').split('').reverse().map(Number);
-  let sum = 0;
-  for (let i=0; i<digits.length; i++) {
-    let d = digits[i];
-    if (i%2===1) { d*=2; if(d>9) d-=9; }
-    sum+=d;
-  }
-  return sum%10===0;
-}
-
-function detectCardBrand(num) {
-  const n = num.replace(/\s/g,'');
-  if (/^4/.test(n)) return 'visa';
-  if (/^5[1-5]/.test(n)||/^2[2-7]/.test(n)) return 'mc';
-  if (/^6[0-9]/.test(n)||/^508[5-9]/.test(n)||/^603741/.test(n)) return 'rupay';
-  return null;
-}
-
-function onCardNumInput(el) {
-  // Format with spaces
-  let val = el.value.replace(/\D/g,'').substring(0,16);
-  el.value = val.replace(/(.{4})/g,'$1 ').trim();
-
-  // Update brand badges
-  const brand = detectCardBrand(val);
-  document.querySelectorAll('.card-brand-badge').forEach(b=>b.classList.remove('active'));
-  if (brand) document.getElementById('badge-'+brand).classList.add('active');
-
-  // Validate when full
-  const digits = val.length;
-  const msgEl = document.getElementById('cardNumMsg');
-  if (digits === 16) {
-    if (luhn(val)) {
-      el.classList.add('valid'); el.classList.remove('invalid');
-      msgEl.textContent = '✓ Card number valid';
-      msgEl.className = 'field-msg success';
-    } else {
-      el.classList.add('invalid'); el.classList.remove('valid');
-      msgEl.textContent = '⚠ Invalid card number — please check and re-enter.';
-      msgEl.className = 'field-msg error';
-    }
-  } else if (digits > 0) {
-    el.classList.remove('valid','invalid');
-    msgEl.textContent = digits < 16 ? `${16-digits} more digit${16-digits>1?'s':''}` : '';
-    msgEl.className = 'field-msg';
-  } else {
-    el.classList.remove('valid','invalid');
-    msgEl.textContent = '';
-  }
-}
-
-function onCardNameInput(el) {
-  el.value = el.value.toUpperCase();
-  const val = el.value.trim();
-  const statusEl = document.getElementById('cardNameStatus');
-  const msgEl = document.getElementById('cardNameMsg');
-  if (val.length >= 3 && /^[A-Z\s.\-']+$/.test(val) && val.includes(' ')) {
-    el.classList.add('valid'); el.classList.remove('invalid');
-    statusEl.textContent = '✅'; msgEl.textContent = '';
-  } else if (val.length > 0) {
-    el.classList.remove('valid','invalid');
-    statusEl.textContent = '';
-    if (!val.includes(' ') && val.length > 3) {
-      msgEl.textContent = 'Enter full name as on card (e.g. ARYAN SHARMA)';
-      msgEl.className = 'field-msg error';
-    } else { msgEl.textContent = ''; }
-  }
-}
-
-function onExpiryInput(el) {
-  let val = el.value.replace(/\D/g,'').substring(0,4);
-  if (val.length >= 3) val = val.substring(0,2) + ' / ' + val.substring(2);
-  el.value = val;
-
-  const statusEl = document.getElementById('cardExpiryStatus');
-  const msgEl = document.getElementById('cardExpiryMsg');
-  const digits = el.value.replace(/\D/g,'');
-
-  if (digits.length === 4) {
-    const mm = parseInt(digits.substring(0,2));
-    const yy = parseInt(digits.substring(2,4));
-    const now = new Date();
-    const curYY = now.getFullYear() % 100;
-    const curMM = now.getMonth() + 1;
-
-    if (mm < 1 || mm > 12) {
-      el.classList.add('invalid'); el.classList.remove('valid');
-      statusEl.textContent = '❌';
-      msgEl.textContent = '⚠ Invalid month.';
-      msgEl.className = 'field-msg error';
-    } else if (yy < curYY || (yy === curYY && mm < curMM)) {
-      el.classList.add('invalid'); el.classList.remove('valid');
-      statusEl.textContent = '❌';
-      msgEl.textContent = '⚠ Card has expired.';
-      msgEl.className = 'field-msg error';
-    } else {
-      el.classList.add('valid'); el.classList.remove('invalid');
-      statusEl.textContent = '✅';
-      msgEl.textContent = '';
-    }
-  } else {
-    el.classList.remove('valid','invalid');
-    statusEl.textContent = '';
-    msgEl.textContent = '';
-  }
-}
-
-function onCvvInput(el) {
-  el.value = el.value.replace(/\D/g,'');
-  const statusEl = document.getElementById('cardCvvStatus');
-  const msgEl = document.getElementById('cardCvvMsg');
-  const len = el.value.length;
-  if (len >= 3) {
-    el.classList.add('valid'); el.classList.remove('invalid');
-    statusEl.textContent = '✅';
-    msgEl.textContent = '';
-  } else if (len > 0) {
-    el.classList.remove('valid','invalid');
-    statusEl.textContent = '';
-    msgEl.textContent = '';
-  }
-}
-
-// ── NET BANKING ──
-let selectedBank = '';
-function selectBank(bank) {
-  selectedBank = bank;
-  document.querySelectorAll('.bank-btn').forEach(b=>b.classList.remove('selected'));
-  document.getElementById('bank-'+bank).classList.add('selected');
-  document.getElementById('otherBank').value = '';
-  document.getElementById('bankMsg').textContent = '✓ Bank selected';
-  document.getElementById('bankMsg').className = 'field-msg success';
-}
-function onOtherBankSelect(sel) {
-  if (sel.value) {
-    selectedBank = sel.value;
-    document.querySelectorAll('.bank-btn').forEach(b=>b.classList.remove('selected'));
-    document.getElementById('bankMsg').textContent = '✓ Bank selected';
-    document.getElementById('bankMsg').className = 'field-msg success';
-  }
-}
-
-// ── PAYMENT PROCESSING ──
-function validateBeforePay() {
-  if (activeMethod === 'upi') {
-    const upiVal = document.getElementById('upiId').value.trim();
-    const hasApp = selectedUpiApp !== '';
-    if (upiVal && !upiVerified) {
-      document.getElementById('upiMsg').textContent = '⚠ Please click Verify to verify your UPI ID first.';
-      document.getElementById('upiMsg').className = 'field-msg error';
-      return false;
-    }
-    if (!upiVal && !hasApp) {
-      document.getElementById('upiAppMsg').textContent = '⚠ Please enter a UPI ID or select a UPI app.';
-      document.getElementById('upiAppMsg').className = 'field-msg error';
-      return false;
-    }
-    return true;
-  }
-
-  if (activeMethod === 'card') {
-    const num = document.getElementById('cardNum').value.replace(/\s/g,'');
-    const name = document.getElementById('cardName').value.trim();
-    const exp = document.getElementById('cardExpiry').value.replace(/\D/g,'');
-    const cvv = document.getElementById('cardCvv').value;
-    let ok = true;
-
-    if (num.length !== 16 || !luhn(num)) {
-      document.getElementById('cardNumMsg').textContent = '⚠ Please enter a valid 16-digit card number.';
-      document.getElementById('cardNumMsg').className = 'field-msg error';
-      document.getElementById('cardNum').classList.add('invalid');
-      ok = false;
-    }
-    if (!name || name.length < 3 || !name.includes(' ')) {
-      document.getElementById('cardNameMsg').textContent = '⚠ Enter full name as shown on your card.';
-      document.getElementById('cardNameMsg').className = 'field-msg error';
-      document.getElementById('cardName').classList.add('invalid');
-      ok = false;
-    }
-    if (exp.length !== 4 || document.getElementById('cardExpiry').classList.contains('invalid')) {
-      document.getElementById('cardExpiryMsg').textContent = '⚠ Please enter a valid expiry date.';
-      document.getElementById('cardExpiryMsg').className = 'field-msg error';
-      document.getElementById('cardExpiry').classList.add('invalid');
-      ok = false;
-    }
-    if (cvv.length < 3) {
-      document.getElementById('cardCvvMsg').textContent = '⚠ Enter your 3 or 4 digit CVV.';
-      document.getElementById('cardCvvMsg').className = 'field-msg error';
-      document.getElementById('cardCvv').classList.add('invalid');
-      ok = false;
-    }
-    return ok;
-  }
-
-  if (activeMethod === 'netbanking') {
-    if (!selectedBank) {
-      document.getElementById('bankMsg').textContent = '⚠ Please select your bank to continue.';
-      document.getElementById('bankMsg').className = 'field-msg error';
-      return false;
-    }
-    return true;
-  }
-
-  return true;
-}
-
-const RAZORPAY_KEY = null; // Key fetched securely from server — never stored here
-
-function processPayment() {
-  if (!validateBeforePay()) return;
-
-  const btn = document.getElementById('payBtn');
-  btn.disabled = true;
-  document.getElementById('payBtnText').textContent = 'Processing...';
-
-  if (RAZORPAY_KEY !== 'YOUR_RAZORPAY_KEY_ID') {
     const options = {
-      key: RAZORPAY_KEY,
-      amount: total * 100,
-      currency: 'INR',
+      key: orderData.keyId,
+      amount: orderData.amount,
+      currency: orderData.currency,
+      order_id: orderData.orderId,
       name: 'Loudmark Studio',
       description: plan.name,
+      image: 'https://res.cloudinary.com/dimw6lsju/image/upload/f_auto,q_auto/IMG_5256_eglduu',
       theme: { color: '#FF6B35' },
-      handler: function(response) {
+      handler: async function(response) {
+        // Verify payment signature on server
+        try {
+          await fetch('/api/verify-payment', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+              planName: plan.name,
+              amount: orderData.amount
+            })
+          });
+        } catch(err) { console.warn('Verify:', err); }
         showSuccess('RZP-' + response.razorpay_payment_id);
       },
       modal: {
         ondismiss: function() {
           btn.disabled = false;
-          document.getElementById('payBtnText').textContent = `Pay ${fmtINR(total)}`;
+          document.getElementById('proceedBtnText').textContent = `Proceed to Pay ${fmtINR(total)}`;
         }
-      }
+      },
+      prefill: { email: '', contact: '' },
+      notes: { plan: plan.name, source: 'Loudmark Website' }
     };
-    new Razorpay(options).open();
-    return;
-  }
 
-  // Demo
-  setTimeout(() => showSuccess('LM-' + Date.now().toString().slice(-8)), 1800);
+    const rzp = new Razorpay(options);
+    rzp.on('payment.failed', function(response){
+      btn.disabled = false;
+      document.getElementById('proceedBtnText').textContent = `Proceed to Pay ${fmtINR(total)}`;
+      const errEl = document.createElement('p');
+      errEl.style.cssText = 'color:#ef4444;font-size:0.82rem;margin-top:0.5rem;text-align:center';
+      errEl.textContent = '⚠ Payment failed. Please try again or contact us on WhatsApp.';
+      btn.after(errEl);
+      setTimeout(() => errEl.remove(), 5000);
+    });
+    rzp.open();
+
+  } catch(err) {
+    console.error('Payment error:', err);
+    btn.disabled = false;
+    document.getElementById('proceedBtnText').textContent = `Proceed to Pay ${fmtINR(total)}`;
+    const errEl = document.createElement('p');
+    errEl.style.cssText = 'color:#ef4444;font-size:0.82rem;margin-top:0.5rem;text-align:center';
+    errEl.textContent = '⚠ Could not start payment. Please try again or WhatsApp us.';
+    btn.after(errEl);
+    setTimeout(() => errEl.remove(), 5000);
+  }
 }
 
-function showSuccess(txnId) {
+async function showSuccess(txnId) {
   document.getElementById('txnId').textContent = txnId;
-  document.getElementById('payWrap').style.display = 'none';
+  document.getElementById('checkoutWrap').style.display = 'none';
   document.getElementById('successScreen').style.display = 'block';
-  const payments = JSON.parse(localStorage.getItem('loudmark_payments')||'[]');
-  payments.unshift({txnId, plan:plan.name, amount:fmtINR(total), date:new Date().toLocaleString('en-IN',{timeZone:'Asia/Kolkata'})});
-  localStorage.setItem('loudmark_payments', JSON.stringify(payments));
+  // Save payment to real database
+  try {
+    await fetch('/api/verify-payment', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        razorpay_order_id: 'direct',
+        razorpay_payment_id: txnId.replace('RZP-',''),
+        razorpay_signature: 'direct',
+        planName: plan.name,
+        amount: total * 100
+      })
+    });
+  } catch(err) { console.warn('Payment save:', err); }
 }
 </script>
 
 <!-- WhatsApp Floating Button -->
-<a href="https://wa.me/917789982004?text=Hi%20Loudmark%20Studio%2C%20I%20found%20you%20online%20and%20would%20love%20to%20know%20more%20about%20your%20services." target="_blank" class="wa-float" aria-label="Chat on WhatsApp">
+<a href="https://wa.me/917789982004?text=Hi%20Loudmark%20Studio%2C%20I%20have%20a%20question%20about%20payment." target="_blank" class="wa-float" aria-label="Chat on WhatsApp">
   <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.118 1.522 5.855L0 24l6.338-1.499A11.946 11.946 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.647-.51-5.163-1.4l-.371-.22-3.763.891.945-3.668-.242-.38A9.944 9.944 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
 </a>
 <style>
