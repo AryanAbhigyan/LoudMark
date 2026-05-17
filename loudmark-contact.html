@@ -48,10 +48,11 @@ nav{padding:1.4rem 4rem;display:flex;align-items:center;justify-content:space-be
 .right-panel{padding:4rem;display:flex;flex-direction:column;justify-content:center;overflow-y:auto}
 .form-title{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;margin-bottom:0.5rem}
 .form-subtitle{color:var(--grey);font-size:0.9rem;margin-bottom:2rem;line-height:1.6}
-.form-group{margin-bottom:1.2rem;position:relative;display:flex;flex-direction:column}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;align-items:start}
+.form-group{margin-bottom:1.2rem;position:relative}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;align-items:stretch}
 .form-row-wrap{margin-bottom:1.2rem}
-.form-row .form-group{margin-bottom:0}
+.form-row .form-group{margin-bottom:0;display:flex;flex-direction:column}
+.form-row .form-group input{flex:1;height:48px}
 label{display:block;font-size:0.78rem;font-weight:600;color:var(--grey);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:0.5rem;font-family:'DM Sans',sans-serif}
 label .req{color:var(--orange);margin-left:2px}
 input,select,textarea{width:100%;background:var(--card);border:1.5px solid rgba(255,255,255,0.08);border-radius:8px;padding:0.85rem 1rem;color:var(--white);font-family:'DM Sans',sans-serif;font-size:0.92rem;line-height:1.5;transition:border-color 0.2s,box-shadow 0.2s;outline:none;-webkit-appearance:none;box-sizing:border-box}
@@ -70,22 +71,6 @@ textarea{resize:vertical;min-height:90px}
 .field-success::before{content:'✓ '}
 
 /* OTP BOX */
-.otp-box{display:none;margin-top:0.8rem;background:rgba(255,107,53,0.06);border:1px solid var(--border);border-radius:10px;padding:1rem 1.2rem}
-.otp-box.show{display:block}
-.otp-label{font-size:0.75rem;color:var(--orange);font-weight:600;letter-spacing:1px;margin-bottom:0.6rem}
-.otp-input-row{display:flex;gap:0.6rem;align-items:center}
-.otp-input-row input{flex:1;letter-spacing:4px;font-size:1.1rem;font-weight:700;text-align:center;padding:0.7rem 0.5rem}
-.otp-verify-btn{background:var(--orange);color:var(--dark);border:none;padding:0.7rem 1.2rem;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.82rem;font-weight:700;cursor:pointer;transition:all 0.2s;white-space:nowrap;flex-shrink:0}
-.otp-verify-btn:hover{opacity:0.85}
-.otp-verify-btn:disabled{opacity:0.5;cursor:not-allowed}
-.otp-resend{font-size:0.72rem;color:var(--grey);margin-top:0.5rem;display:flex;align-items:center;gap:0.4rem}
-.otp-resend-btn{color:var(--orange);background:none;border:none;cursor:pointer;font-size:0.72rem;font-family:'DM Sans',sans-serif;font-weight:600;padding:0}
-.otp-resend-btn:disabled{color:var(--grey);cursor:not-allowed}
-
-/* SEND OTP BTN */
-.send-otp-btn{background:transparent;border:1px solid var(--border);color:var(--orange);padding:0.5rem 0.9rem;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:0.72rem;font-weight:600;cursor:pointer;transition:all 0.2s;white-space:nowrap;margin-top:0.4rem;letter-spacing:0.5px}
-.send-otp-btn:hover{background:var(--orange-dim)}
-.send-otp-btn:disabled{opacity:0.4;cursor:not-allowed}
 
 .form-services{display:grid;grid-template-columns:repeat(2,1fr);gap:0.6rem;margin-top:0.5rem}
 .service-check{display:none}
@@ -164,47 +149,18 @@ footer{background:#060E1A;padding:1.5rem 4rem;display:flex;align-items:center;ju
           </div>
         </div>
 
-        <!-- Email with OTP -->
+        <!-- Email -->
         <div class="form-group">
           <label>Email Address <span class="req">*</span></label>
           <input type="email" id="f_email" placeholder="Your email address" autocomplete="email">
           <div class="field-error" id="e_email">Please enter a valid email address.</div>
-          <div class="field-success" id="s_email">Email verified successfully.</div>
-          <button type="button" class="send-otp-btn" id="emailOtpBtn" onclick="sendEmailOTP()">Send OTP to Email</button>
-          <!-- Email OTP input -->
-          <div class="otp-box" id="emailOtpBox">
-            <div class="otp-label">📧 Enter the 6-digit OTP sent to your email</div>
-            <div class="otp-input-row">
-              <input type="text" id="emailOtpInput" placeholder="• • • • • •" maxlength="6" oninput="this.value=this.value.replace(/\D/g,'')">
-              <button type="button" class="otp-verify-btn" onclick="verifyEmailOTP()">Verify</button>
-            </div>
-            <div id="emailOtpErr" style="font-size:0.75rem;color:var(--error);min-height:1rem;margin-top:0.3rem;display:none"></div>
-            <div class="otp-resend">
-              Didn't receive it?
-              <button type="button" class="otp-resend-btn" id="emailResendBtn" onclick="sendEmailOTP(true)" disabled>Resend in <span id="emailTimer">60</span>s</button>
-            </div>
-          </div>
         </div>
 
         <!-- Phone -->
         <div class="form-group">
           <label>Phone / WhatsApp <span class="req">*</span></label>
           <input type="tel" id="f_phone" placeholder="10-digit mobile number" maxlength="14" autocomplete="tel">
-          <div class="field-error" id="e_phone">Enter a valid 10-digit Indian mobile number (starts with 6–9).</div>
-          <div class="field-success" id="s_phone">Phone number verified successfully.</div>
-          <button type="button" class="send-otp-btn" id="phoneOtpBtn" onclick="sendPhoneOTP()">Send OTP to Phone</button>
-          <div class="otp-box" id="phoneOtpBox">
-            <div class="otp-label">📱 Enter the 6-digit OTP sent to your phone via WhatsApp/SMS</div>
-            <div class="otp-input-row">
-              <input type="text" id="phoneOtpInput" placeholder="• • • • • •" maxlength="6" oninput="this.value=this.value.replace(/\D/g,'')">
-              <button type="button" class="otp-verify-btn" onclick="verifyPhoneOTP()">Verify</button>
-            </div>
-            <div id="phoneOtpErr" style="font-size:0.75rem;color:var(--error);min-height:1rem;margin-top:0.3rem;display:none"></div>
-            <div class="otp-resend">
-              Didn't receive it?
-              <button type="button" class="otp-resend-btn" id="phoneResendBtn" onclick="sendPhoneOTP(true)" disabled>Resend in <span id="phoneTimer">60</span>s</button>
-            </div>
-          </div>
+          <div class="field-error" id="e_phone">Enter a valid 10-digit Indian mobile number (starts with 6-9).</div>
         </div>
 
         <!-- Website -->
@@ -260,7 +216,6 @@ footer{background:#060E1A;padding:1.5rem 4rem;display:flex;align-items:center;ju
           <textarea id="f_message" placeholder="Tell us about your goals, challenges, or anything else..."></textarea>
         </div>
 
-        <div id="otpWarningBanner" style="display:none;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:8px;padding:0.75rem 1rem;font-size:0.84rem;color:#ef4444;margin-top:0.5rem"></div>
         <button type="submit" class="submit-btn" id="submitBtn">Send My Request →</button>
         <p class="form-privacy">🔒 Both your email and phone are verified with OTP. Your data is safe with us.</p>
       </form>
@@ -281,49 +236,37 @@ footer{background:#060E1A;padding:1.5rem 4rem;display:flex;align-items:center;ju
 </footer>
 
 <script>
-// ── EmailJS config ──
 const EJS_KEY       = 'CVzGfMeyxyZOqCrPr';
 const EJS_SERVICE   = 'service_loudmark';
 const EJS_TEMPLATE  = 'template_loudmark';
 const EJS_AUTOREPLY = 'template_autoreply';
-const EJS_OTP_TPL   = 'template_autoreply';
 emailjs.init({ publicKey: EJS_KEY });
 
-// ── Pre-select plan from URL ──
+// Pre-select plan from URL
 const params = new URLSearchParams(location.search);
 const plan = params.get('plan');
 if (plan==='starter') document.getElementById('s1').checked=true;
 if (plan==='growth')  ['s1','s2','s3'].forEach(id=>document.getElementById(id).checked=true);
 if (plan==='brand')   ['s1','s2','s3','s4'].forEach(id=>document.getElementById(id).checked=true);
 
-// ── State ──
-let emailVerified = false;
-let phoneVerified = false;
-let emailOTP = '';
-let phoneOTP = '';
-let emailTimerInterval, phoneTimerInterval;
-
-// ── Blocked fake domains ──
+// Blocked fake domains
 const FAKE_DOMAINS = new Set([
   'test.com','fake.com','example.com','abc.com','xyz.com','temp.com',
   'mailinator.com','guerrillamail.com','throwam.com','tempmail.com',
   'yopmail.com','trashmail.com','sharklasers.com','grr.la','spam4.me',
-  'dispostable.com','maildrop.cc','fakeinbox.com','notreal.com',
-  'nomail.com','noemail.com','aaa.com','bbb.com','qqq.com','zzz.com'
+  'dispostable.com','maildrop.cc','fakeinbox.com','notreal.com'
 ]);
 
-// ── Validators ──
+// Validators
 const valid = {
   name: v => v.trim().length >= 2 && /^[a-zA-Z\s.\-']+$/.test(v.trim()),
   business: v => v.trim().length >= 2,
   email: v => {
     const t = v.trim().toLowerCase();
     if (!/^[a-z0-9][a-z0-9._+\-]*@[a-z0-9][a-z0-9.\-]*\.[a-z]{2,}$/.test(t)) return false;
-    if (/\.\./.test(t)) return false;
     const [local, domain] = t.split('@');
-    if (!local || !domain || local.length < 2 || !domain.includes('.')) return false;
+    if (!local || !domain || !domain.includes('.')) return false;
     if (FAKE_DOMAINS.has(domain)) return false;
-    if (/^(.)\1{3,}$/.test(local)) return false;
     return true;
   },
   phone: v => {
@@ -333,8 +276,7 @@ const valid = {
     if (!/^\d{10}$/.test(c)) return false;
     if (!/^[6-9]/.test(c)) return false;
     if (/^(\d)\1{9}$/.test(c)) return false;
-    const fakes=['9876543210','1234567890','9000000000'];
-    return !fakes.includes(c);
+    return true;
   },
   website: v => {
     if (!v.trim()) return true;
@@ -345,7 +287,7 @@ const valid = {
   }
 };
 
-// ── UI helpers ──
+// UI helpers
 function showErr(fid,eid){
   const f=document.getElementById(fid),e=document.getElementById(eid);
   if(f){f.classList.add('error');f.classList.remove('valid');}
@@ -356,46 +298,15 @@ function clearErr(fid,eid){
   if(f){f.classList.remove('error');f.classList.add('valid');}
   if(e)e.classList.remove('show');
 }
-function showSuccess(sid){const s=document.getElementById(sid);if(s)s.classList.add('show');}
-function hideSuccess(sid){const s=document.getElementById(sid);if(s)s.classList.remove('show');}
-function showOtpErr(elId, msg){
-  const el=document.getElementById(elId);
-  if(!el)return;
-  el.textContent='⚠ '+msg;
-  el.style.display='block';
-  setTimeout(()=>{el.style.display='none';},5000);
-}
-function showOtpBanner(msg){
-  const el=document.getElementById('otpWarningBanner');
-  if(!el)return;
-  el.textContent=msg;
-  el.style.display='block';
-  el.scrollIntoView({behavior:'smooth',block:'center'});
-  setTimeout(()=>{el.style.display='none';},6000);
-}
 
-// ── Real-time validation ──
+// Real-time validation
 function attachVal(id,eid,fn){
   const el=document.getElementById(id);
   if(!el)return;
   let t;
   el.addEventListener('input',function(){
     clearTimeout(t);
-    t=setTimeout(()=>{
-      if(this.value.trim()){if(fn(this.value))clearErr(id,eid);else showErr(id,eid);}
-    },600);
-    if(id==='f_email'&&emailVerified){
-      emailVerified=false;hideSuccess('s_email');
-      document.getElementById('emailOtpBox').classList.remove('show');
-      document.getElementById('f_email').classList.remove('valid');
-      document.getElementById('emailOtpBtn').style.display='';
-    }
-    if(id==='f_phone'&&phoneVerified){
-      phoneVerified=false;hideSuccess('s_phone');
-      document.getElementById('phoneOtpBox').classList.remove('show');
-      document.getElementById('f_phone').classList.remove('valid');
-      document.getElementById('phoneOtpBtn').style.display='';
-    }
+    t=setTimeout(()=>{if(this.value.trim()){if(fn(this.value))clearErr(id,eid);else showErr(id,eid);}},600);
   });
   el.addEventListener('blur',function(){
     clearTimeout(t);
@@ -412,7 +323,7 @@ document.getElementById('f_phone').addEventListener('input',function(){
   this.value=this.value.replace(/[^0-9+\s\-()]/g,'');
 });
 
-// ── Category toggle ──
+// Category toggle
 function handleCategoryChange(){
   const val=document.getElementById('f_category').value;
   document.getElementById('otherCategoryWrap').classList.toggle('show',val==='Other');
@@ -420,138 +331,7 @@ function handleCategoryChange(){
   clearErr('f_category','e_category');
 }
 
-// ── Timer ──
-function startTimer(timerEl,resendBtn,seconds,onDone){
-  let remaining=seconds;
-  resendBtn.disabled=true;
-  timerEl.textContent=remaining;
-  const interval=setInterval(()=>{
-    remaining--;
-    timerEl.textContent=remaining;
-    if(remaining<=0){
-      clearInterval(interval);
-      resendBtn.disabled=false;
-      resendBtn.innerHTML='Resend OTP';
-      if(onDone)onDone();
-    }
-  },1000);
-  return interval;
-}
-
-// ── EMAIL OTP ──
-async function sendEmailOTP(isResend=false){
-  const emailVal=document.getElementById('f_email').value.trim();
-  if(!valid.email(emailVal)){showErr('f_email','e_email');return;}
-
-  const btn=document.getElementById('emailOtpBtn');
-  btn.disabled=true;
-  btn.textContent='Sending...';
-
-  emailOTP=String(Math.floor(100000+Math.random()*900000));
-
-  try {
-    await emailjs.send(EJS_SERVICE,EJS_OTP_TPL,{
-      to_email:emailVal,
-      otp_code:emailOTP,
-      client_name:document.getElementById('f_name').value.trim()||'there'
-    });
-    document.getElementById('emailOtpBox').classList.add('show');
-    document.getElementById('emailOtpInput').value='';
-    btn.textContent=isResend?'OTP Resent ✓':'OTP Sent ✓';
-    clearInterval(emailTimerInterval);
-    emailTimerInterval=startTimer(
-      document.getElementById('emailTimer'),
-      document.getElementById('emailResendBtn'),60
-    );
-    setTimeout(()=>{btn.textContent='Send OTP to Email';},3000);
-  } catch(err){
-    btn.disabled=false;
-    btn.textContent='Send OTP to Email';
-    showOtpErr('emailOtpErr','Failed to send OTP. Please check your email and try again.');
-    console.error(err);
-  }
-}
-
-function verifyEmailOTP(){
-  const entered=document.getElementById('emailOtpInput').value.trim();
-  if(!entered||entered.length!==6){showOtpErr('emailOtpErr','Please enter the 6-digit OTP.');return;}
-  if(entered===emailOTP){
-    emailVerified=true;
-    document.getElementById('emailOtpBox').classList.remove('show');
-    document.getElementById('f_email').classList.add('valid');
-    document.getElementById('f_email').classList.remove('error');
-    showSuccess('s_email');
-    document.getElementById('emailOtpBtn').style.display='none';
-    clearInterval(emailTimerInterval);
-  } else {
-    document.getElementById('emailOtpInput').value='';
-    document.getElementById('emailOtpInput').placeholder='Wrong OTP — try again';
-    showOtpErr('emailOtpErr','Incorrect OTP. Please check your email and try again.');
-    setTimeout(()=>{document.getElementById('emailOtpInput').placeholder='• • • • • •';},3000);
-  }
-}
-
-// ── PHONE OTP (via EmailJS — sends OTP to email with phone in subject for verification) ──
-async function sendPhoneOTP(isResend=false){
-  const phoneVal=document.getElementById('f_phone').value.trim();
-  if(!valid.phone(phoneVal)){showErr('f_phone','e_phone');return;}
-
-  const emailVal=document.getElementById('f_email').value.trim();
-  if(!emailVal||!valid.email(emailVal)){
-    showOtpErr('phoneOtpErr','Please fill and verify your email first, then verify your phone.');
-    return;
-  }
-
-  const btn=document.getElementById('phoneOtpBtn');
-  btn.disabled=true;
-  btn.textContent='Sending...';
-
-  phoneOTP=String(Math.floor(100000+Math.random()*900000));
-
-  try {
-    // Send phone OTP to user's email (most reliable method without a paid SMS gateway)
-    await emailjs.send(EJS_SERVICE,EJS_OTP_TPL,{
-      to_email:emailVal,
-      otp_code:phoneOTP,
-      client_name:'Phone Verification — OTP: '+phoneOTP
-    });
-    document.getElementById('phoneOtpBox').classList.add('show');
-    document.getElementById('phoneOtpInput').value='';
-    btn.textContent=isResend?'OTP Resent ✓':'OTP Sent to Email ✓';
-    clearInterval(phoneTimerInterval);
-    phoneTimerInterval=startTimer(
-      document.getElementById('phoneTimer'),
-      document.getElementById('phoneResendBtn'),60
-    );
-    setTimeout(()=>{btn.textContent='Send OTP to Phone';},3000);
-  } catch(err){
-    btn.disabled=false;
-    btn.textContent='Send OTP to Phone';
-    showOtpErr('phoneOtpErr','Failed to send OTP. Please try again.');
-    console.error(err);
-  }
-}
-
-function verifyPhoneOTP(){
-  const entered=document.getElementById('phoneOtpInput').value.trim();
-  if(!entered||entered.length!==6){showOtpErr('phoneOtpErr','Please enter the 6-digit OTP.');return;}
-  if(entered===phoneOTP){
-    phoneVerified=true;
-    document.getElementById('phoneOtpBox').classList.remove('show');
-    document.getElementById('f_phone').classList.add('valid');
-    document.getElementById('f_phone').classList.remove('error');
-    showSuccess('s_phone');
-    document.getElementById('phoneOtpBtn').style.display='none';
-    clearInterval(phoneTimerInterval);
-  } else {
-    document.getElementById('phoneOtpInput').value='';
-    document.getElementById('phoneOtpInput').placeholder='Wrong OTP — try again';
-    showOtpErr('phoneOtpErr','Incorrect OTP. Please check your email and try again.');
-    setTimeout(()=>{document.getElementById('phoneOtpInput').placeholder='• • • • • •';},3000);
-  }
-}
-
-// ── FORM SUBMIT ──
+// Form submit
 document.getElementById('auditForm').addEventListener('submit', async function(e){
   e.preventDefault();
   let ok=true;
@@ -581,17 +361,6 @@ document.getElementById('auditForm').addEventListener('submit', async function(e
     document.getElementById('servicesWrap').classList.remove('error-border');
   }
 
-  if(!emailVerified){
-    showOtpBanner('⚠ Please verify your email address with an OTP before submitting.');
-    document.getElementById('f_email').scrollIntoView({behavior:'smooth',block:'center'});
-    ok=false;
-  }
-  if(!phoneVerified){
-    showOtpBanner('⚠ Please verify your phone number with an OTP before submitting.');
-    document.getElementById('f_phone').scrollIntoView({behavior:'smooth',block:'center'});
-    ok=false;
-  }
-
   if(!ok){
     const firstErr=document.querySelector('.error');
     if(firstErr)firstErr.scrollIntoView({behavior:'smooth',block:'center'});
@@ -615,7 +384,7 @@ document.getElementById('auditForm').addEventListener('submit', async function(e
   btn.textContent='Sending...';
   btn.disabled=true;
 
-  // Save to real database
+  // Save to database
   try {
     await fetch('/api/save-lead',{
       method:'POST',
@@ -624,19 +393,19 @@ document.getElementById('auditForm').addEventListener('submit', async function(e
     });
   } catch(err){console.warn('Lead save:',err);}
 
-  // Send notification email
+  // Send notification email to Loudmark
   try {
     await emailjs.send(EJS_SERVICE,EJS_TEMPLATE,{
       to_email:'loudmark.studio@gmail.com',
       client_name:sub.name,client_business:sub.business,
-      client_email:sub.email,client_phone:sub.phone,client_website:sub.website,
-      client_category:sub.category,client_services:sub.services,
-      client_message:sub.message,
+      client_email:sub.email,client_phone:sub.phone,
+      client_website:sub.website,client_category:sub.category,
+      client_services:sub.services,client_message:sub.message,
       submitted_at:new Date().toLocaleString('en-IN',{timeZone:'Asia/Kolkata'})
     });
   } catch(err){console.warn('Notification:',err);}
 
-  // Send autoreply
+  // Send autoreply to client
   try {
     await emailjs.send(EJS_SERVICE,EJS_AUTOREPLY,{
       client_email:sub.email,client_name:sub.name,client_business:sub.business
