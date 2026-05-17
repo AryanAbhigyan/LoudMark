@@ -2,6 +2,9 @@
   functions = "netlify/functions"
   publish = "."
 
+[build.environment]
+  SECRETS_SCAN_OMIT_KEYS = "RAZORPAY_KEY_ID,ADMIN_PASSWORD"
+
 [[redirects]]
   from = "/api/save-lead"
   to = "/.netlify/functions/save-lead"

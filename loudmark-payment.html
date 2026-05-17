@@ -861,7 +861,7 @@ function validateBeforePay() {
   return true;
 }
 
-const RAZORPAY_KEY = 'rzp_live_SmoHSO7BnPKCqH';
+const RAZORPAY_KEY = null; // Key fetched securely from server — never stored here
 
 function processPayment() {
   if (!validateBeforePay()) return;
