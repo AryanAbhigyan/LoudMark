@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /loudmark-admin.html
+Disallow: /netlify/
+
+Sitemap: https://loudmark.netlify.app/sitemap.xml

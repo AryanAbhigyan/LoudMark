@@ -1,0 +1,44 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0A1628"/>
+      <stop offset="100%" style="stop-color:#0F1F38"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF6B35;stop-opacity:0.15"/>
+      <stop offset="100%" style="stop-color:#FF6B35;stop-opacity:0"/>
+    </linearGradient>
+  </defs>
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <!-- Glow circle -->
+  <circle cx="900" cy="150" r="400" fill="url(#glow)"/>
+  <!-- Orange accent line -->
+  <rect x="80" y="80" width="60" height="4" rx="2" fill="#FF6B35"/>
+  <!-- Tag -->
+  <text x="80" y="140" font-family="Arial Black, sans-serif" font-size="16" font-weight="700" fill="#FF6B35" letter-spacing="4">DIGITAL MARKETING AGENCY · INDIA</text>
+  <!-- Logo -->
+  <text x="80" y="260" font-family="Arial Black, sans-serif" font-size="110" font-weight="900" fill="#F8F4EF" letter-spacing="6">LOUD</text>
+  <text x="476" y="260" font-family="Arial Black, sans-serif" font-size="110" font-weight="900" fill="#FF6B35" letter-spacing="6">MARK</text>
+  <!-- Tagline -->
+  <text x="80" y="320" font-family="Arial, sans-serif" font-size="28" font-weight="400" fill="#94A3B8" letter-spacing="1">Marking Your Presence. Loudly.</text>
+  <!-- Divider -->
+  <rect x="80" y="360" width="1040" height="1" fill="rgba(255,107,53,0.2)"/>
+  <!-- Services row -->
+  <text x="80" y="410" font-family="Arial, sans-serif" font-size="18" fill="#F8F4EF" font-weight="600">🌐 Web Design</text>
+  <text x="280" y="410" font-family="Arial, sans-serif" font-size="18" fill="#94A3B8">·</text>
+  <text x="310" y="410" font-family="Arial, sans-serif" font-size="18" fill="#F8F4EF" font-weight="600">🔍 SEO Management</text>
+  <text x="560" y="410" font-family="Arial, sans-serif" font-size="18" fill="#94A3B8">·</text>
+  <text x="590" y="410" font-family="Arial, sans-serif" font-size="18" fill="#F8F4EF" font-weight="600">📣 Marketing Creatives</text>
+  <text x="870" y="410" font-family="Arial, sans-serif" font-size="18" fill="#94A3B8">·</text>
+  <text x="900" y="410" font-family="Arial, sans-serif" font-size="18" fill="#F8F4EF" font-weight="600">⭐ Retainers</text>
+  <!-- CTA box -->
+  <rect x="80" y="460" width="320" height="60" rx="8" fill="#FF6B35"/>
+  <text x="240" y="497" font-family="Arial Black, sans-serif" font-size="18" font-weight="700" fill="#0A1628" text-anchor="middle" letter-spacing="1">GET A FREE AUDIT →</text>
+  <!-- URL -->
+  <text x="80" y="570" font-family="Arial, sans-serif" font-size="16" fill="#94A3B8">loudmark.netlify.app</text>
+  <!-- Starting price badge -->
+  <rect x="900" y="460" width="220" height="60" rx="8" fill="rgba(255,107,53,0.1)" stroke="#FF6B35" stroke-width="1"/>
+  <text x="1010" y="485" font-family="Arial, sans-serif" font-size="13" fill="#94A3B8" text-anchor="middle">Starting from</text>
+  <text x="1010" y="508" font-family="Arial Black, sans-serif" font-size="20" font-weight="900" fill="#FF6B35" text-anchor="middle">₹8,000</text>
+</svg>
