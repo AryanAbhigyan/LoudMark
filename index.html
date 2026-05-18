@@ -189,18 +189,16 @@
   .work-grid { display: grid; grid-template-columns: 1.4fr 1fr; grid-template-rows: 280px 280px; gap: 1.5rem; }
   .work-card { border-radius: 16px; overflow: hidden; position: relative; background: var(--card); border: 1px solid var(--border); cursor: pointer; }
   .work-card:first-child { grid-row: 1 / 3; }
-  .work-card-bg { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 5rem; transition: transform 0.4s; }
-  .work-card:hover .work-card-bg { transform: scale(1.05); }
+  .work-card-bg { width: 100%; height: 100%; transition: transform 0.4s; overflow: hidden; }
+  .work-card:hover .work-card-bg { transform: scale(1.03); }
   .wc1 { background: linear-gradient(135deg,#1a1a3e,#2d1b69); }
-  .wc2 { background: linear-gradient(135deg,#1a2e1a,#0d3320); }
+  .wc2 { background: linear-gradient(135deg,#0d1f12,#1a3320); }
   .wc3 { background: linear-gradient(135deg,#2e1a1a,#4a1520); }
-  .work-card-overlay { position: absolute; bottom: 0; left: 0; right: 0; padding: 1.5rem; background: linear-gradient(transparent,rgba(10,22,40,0.95)); transform: translateY(20px); transition: transform 0.3s, opacity 0.3s; opacity: 0; }
+  .work-card-overlay { position: absolute; bottom: 0; left: 0; right: 0; padding: 1.5rem; background: linear-gradient(transparent,rgba(10,22,40,0.97)); transform: translateY(20px); transition: transform 0.3s, opacity 0.3s; opacity: 0; }
   .work-card:hover .work-card-overlay { transform: translateY(0); opacity: 1; }
   .wco-tag { font-size: 0.7rem; color: var(--orange); text-transform: uppercase; letter-spacing: 2px; font-weight: 600; margin-bottom: 0.3rem; }
   .wco-title { font-size: 1.1rem; font-weight: 600; color: var(--white); }
-  .work-placeholder { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; color: rgba(255,255,255,0.15); padding: 2rem; text-align: center; }
-  .work-placeholder .wp-icon { font-size: 3rem; }
-  .work-placeholder .wp-text { font-size: 0.85rem; letter-spacing: 1px; text-transform: uppercase; line-height: 1.6; }
+  .work-card-inner { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; padding: 2rem; }
 
   /* CASE STUDY MODAL */
   .modal-overlay { position: fixed; inset: 0; z-index: 1000; background: rgba(5,12,25,0.92); backdrop-filter: blur(12px); display: flex; align-items: center; justify-content: center; padding: 2rem; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
@@ -461,9 +459,9 @@
   <a class="nav-logo" href="index.html"><span>LOUD</span>MARK</a>
   <ul class="nav-links">
     <li><a href="#services">Services</a></li>
-    <li><a href="loudmark-services.html">All Services</a></li>
     <li><a href="#work">Work</a></li>
     <li><a href="#pricing">Pricing</a></li>
+    <li><a href="loudmark-retainer.html">Retainers</a></li>
     <li><a href="#process">Process</a></li>
     <li><a href="loudmark-contact.html" class="nav-cta">Get in Touch</a></li>
   </ul>
@@ -476,9 +474,9 @@
 <div class="mobile-nav" id="mobileNav">
   <button class="mobile-nav-close" onclick="toggleMobileNav()" aria-label="Close menu">✕</button>
   <a href="#services" onclick="toggleMobileNav()">Services</a>
-  <a href="loudmark-services.html" onclick="toggleMobileNav()">All Services</a>
   <a href="#work" onclick="toggleMobileNav()">Work</a>
   <a href="#pricing" onclick="toggleMobileNav()">Pricing</a>
+  <a href="loudmark-retainer.html" onclick="toggleMobileNav()">Retainers</a>
   <a href="#process" onclick="toggleMobileNav()">Process</a>
   <a href="loudmark-contact.html" class="mobile-cta">Get in Touch</a>
 </div>
@@ -588,24 +586,180 @@
     <a href="loudmark-contact.html" class="btn-outline">Start a Project →</a>
   </div>
   <div class="work-grid reveal">
+
+    <!-- Card 1 — D2C Clothing Brand (tall) -->
     <div class="work-card" onclick="openModal('clothing')">
       <div class="work-card-bg wc1">
-        <div class="work-placeholder"><div class="wp-icon">🚀</div><div class="wp-text">D2C Brand Launch<br>Website + Campaign</div></div>
+        <div class="work-card-inner">
+          <svg width="100%" height="100%" viewBox="0 0 380 540" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+            <!-- Browser mockup -->
+            <rect x="20" y="20" width="340" height="220" rx="12" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+            <rect x="20" y="20" width="340" height="32" rx="12" fill="rgba(255,255,255,0.1)"/>
+            <circle cx="38" cy="36" r="5" fill="rgba(255,107,53,0.6)"/>
+            <circle cx="56" cy="36" r="5" fill="rgba(255,255,255,0.2)"/>
+            <circle cx="74" cy="36" r="5" fill="rgba(255,255,255,0.2)"/>
+            <rect x="100" y="28" width="180" height="16" rx="4" fill="rgba(255,255,255,0.08)"/>
+            <!-- Hero image area -->
+            <rect x="30" y="62" width="320" height="110" rx="6" fill="rgba(255,107,53,0.15)"/>
+            <rect x="50" y="80" width="140" height="8" rx="4" fill="rgba(255,255,255,0.5)"/>
+            <rect x="50" y="96" width="100" height="6" rx="3" fill="rgba(255,255,255,0.25)"/>
+            <rect x="50" y="110" width="80" height="22" rx="4" fill="#FF6B35"/>
+            <rect x="220" y="72" width="100" height="90" rx="6" fill="rgba(255,255,255,0.08)"/>
+            <rect x="230" y="82" width="80" height="60" rx="4" fill="rgba(255,107,53,0.2)"/>
+            <!-- Product grid -->
+            <rect x="30" y="182" width="96" height="28" rx="4" fill="rgba(255,255,255,0.06)"/>
+            <rect x="134" y="182" width="96" height="28" rx="4" fill="rgba(255,255,255,0.06)"/>
+            <rect x="238" y="182" width="96" height="28" rx="4" fill="rgba(255,255,255,0.06)"/>
+            <!-- Social creatives stack -->
+            <rect x="20" y="260" width="155" height="155" rx="12" fill="rgba(255,255,255,0.05)" stroke="rgba(255,107,53,0.2)" stroke-width="1"/>
+            <rect x="30" y="270" width="135" height="80" rx="6" fill="rgba(255,107,53,0.18)"/>
+            <rect x="40" y="282" width="80" height="6" rx="3" fill="rgba(255,255,255,0.4)"/>
+            <rect x="40" y="294" width="55" height="4" rx="2" fill="rgba(255,255,255,0.2)"/>
+            <rect x="30" y="360" width="60" height="6" rx="3" fill="rgba(255,255,255,0.2)"/>
+            <rect x="30" y="372" width="40" height="14" rx="4" fill="#FF6B35"/>
+            <!-- Metrics card -->
+            <rect x="185" y="260" width="175" height="155" rx="12" fill="rgba(255,255,255,0.05)" stroke="rgba(255,107,53,0.2)" stroke-width="1"/>
+            <rect x="197" y="273" width="60" height="6" rx="3" fill="rgba(255,255,255,0.25)"/>
+            <text x="197" y="306" font-family="Arial Black" font-size="26" font-weight="900" fill="#FF6B35">+340%</text>
+            <rect x="197" y="314" width="80" height="4" rx="2" fill="rgba(255,255,255,0.15)"/>
+            <rect x="197" y="322" width="55" height="4" rx="2" fill="rgba(255,255,255,0.1)"/>
+            <!-- Bar chart -->
+            <rect x="197" y="358" width="18" height="30" rx="3" fill="rgba(255,107,53,0.3)"/>
+            <rect x="221" y="345" width="18" height="43" rx="3" fill="rgba(255,107,53,0.5)"/>
+            <rect x="245" y="333" width="18" height="55" rx="3" fill="rgba(255,107,53,0.7)"/>
+            <rect x="269" y="320" width="18" height="68" rx="3" fill="#FF6B35"/>
+            <rect x="293" y="330" width="18" height="58" rx="3" fill="rgba(255,107,53,0.6)"/>
+            <!-- Label -->
+            <rect x="20" y="430" width="120" height="6" rx="3" fill="rgba(255,255,255,0.12)"/>
+            <rect x="20" y="444" width="80" height="4" rx="2" fill="rgba(255,255,255,0.07)"/>
+          </svg>
+        </div>
       </div>
-      <div class="work-card-overlay"><div class="wco-tag">Website + Creatives</div><div class="wco-title">D2C Clothing Brand Launch</div><span class="view-case">View Case Study →</span></div>
+      <div class="work-card-overlay">
+        <div class="wco-tag">Website + Creatives</div>
+        <div class="wco-title">D2C Clothing Brand Launch</div>
+        <span class="view-case">View Case Study →</span>
+      </div>
     </div>
+
+    <!-- Card 2 — Local Cafe -->
     <div class="work-card" onclick="openModal('cafe')">
       <div class="work-card-bg wc2">
-        <div class="work-placeholder"><div class="wp-icon">☕</div><div class="wp-text">Cafe Brand<br>Instagram Presence</div></div>
+        <div class="work-card-inner">
+          <svg width="100%" height="100%" viewBox="0 0 320 260" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+            <!-- Phone mockup -->
+            <rect x="20" y="10" width="110" height="200" rx="14" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+            <rect x="20" y="10" width="110" height="200" rx="14" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="6"/>
+            <rect x="28" y="24" width="94" height="160" rx="4" fill="rgba(255,255,255,0.04)"/>
+            <!-- Instagram post mockup -->
+            <rect x="28" y="24" width="94" height="94" rx="4" fill="rgba(34,197,94,0.2)"/>
+            <!-- Coffee cup illustration -->
+            <rect x="48" y="38" width="54" height="42" rx="6" fill="rgba(34,197,94,0.35)"/>
+            <rect x="54" y="44" width="42" height="30" rx="4" fill="rgba(255,255,255,0.1)"/>
+            <rect x="60" y="50" width="30" height="4" rx="2" fill="rgba(255,255,255,0.5)"/>
+            <rect x="60" y="58" width="20" height="3" rx="1.5" fill="rgba(255,255,255,0.3)"/>
+            <!-- IG header -->
+            <circle cx="36" cy="130" r="6" fill="rgba(34,197,94,0.4)"/>
+            <rect x="46" y="126" width="40" height="4" rx="2" fill="rgba(255,255,255,0.3)"/>
+            <rect x="46" y="133" width="28" height="3" rx="1.5" fill="rgba(255,255,255,0.15)"/>
+            <!-- Like/comment row -->
+            <rect x="28" y="145" width="12" height="10" rx="3" fill="rgba(255,255,255,0.15)"/>
+            <rect x="44" y="145" width="12" height="10" rx="3" fill="rgba(255,255,255,0.15)"/>
+            <!-- Caption -->
+            <rect x="28" y="160" width="80" height="3" rx="1.5" fill="rgba(255,255,255,0.15)"/>
+            <rect x="28" y="167" width="60" height="3" rx="1.5" fill="rgba(255,255,255,0.1)"/>
+            <!-- Notch -->
+            <rect x="55" y="12" width="40" height="6" rx="3" fill="rgba(255,255,255,0.15)"/>
+            <!-- SEO card -->
+            <rect x="145" y="10" width="165" height="90" rx="10" fill="rgba(255,255,255,0.06)" stroke="rgba(34,197,94,0.25)" stroke-width="1"/>
+            <rect x="157" y="22" width="80" height="5" rx="2.5" fill="rgba(255,255,255,0.2)"/>
+            <rect x="157" y="32" width="55" height="4" rx="2" fill="rgba(255,255,255,0.1)"/>
+            <!-- Google ranking bars -->
+            <rect x="157" y="46" width="8" height="28" rx="2" fill="rgba(34,197,94,0.3)"/>
+            <rect x="170" y="38" width="8" height="36" rx="2" fill="rgba(34,197,94,0.5)"/>
+            <rect x="183" y="30" width="8" height="44" rx="2" fill="rgba(34,197,94,0.7)"/>
+            <rect x="196" y="24" width="8" height="50" rx="2" fill="#22C55E"/>
+            <rect x="209" y="32" width="8" height="42" rx="2" fill="rgba(34,197,94,0.6)"/>
+            <text x="240" y="50" font-family="Arial Black" font-size="18" font-weight="900" fill="#22C55E">#1</text>
+            <rect x="240" y="56" width="50" height="4" rx="2" fill="rgba(255,255,255,0.15)"/>
+            <rect x="240" y="64" width="36" height="3" rx="1.5" fill="rgba(255,255,255,0.1)"/>
+            <!-- Google Business card -->
+            <rect x="145" y="115" width="165" height="100" rx="10" fill="rgba(255,255,255,0.06)" stroke="rgba(34,197,94,0.25)" stroke-width="1"/>
+            <rect x="157" y="127" width="70" height="5" rx="2.5" fill="rgba(255,255,255,0.2)"/>
+            <!-- Stars -->
+            <text x="157" y="148" font-family="Arial" font-size="12" fill="#F59E0B">★★★★★</text>
+            <rect x="157" y="155" width="50" height="3" rx="1.5" fill="rgba(255,255,255,0.1)"/>
+            <!-- Map pin area -->
+            <rect x="157" y="165" width="140" height="38" rx="6" fill="rgba(34,197,94,0.1)"/>
+            <circle cx="172" cy="184" r="8" fill="rgba(34,197,94,0.3)"/>
+            <rect x="185" y="178" width="60" height="4" rx="2" fill="rgba(255,255,255,0.2)"/>
+            <rect x="185" y="186" width="40" height="3" rx="1.5" fill="rgba(255,255,255,0.1)"/>
+          </svg>
+        </div>
       </div>
-      <div class="work-card-overlay"><div class="wco-tag">SEO + Social</div><div class="wco-title">Local Cafe Digital Presence</div><span class="view-case">View Case Study →</span></div>
+      <div class="work-card-overlay">
+        <div class="wco-tag">SEO + Social Media</div>
+        <div class="wco-title">Local Cafe Digital Presence</div>
+        <span class="view-case">View Case Study →</span>
+      </div>
     </div>
+
+    <!-- Card 3 — Healthcare Clinic -->
     <div class="work-card" onclick="openModal('clinic')">
       <div class="work-card-bg wc3">
-        <div class="work-placeholder"><div class="wp-icon">🏥</div><div class="wp-text">Clinic Website<br>+ Google SEO</div></div>
+        <div class="work-card-inner">
+          <svg width="100%" height="100%" viewBox="0 0 320 260" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+            <!-- Browser mockup -->
+            <rect x="10" y="10" width="300" height="180" rx="10" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+            <rect x="10" y="10" width="300" height="26" rx="10" fill="rgba(255,255,255,0.08)"/>
+            <circle cx="26" cy="23" r="4" fill="rgba(255,107,53,0.5)"/>
+            <circle cx="40" cy="23" r="4" fill="rgba(255,255,255,0.15)"/>
+            <circle cx="54" cy="23" r="4" fill="rgba(255,255,255,0.15)"/>
+            <rect x="80" y="17" width="160" height="12" rx="4" fill="rgba(255,255,255,0.07)"/>
+            <!-- Nav bar -->
+            <rect x="10" y="36" width="300" height="20" rx="0" fill="rgba(255,107,53,0.12)"/>
+            <rect x="20" y="42" width="40" height="6" rx="2" fill="rgba(255,255,255,0.3)"/>
+            <rect x="70" y="42" width="30" height="6" rx="2" fill="rgba(255,255,255,0.15)"/>
+            <rect x="110" y="42" width="30" height="6" rx="2" fill="rgba(255,255,255,0.15)"/>
+            <rect x="150" y="42" width="30" height="6" rx="2" fill="rgba(255,255,255,0.15)"/>
+            <rect x="250" y="39" width="50" height="12" rx="4" fill="#FF6B35"/>
+            <!-- Hero section -->
+            <rect x="20" y="66" width="130" height="8" rx="4" fill="rgba(255,255,255,0.4)"/>
+            <rect x="20" y="80" width="100" height="5" rx="2.5" fill="rgba(255,255,255,0.2)"/>
+            <rect x="20" y="90" width="80" height="5" rx="2.5" fill="rgba(255,255,255,0.15)"/>
+            <rect x="20" y="104" width="80" height="18" rx="5" fill="#FF6B35"/>
+            <!-- Doctor illustration area -->
+            <rect x="190" y="56" width="110" height="110" rx="8" fill="rgba(255,107,53,0.12)"/>
+            <circle cx="245" cy="90" r="25" fill="rgba(255,107,53,0.2)"/>
+            <rect x="225" y="112" width="40" height="44" rx="6" fill="rgba(255,107,53,0.15)"/>
+            <!-- Stats row -->
+            <rect x="20" y="140" width="64" height="40" rx="6" fill="rgba(255,255,255,0.05)" stroke="rgba(255,107,53,0.2)" stroke-width="1"/>
+            <rect x="92" y="140" width="64" height="40" rx="6" fill="rgba(255,255,255,0.05)" stroke="rgba(255,107,53,0.2)" stroke-width="1"/>
+            <rect x="164" y="140" width="64" height="40" rx="6" fill="rgba(255,255,255,0.05)" stroke="rgba(255,107,53,0.2)" stroke-width="1"/>
+            <rect x="30" y="149" width="30" height="5" rx="2" fill="#FF6B35" opacity="0.7"/>
+            <rect x="30" y="158" width="44" height="3" rx="1.5" fill="rgba(255,255,255,0.15)"/>
+            <rect x="102" y="149" width="30" height="5" rx="2" fill="#FF6B35" opacity="0.7"/>
+            <rect x="102" y="158" width="44" height="3" rx="1.5" fill="rgba(255,255,255,0.15)"/>
+            <rect x="174" y="149" width="30" height="5" rx="2" fill="#FF6B35" opacity="0.7"/>
+            <rect x="174" y="158" width="44" height="3" rx="1.5" fill="rgba(255,255,255,0.15)"/>
+            <!-- Google rank pill -->
+            <rect x="10" y="205" width="300" height="45" rx="10" fill="rgba(255,255,255,0.04)" stroke="rgba(255,107,53,0.15)" stroke-width="1"/>
+            <rect x="22" y="215" width="50" height="5" rx="2.5" fill="rgba(255,255,255,0.2)"/>
+            <rect x="22" y="225" width="36" height="4" rx="2" fill="rgba(255,255,255,0.1)"/>
+            <text x="180" y="228" font-family="Arial Black" font-size="14" font-weight="900" fill="#FF6B35" text-anchor="middle">Page 1 on Google</text>
+            <rect x="260" y="213" width="36" height="14" rx="4" fill="rgba(255,107,53,0.2)"/>
+            <rect x="264" y="217" width="28" height="4" rx="2" fill="rgba(255,107,53,0.5)"/>
+            <rect x="264" y="224" width="20" height="3" rx="1.5" fill="rgba(255,107,53,0.3)"/>
+          </svg>
+        </div>
       </div>
-      <div class="work-card-overlay"><div class="wco-tag">Website + SEO</div><div class="wco-title">Healthcare Clinic Visibility</div><span class="view-case">View Case Study →</span></div>
+      <div class="work-card-overlay">
+        <div class="wco-tag">Website + SEO</div>
+        <div class="wco-title">Healthcare Clinic Visibility</div>
+        <span class="view-case">View Case Study →</span>
+      </div>
     </div>
+
   </div>
 </section>
 
