@@ -1,31 +1,78 @@
 [build]
   functions = "netlify/functions"
   publish = "."
-
+ 
 [build.environment]
   SECRETS_SCAN_OMIT_KEYS = "RAZORPAY_KEY_ID,ADMIN_PASSWORD"
-
+ 
 [[redirects]]
   from = "/api/save-lead"
   to = "/.netlify/functions/save-lead"
   status = 200
-
+ 
 [[redirects]]
   from = "/api/create-order"
   to = "/.netlify/functions/create-order"
   status = 200
-
+ 
 [[redirects]]
   from = "/api/verify-payment"
   to = "/.netlify/functions/verify-payment"
   status = 200
-
+ 
 [[redirects]]
   from = "/api/admin-auth"
   to = "/.netlify/functions/admin-auth"
   status = 200
-
+ 
+# Handle URLs without .html extension (permanent redirect to correct URL)
+[[redirects]]
+  from = "/loudmark-contact"
+  to = "/loudmark-contact.html"
+  status = 301
+ 
+[[redirects]]
+  from = "/loudmark-payment"
+  to = "/loudmark-payment.html"
+  status = 301
+ 
+[[redirects]]
+  from = "/loudmark-retainer"
+  to = "/loudmark-retainer.html"
+  status = 301
+ 
+[[redirects]]
+  from = "/loudmark-admin"
+  to = "/loudmark-admin.html"
+  status = 301
+ 
+[[redirects]]
+  from = "/loudmark-services"
+  to = "/loudmark-services.html"
+  status = 301
+ 
+[[redirects]]
+  from = "/loudmark-terms"
+  to = "/loudmark-terms.html"
+  status = 301
+ 
+[[redirects]]
+  from = "/loudmark-privacy"
+  to = "/loudmark-privacy.html"
+  status = 301
+ 
+[[redirects]]
+  from = "/loudmark-refund"
+  to = "/loudmark-refund.html"
+  status = 301
+ 
+[[redirects]]
+  from = "/loudmark-cancellation"
+  to = "/loudmark-cancellation.html"
+  status = 301
+ 
 [[redirects]]
   from = "/*"
   to = "/loudmark-404.html"
   status = 404
+ 
